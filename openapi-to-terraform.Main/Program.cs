@@ -1,4 +1,5 @@
 ﻿using System;
+using CommandLine;
 
 namespace openapi2terraform
 {
@@ -6,7 +7,11 @@ namespace openapi2terraform
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            Parser.Default.ParseArguments<Options>(args)
+                   .WithParsed<Options>(o =>
+                   {
+                       Console.WriteLine($"Parsing {o.InputFile}");
+                   });
         }
     }
 }
