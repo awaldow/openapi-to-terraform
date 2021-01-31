@@ -6,7 +6,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <PackAsTool>true</PackAsTool>
-    <PackageId>dotnet-openapi-to-terraform</PackageId>
+    <PackageId>openapi-to-terraform</PackageId>
     <ToolCommandName>openapi-to-terraform</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>

@@ -18,9 +18,9 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                 foreach (var operation in path.Value.Operations)
                 {
                     sb.AppendLine($"resource \"azurerm_api_management_api_operation\" \"{operation.Value.OperationId}\" {{");
-                    sb.AppendLine($"\tapi_name\t=\t\"\"");
-                    sb.AppendLine($"\tapi_management_name\t=\t\"\"");
-                    sb.AppendLine($"\tresource_group_name\t=\t\"\"");
+                    sb.AppendLine($"\tapi_name\t=\t\"{{api_name}}\"");
+                    sb.AppendLine($"\tapi_management_name\t=\t\"{{api_management_service_name}}\"");
+                    sb.AppendLine($"\tresource_group_name\t=\t\"{{api_management_resource_group_name}}\"");
                     sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
                     sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString()}\"");
                     sb.AppendLine($"\turl_template\t=\t\"{path.Key.ToString()}\"");
