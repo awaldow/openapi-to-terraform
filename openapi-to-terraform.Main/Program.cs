@@ -1,7 +1,7 @@
 ﻿using System;
 using CommandLine;
 
-namespace openapi2terraform
+namespace openapi_to_terraform
 {
     class Program
     {

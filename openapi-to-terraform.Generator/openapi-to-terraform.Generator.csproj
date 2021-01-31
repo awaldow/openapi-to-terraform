@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>openapi_to_terraform.Generator</RootNamespace>
+  </PropertyGroup>
+
+</Project>
