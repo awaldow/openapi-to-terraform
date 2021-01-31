@@ -1,0 +1,74 @@
+name: Roomby.API.Shared-$(Date:yyyyMMdd)$(Rev:.r)
+
+variables:
+- name: buildConfiguration
+  value: 'Release'
+- name: projectPath
+  value: '**/Roomby.API.Rooms.csproj'
+- name: testProjectPath
+  value: '**/Roomby.API.Rooms.[Tt]ests/*.csproj'
+- name: terraformTestPath
+  value: 'terraform/test/shared/'
+- name: terraformProdPath
+  value: 'terraform/prod/shared/'
+- name: testSubscription
+  value: 'Visual Studio Enterprise'
+- name: prodSubscription
+  value: 'Visual Studio Enterprise'
+
+stages:
+- stage: 'Build'
+  displayName: 'Build the API'
+  jobs: 
+  - job: 'Build'
+    displayName: 'Build job'
+    pool:
+      vmImage: 'windows-2019'
+
+    steps:
+    - task: NuGetToolInstaller@0
+      displayName: 'Use NuGet 4.4.1'
+      inputs:
+        versionSpec: 4.4.1
+    
+    - task: UseDotNet@2
+      displayName: 'Use .NET Core sdk 5.x'
+      inputs:
+        version: 5.x
+    
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet restore'
+      inputs:
+        command: restore
+        projects: '$(projectPath)'
+    
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet build'
+      inputs:
+        projects: '$(projectPath)'
+        arguments: '--configuration $(buildConfiguration)'
+    
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet test'
+      inputs:
+        command: test
+        projects: '$(testProjectPath)'
+        arguments: '--configuration $(buildConfiguration)'
+    
+    # - task: DotNetCoreCLI@2
+    #   displayName: 'dotnet publish'
+    #   inputs:
+    #     command: publish
+    #     publishWebProjects: false
+    #     projects: '$(projectPath)'
+    #     arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
+    - task: DotNetCoreCLI@2
+      inputs: 
+        command: 'pack'
+        outputDir: '$(build.artifactstagingdirectory)'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'push'
+        searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;'
+        feedPublish: 'openapi-to-terraform'
