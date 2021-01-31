@@ -34,12 +34,12 @@ namespace openapi_to_terraform.Generator
             var apiFilePath = Path.Combine(OutputDir, version, $"api.{version}.tf");
             var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document);
 
-            await System.IO.File.WriteAllTextAsync(apiFilePath, new ApiVariablesApplier(TerraformVarSubFile).ApplyVariables(generatedApiOutput));
+            await System.IO.File.WriteAllTextAsync(apiFilePath, ApiVariablesApplier.ApplyVariables(generatedApiOutput, TerraformVarSubFile));
 
             var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
             var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document);
 
-            await System.IO.File.WriteAllTextAsync(operationFilePath, new ApiVariablesApplier(TerraformVarSubFile).ApplyVariables(generatedOperationOutput));
+            await System.IO.File.WriteAllTextAsync(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
         }
 
         public async Task GenerateWithTemplateFiles(OpenApiDocument document)

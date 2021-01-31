@@ -6,13 +6,7 @@ namespace openapi_to_terraform.Generator.VariablesAppliers
 {
     public class ApiVariablesApplier : IVariablesApplier
     {
-        private string VariablesPath { get; set; }
-        public ApiVariablesApplier(string variablesPath)
-        {
-            VariablesPath = VariablesPath;
-        }
-
-        public string ApplyVariables(string generatedOutput)
+        public static string ApplyVariables(string generatedOutput,string variablesPath)
         {
             throw new System.NotImplementedException();
         }
