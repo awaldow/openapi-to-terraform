@@ -1,0 +1,4 @@
+{
+    "/api/v1/Users/{userId}": ["1"],
+    "/api/v1/Households/{householdId}": ["1", "2"]
+}
