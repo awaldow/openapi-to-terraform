@@ -2,6 +2,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
 using openapi_to_terraform.Generator.Generators;
+using openapi_to_terraform.Generator.VariablesAppliers;
 
 namespace openapi_to_terraform.Generator
 {
@@ -30,8 +31,15 @@ namespace openapi_to_terraform.Generator
         public async Task GenerateWithTerraformVars(OpenApiDocument document)
         {
             var version = document.Info.Version;
-            await System.IO.File.WriteAllTextAsync(Path.Combine(OutputDir, version, $"api.{version}.tf"), new ApiGenerator().GenerateTerraformOutput(document));
-            await System.IO.File.WriteAllTextAsync(Path.Combine(OutputDir, version, $"operations.{version}.tf"), new OperationGenerator().GenerateTerraformOutput(document));
+            var apiFilePath = Path.Combine(OutputDir, version, $"api.{version}.tf");
+            var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document);
+
+            await System.IO.File.WriteAllTextAsync(apiFilePath, new ApiVariablesApplier(TerraformVarSubFile).ApplyVariables(generatedApiOutput));
+
+            var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
+            var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document);
+
+            await System.IO.File.WriteAllTextAsync(operationFilePath, new ApiVariablesApplier(TerraformVarSubFile).ApplyVariables(generatedOperationOutput));
         }
 
         public async Task GenerateWithTemplateFiles(OpenApiDocument document)

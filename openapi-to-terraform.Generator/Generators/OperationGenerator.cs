@@ -6,15 +6,10 @@ namespace openapi_to_terraform.Generator.Generators
 {
     public class OperationGenerator : ITerraformApimGenerator
     {
-        public OperationGenerator()
-        {
-            
-        }
-
-        public string GenerateTerraformOutput(OpenApiDocument document)
+        public static string GenerateTerraformOutput(OpenApiDocument document)
         {
             var sb = new StringBuilder();
-            string operation = new TerraformApimOperation().GenerateBlock(document);
+            string operation = TerraformApimOperation.GenerateBlock(document);
             sb.AppendLine(operation);
             return sb.ToString();
         }

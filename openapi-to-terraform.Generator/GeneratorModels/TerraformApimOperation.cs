@@ -5,12 +5,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
 {
     public class TerraformApimOperation : ITerraformBlockGenerator
     {
-        public TerraformApimOperation()
-        {
-            
-        }
-
-        public string GenerateBlock(OpenApiDocument document)
+        public static string GenerateBlock(OpenApiDocument document)
         {
             StringBuilder sb = new StringBuilder();
             foreach (var path in document.Paths)

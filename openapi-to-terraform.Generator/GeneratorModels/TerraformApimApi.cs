@@ -5,12 +5,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
 {
     public class TerraformApimApi : ITerraformBlockGenerator
     {
-        public TerraformApimApi()
-        {
-            
-        }
-
-        public string GenerateBlock(OpenApiDocument document)
+        public static string GenerateBlock(OpenApiDocument document)
         {
             StringBuilder sb = new StringBuilder();
             string resourceName = document.Info.Title.ToLower().Replace(" ", "");

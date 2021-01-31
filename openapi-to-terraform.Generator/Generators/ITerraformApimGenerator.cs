@@ -1,9 +1,10 @@
+using System;
 using Microsoft.OpenApi.Models;
 
 namespace openapi_to_terraform.Generator.Generators
 {
     public interface ITerraformApimGenerator
     {
-        string GenerateTerraformOutput(OpenApiDocument document);
+        static string GenerateTerraformOutput() => throw new NotImplementedException();
     }
 }

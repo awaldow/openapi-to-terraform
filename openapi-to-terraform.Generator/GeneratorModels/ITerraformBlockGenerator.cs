@@ -1,9 +1,10 @@
+using System;
 using Microsoft.OpenApi.Models;
 
 namespace openapi_to_terraform.Generator.GeneratorModels
 {
     public interface ITerraformBlockGenerator
     {
-        string GenerateBlock(OpenApiDocument document);
+        static string GenerateBlock(OpenApiDocument document) => throw new NotImplementedException();
     }
 }
