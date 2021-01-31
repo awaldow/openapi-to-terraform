@@ -5,4 +5,8 @@
     <RootNamespace>openapi_to_terraform.Generator</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
+  </ItemGroup>
+
 </Project>

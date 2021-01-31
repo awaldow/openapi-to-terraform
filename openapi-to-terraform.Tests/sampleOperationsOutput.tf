@@ -1,4 +1,4 @@
-resource "azurerm_api_management_api_operation" "rooms_GetHouseholdAsync" {
+resource "azurerm_api_management_api_operation" "GetHouseholdAsync" {
   operation_id        = "gethouseholdasync"
   api_name            = azurerm_api_management_api.usersapiv1.name
   api_management_name = azurerm_api_management_api.usersapiv1.api_management_name
