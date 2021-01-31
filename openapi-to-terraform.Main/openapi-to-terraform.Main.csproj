@@ -6,6 +6,8 @@
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>openapi-to-terraform</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
+    <Version>0.0.1</Version>
+    <PackageVersion>0.0.1</PackageVersion>
   </PropertyGroup>
 
 </Project>
