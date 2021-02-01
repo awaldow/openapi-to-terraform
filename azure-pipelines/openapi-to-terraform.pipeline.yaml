@@ -11,10 +11,6 @@ variables:
   value: '**/openapi-to-terraform.Main.csproj'
 - name: testProjectPath
   value: '**/openapi-to-terraform.[Tt]ests/*.csproj'
-- name: testSubscription
-  value: 'Visual Studio Enterprise'
-- name: prodSubscription
-  value: 'Visual Studio Enterprise'
 
 stages:
 - stage: 'Build'
