@@ -63,8 +63,8 @@ namespace openapi_to_terraform.Tests
 
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-r", revisionsMappingFile });
 
-            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "1"));
-            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "1"));
+            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "1", "sampleMainModule.tf"));
+            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "1", "sampleMainApim.tf"));
             File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir, "1", "sampleApimVariables.tf"));
 
             Directory.Exists(outputDir).Should().BeTrue();
@@ -91,12 +91,10 @@ namespace openapi_to_terraform.Tests
 
             valid.Should().Be(true);
 
-            // TODO: Keep this commented until we have a way to inject a basic APIM instance and run 
-            //  terraform validate and use its output to determine whether we're breaking any terraform rules
-            // if (Directory.Exists(outputDir))
-            // {
-            //     Directory.Delete(outputDir, true);
-            // }
+            if (Directory.Exists(outputDir))
+            {
+                Directory.Delete(outputDir, true);
+            }
         }
     }
 }
