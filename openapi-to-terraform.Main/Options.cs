@@ -13,6 +13,9 @@ namespace openapi_to_terraform.Main
         [Option('r', "revision-map-file", Required = false, HelpText = "Absolute or relative path to revision mapping json file")]
         public string RevisionFile { get; set; }
 
+        [Option('p', "--policies", Required = false, HelpText = "Absolute or relative path to directory containing APIM policies")]
+        public string PoliciesDirectoryPath { get; set; }
+
         [Option('t', "terraform-vars-file", SetName = "terraform-vars", HelpText = "Absolute or relative path to file mapping terraform variables to output values")]
         public string TerraformVariablesFile { get; set; }
         
