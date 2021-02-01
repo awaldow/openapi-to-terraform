@@ -16,8 +16,18 @@ namespace openapi_to_terraform.Generator.VariablesAppliers
             // "api_backend_url": "${data.azurerm_app_service.roombyusersapp.default_site_hostname}/api/",
             // "api_management_product_id": "azurerm_api_management_product.roombyproduct.product_id"
             JObject terraformVariables = JObject.Parse(File.ReadAllText(variablesPath));
-            // TODO: substitute above variables in generatedOutput with the values in variablesPath
-            throw new System.NotImplementedException();
+            var serviceName = terraformVariables.SelectToken("api_management_service_name").Value<string>();
+            var resourceGroupName = terraformVariables.SelectToken("api_management_resource_group_name").Value<string>();
+            var apiPath = terraformVariables.SelectToken("api_path").Value<string>();
+            var apiBackendUrl = terraformVariables.SelectToken("api_backend_url").Value<string>();
+            var apiManagementProductId = terraformVariables.SelectToken("api_management_product_id").Value<string>();
+            
+            var outputVariablesApplied = generatedOutput.Replace("{{api_management_service_name}}", serviceName);
+            outputVariablesApplied = generatedOutput.Replace("{{api_management_resource_group_name}}", resourceGroupName);
+            outputVariablesApplied = generatedOutput.Replace("{{api_path}}", apiPath);
+            outputVariablesApplied = generatedOutput.Replace("{{api_backend_url}}", apiBackendUrl);
+            outputVariablesApplied = generatedOutput.Replace("{{api_management_product_id}}", apiManagementProductId);
+            return outputVariablesApplied;
         }
     }
 }
