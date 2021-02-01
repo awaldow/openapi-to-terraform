@@ -25,3 +25,4 @@ There are some additional considerations when generating a file:
     4. "api_backend_url" - the string or terraform variable reference to use to populate the azurerm_api_management_api.service_url
     5. "api_management_product_id" - the string or terraform variable reference to use to populate the azurerm_api_management_product_api.product_id
     6. "api_name" - the string or terraform variable reference to use to populate the azurerm_api_management_operation.api_name field
+* NOTE: Because these are meant to represent fields in terraform, changing them will change the plan, which may have unintended consequences in your environment
