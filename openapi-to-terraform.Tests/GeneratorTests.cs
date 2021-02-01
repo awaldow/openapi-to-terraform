@@ -1,7 +1,9 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using FluentAssertions;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace openapi_to_terraform.Tests
@@ -30,12 +32,25 @@ namespace openapi_to_terraform.Tests
             int apiBlockCount = Regex.Matches(apiText, "resource \"azurerm_api_management_api\"").Count;
             apiBlockCount.Should().Be(1);
 
-            // TODO: Keep this commented until we have a way to inject a basic APIM instance and run 
-            //  terraform validate and use its output to determine whether we're breaking any terraform rules
-            // if (Directory.Exists(outputDir))
-            // {
-            //     Directory.Delete(outputDir, true);
-            // }
+            var terraformInit = "terraform init -backend=false";
+            System.Diagnostics.Process.Start("bash", terraformInit).WaitForExit();
+
+            Process validate = new Process();
+            validate.StartInfo.UseShellExecute = false;
+            validate.StartInfo.RedirectStandardOutput = true;
+            validate.StartInfo.FileName = "terraform";
+            validate.StartInfo.Arguments = "validate -json";
+            validate.Start();
+            string output = validate.StandardOutput.ReadToEnd();
+            validate.WaitForExit();
+            bool valid = (bool)(((dynamic)JsonConvert.DeserializeObject(output))["valid"]);
+
+            valid.Should().Be(true);
+
+            if (Directory.Exists(outputDir))
+            {
+                Directory.Delete(outputDir, true);
+            }
         }
 
         [Fact]
@@ -60,6 +75,21 @@ namespace openapi_to_terraform.Tests
             var apiText = File.ReadAllText(Path.Combine(outputDir, "1", "api.1.tf"));
             int apiBlockCount = Regex.Matches(apiText, "resource \"azurerm_api_management_api\"").Count;
             apiBlockCount.Should().Be(2);
+
+            var terraformInit = "terraform init -backend=false";
+            System.Diagnostics.Process.Start("bash", terraformInit).WaitForExit();
+
+            Process validate = new Process();
+            validate.StartInfo.UseShellExecute = false;
+            validate.StartInfo.RedirectStandardOutput = true;
+            validate.StartInfo.FileName = "terraform";
+            validate.StartInfo.Arguments = "validate -json";
+            validate.Start();
+            string output = validate.StandardOutput.ReadToEnd();
+            validate.WaitForExit();
+            bool valid = (bool)(((dynamic)JsonConvert.DeserializeObject(output))["valid"]);
+
+            valid.Should().Be(true);
 
             // TODO: Keep this commented until we have a way to inject a basic APIM instance and run 
             //  terraform validate and use its output to determine whether we're breaking any terraform rules
