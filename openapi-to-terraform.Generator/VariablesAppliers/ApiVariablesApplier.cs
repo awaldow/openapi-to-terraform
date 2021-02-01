@@ -1,8 +1,5 @@
 using System.IO;
-using System.Text;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
-using openapi_to_terraform.Generator.GeneratorModels;
 
 namespace openapi_to_terraform.Generator.VariablesAppliers
 {

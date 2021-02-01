@@ -6,12 +6,7 @@ namespace openapi_to_terraform.Generator.TemplateAppliers
 {
     public class OperationTemplateApplier : ITemplateApplier
     {
-        public OperationTemplateApplier()
-        {
-            
-        }
-
-        public string ApplyTemplate(string generatedOutput, string templatePath)
+        public static string ApplyTemplate(string generatedOutput, string templatePath)
         {
             throw new System.NotImplementedException();
         }

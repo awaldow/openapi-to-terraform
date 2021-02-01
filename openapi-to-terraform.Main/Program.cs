@@ -1,10 +1,8 @@
 ﻿using System;
 using CommandLine;
-using Microsoft.OpenApi.Models;
 using openapi_to_terraform.Core;
 using openapi_to_terraform.Main;
 using openapi_to_terraform.Generator;
-using System.Threading.Tasks;
 
 namespace openapi_to_terraform
 {

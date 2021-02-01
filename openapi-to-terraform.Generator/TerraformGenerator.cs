@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
@@ -44,7 +45,7 @@ namespace openapi_to_terraform.Generator
 
         public async Task GenerateWithTemplateFiles(OpenApiDocument document)
         {
-            
+            throw new NotImplementedException();
         }
     }
 }

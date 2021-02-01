@@ -5,6 +5,6 @@ namespace openapi_to_terraform.Generator.Generators
 {
     public interface ITerraformApimGenerator
     {
-        static string GenerateTerraformOutput() => throw new NotImplementedException();
+        static string GenerateTerraformOutput(OpenApiDocument document) => throw new NotImplementedException();
     }
 }
