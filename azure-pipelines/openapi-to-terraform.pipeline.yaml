@@ -1,4 +1,8 @@
 name: Roomby.API.Shared-$(Date:yyyyMMdd)$(Rev:.r)
+trigger:
+  branches:
+    include:
+    - main
 
 variables:
 - name: buildConfiguration
