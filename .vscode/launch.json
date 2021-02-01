@@ -11,7 +11,7 @@
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/openapi-to-terraform.Main/bin/Debug/net5.0/openapi-to-terraform.Main.dll",
-            "args": ["-f", "../openapi-to-terraform.Tests/sampleOpenApi.json", "-o", ".", "-t", "../openapi-to-terraform.Tests/sampleTerraformVars.json"],
+            "args": ["-f", "../openapi-to-terraform.Tests/sampleOpenApi.json", "-o", ".", "-t", "../openapi-to-terraform.Tests/sampleTerraformVars.json", "--api-template-file", "../openapi-to-terraform.Tests/sampleApiTemplate.tf"],
             "cwd": "${workspaceFolder}/openapi-to-terraform.Main",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",

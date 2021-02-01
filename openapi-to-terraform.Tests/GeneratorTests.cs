@@ -6,7 +6,19 @@ namespace openapi_to_terraform.Tests
     public class GeneratorTests
     {
         [Fact]
-        public void tools_should_generate_one_api_block_without_revisions_mapping()
+        public void tool_should_reject_mixing_variable_groups() 
+        {
+            var outputDir = "output";
+            var sampleOpenApi = "sampleOpenApi.json";
+            var terraformSubVarsFile = "sampleTerraformVars.json";
+            var apiTemplateFile = "sampleApiTemplate.tf";
+
+            Action act = () => Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "--api-template-file", apiTemplateFile });
+            act.Should().Throw<MutuallyExclusiveSetError>();
+        }
+
+        [Fact]
+        public void tool_should_generate_one_api_block_without_revisions_mapping()
         {
             var outputDir = "output";
             var sampleOpenApi = "sampleOpenApi.json";
@@ -24,7 +36,7 @@ namespace openapi_to_terraform.Tests
         }
 
         [Fact]
-        public void tools_should_generate_two_api_blocks_with_sample_revisions_mapping()
+        public void tool_should_generate_two_api_blocks_with_sample_revisions_mapping()
         {
             var outputDir = "output";
             var sampleOpenApi = "sampleOpenApi.json";
