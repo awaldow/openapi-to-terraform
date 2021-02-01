@@ -8,13 +8,9 @@ variables:
 - name: buildConfiguration
   value: 'Release'
 - name: projectPath
-  value: '**/Roomby.API.Rooms.csproj'
+  value: '**/openapi-to-terraform.Main.csproj'
 - name: testProjectPath
-  value: '**/Roomby.API.Rooms.[Tt]ests/*.csproj'
-- name: terraformTestPath
-  value: 'terraform/test/shared/'
-- name: terraformProdPath
-  value: 'terraform/prod/shared/'
+  value: '**/openapi-to-terraform.[Tt]ests/*.csproj'
 - name: testSubscription
   value: 'Visual Studio Enterprise'
 - name: prodSubscription
