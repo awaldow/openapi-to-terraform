@@ -14,7 +14,7 @@ variables:
 
 stages:
 - stage: 'Build'
-  displayName: 'Build the API'
+  displayName: 'Build the tool'
   jobs: 
   - job: 'Build'
     displayName: 'Build job'
@@ -61,7 +61,7 @@ stages:
     - task: DotNetCoreCLI@2
       inputs: 
         command: 'pack'
-        outputDir: '$(build.artifactstagingdirectory)'
+        outputDir: '$(Build.ArtifactStagingDirectory)'
 
     - task: DotNetCoreCLI@2
       inputs:
