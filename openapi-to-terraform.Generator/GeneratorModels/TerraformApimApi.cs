@@ -13,7 +13,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
         public static string GenerateBlock(OpenApiDocument document, string revision)
         {
             StringBuilder sb = new StringBuilder();
-            string resourceName = document.Info.Title.ToLower().Replace(" ", "");
+            string resourceName = document.Info.Title.ToLower().Replace(" ", "") + $"_rev{revision}";
             sb.AppendLine($"resource \"azurerm_api_management_api\" \"{resourceName}\" {{");
             sb.AppendLine($"\tname\t=\t{resourceName}");
             sb.AppendLine($"\tapi_management_name\t=\t{{api_management_service_name}}");

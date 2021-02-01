@@ -37,10 +37,12 @@ Revision Mapping File:
 * If you wish to generate multiple revisions and bind specific controller actions to different revisions, provide a revision mapping file to -r:
     ```
     {
-        "/api/v1/Users/{userId}": ["1"],
-        "/api/v1/Households/{householdId}": ["1", "2"]
+        "/api/v1/Users/{userId}^get": ["1"],
+        "/api/v1/Households/{householdId}^get": ["1", "2"]
     }
     ```
+* NOTE: For now, all path^method pairs must be mapped; for example, if there was a PUT for /api/v1/Users/{userId} but /api/v1/Users/{userId}^put is not present in the 
+  revision mapping, it will not be present in the output
 
 APIM Policies:
 * By default, no policies will be added to Operations/APIs

@@ -54,10 +54,20 @@ namespace openapi_to_terraform.Generator
             var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document, revisions);
             System.IO.File.WriteAllText(apiFilePath, ApiVariablesApplier.ApplyVariables(generatedApiOutput, TerraformVarSubFile));
 
-            var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
-            var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document);
+            if (RevisionMappingFile != null)
+            {
+                var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
+                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, RevisionMappingFile);
 
-            System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+                System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+            }
+            else
+            {
+                var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
+                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document);
+
+                System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+            }
         }
 
         private List<string> GetRevisions(JObject revisionMapping)
