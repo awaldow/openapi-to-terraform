@@ -10,19 +10,19 @@ namespace openapi_to_terraform.Main
         [Option('o', "output-dir", Required = true,  HelpText = "Absolute or relative path of output directory for terraform files")]
         public string OutputDirectory { get; set; }
 
-        [Option('r', "revision-map-file", Required = false, HelpText = "Absolute or relative path to revision mapping json file")]
+        [Option('r', "revision-map-file", Required = false, HelpText = "(Not Implemented) Absolute or relative path to revision mapping json file")]
         public string RevisionFile { get; set; }
 
-        [Option('p', "policies", Required = false, HelpText = "Absolute or relative path to directory containing APIM policies. Requires -r/--revision-map-file to be provided if revision dependent policies are desired")]
+        [Option('p', "policies", Required = false, HelpText = "(Not Implemented) Absolute or relative path to directory containing APIM policies. Requires -r/--revision-map-file to be provided if revision dependent policies are desired")]
         public string PoliciesDirectoryPath { get; set; }
 
         [Option('t', "terraform-vars-file", SetName = "terraform-vars", HelpText = "Absolute or relative path to file mapping terraform variables to output values")]
         public string TerraformVariablesFile { get; set; }
         
-        [Option("api-template-file", SetName = "template-provided", HelpText = "Absolute or relative path to desired template of APIs terraform file")]
+        [Option("api-template-file", SetName = "template-provided", HelpText = "(Not Implemented) Absolute or relative path to desired template of APIs terraform file")]
         public string ApiTemplateFile { get; set; }
 
-        [Option("operation-template-file", SetName = "template-provided", HelpText = "Absolute or relative path to desired template of Operations terraform file")]
+        [Option("operation-template-file", SetName = "template-provided", HelpText = "(Not Implemented) Absolute or relative path to desired template of Operations terraform file")]
         public string OperationTemplateFile { get; set; }
     }
 }
