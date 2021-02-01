@@ -42,7 +42,7 @@ APIM Policies:
 * By default, no policies will be added to Operations/APIs
 * If you wish to have policies added to the generated definitions, provide a directory structure containing the policies to -p:
     ```
-    policies
+    {policiesRootFolder}
     |
     |___{operationId}
     |   |
