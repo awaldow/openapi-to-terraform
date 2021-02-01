@@ -11,7 +11,7 @@ namespace openapi_to_terraform
         public static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
-                   .WithParsed<Options>(async o =>
+                   .WithParsed<Options>(o =>
                    {
                        Console.WriteLine($"Parsing {o.InputFile}, outputting to {o.OutputDirectory}");
                        OpenApiParser p = new OpenApiParser(o.InputFile);
