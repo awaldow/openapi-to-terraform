@@ -14,8 +14,8 @@ namespace openapi_to_terraform.Tests
         public void tool_should_generate_one_api_block_without_revisions_mapping()
         {
             var outputDir = "output";
-            var sampleOpenApi = "sampleOpenApi.json";
-            var terraformSubVarsFile = "sampleTerraformVars.json";
+            var sampleOpenApi = "samples/sampleOpenApi.json";
+            var terraformSubVarsFile = "samples/sampleTerraformVars.json";
 
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile });
 
@@ -32,9 +32,9 @@ namespace openapi_to_terraform.Tests
         public void tool_should_generate_two_api_blocks_with_sample_revisions_mapping()
         {
             var outputDir = "output";
-            var sampleOpenApi = "sampleOpenApi.json";
-            var terraformSubVarsFile = "sampleTerraformVars.json";
-            var revisionsMappingFile = "sampleRevisionMap.json";
+            var sampleOpenApi = "samples/sampleOpenApi.json";
+            var terraformSubVarsFile = "samples/sampleTerraformVars.json";
+            var revisionsMappingFile = "samples/sampleRevisionMap.json";
 
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-r", revisionsMappingFile });
 
