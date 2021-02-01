@@ -13,12 +13,13 @@ namespace openapi_to_terraform.Generator.GeneratorModels
             var split = revisionMap.Key.Split("^");
             var revisionPath = split[0];
             var revisionMethod = split[1];
+            // There are some foreaches here but generally one would expect these to only have one item 
             foreach (var path in document.Paths.Where(p => p.Key.Equals(revisionPath))) // Find all the paths that match the revision provided
             {
                 foreach (var revision in revisionMap.Value) // Iterate through the provided revisions mapped for that operation
                 {
                     var apiResourceName = document.Info.Title.ToLower().Replace(" ", "") + $"_rev{revision}"; // This is the same format used when generating the API block
-                    foreach (var operation in path.Value.Operations.Where(o => o.Key.ToString() == revisionMethod))
+                    foreach (var operation in path.Value.Operations.Where(o => o.Key.ToString() == revisionMethod)) // Iterate through the operations matching the provided method
                     {
                         sb.AppendLine($"resource \"azurerm_api_management_api_operation\" \"{operation.Value.OperationId}\" {{");
                         sb.AppendLine($"\tapi_name\t=\t\"azurerm_api_management_api.{apiResourceName}\"");
