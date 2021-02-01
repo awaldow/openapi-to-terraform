@@ -51,7 +51,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                             foreach (var representation in response.Value.Content)
                             {
                                 sb.AppendLine("\t\trepresentation {");
-                                sb.AppendLine($"\t\t\tcontent_type\t=\t{representation.Key}");
+                                sb.AppendLine($"\t\t\tcontent_type\t=\t\"{representation.Key}\"");
                                 sb.AppendLine("\t\t}");
                             }
                             sb.AppendLine("\t}");
@@ -97,11 +97,11 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                     {
                         sb.AppendLine("\tresponse {");
                         sb.AppendLine($"\t\tstatus_code\t=\t{response.Key}");
-                        sb.AppendLine($"\t\tdescription\t=\t{response.Value.Description}");
+                        sb.AppendLine($"\t\tdescription\t=\t\"{response.Value.Description}\"");
                         foreach (var representation in response.Value.Content)
                         {
                             sb.AppendLine("\t\trepresentation {");
-                            sb.AppendLine($"\t\t\tcontent_type\t=\t{representation.Key}");
+                            sb.AppendLine($"\t\t\tcontent_type\t=\t\"{representation.Key}\"");
                             sb.AppendLine("\t\t}");
                         }
                         sb.AppendLine("\t}");

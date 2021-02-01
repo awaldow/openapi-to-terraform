@@ -13,8 +13,8 @@ namespace openapi_to_terraform.Generator.VariablesAppliers
             var serviceName = terraformVariables.SelectToken("api_management_service_name").Value<string>();
             var resourceGroupName = terraformVariables.SelectToken("api_management_resource_group_name").Value<string>();
 
-            var outputVariablesApplied = generatedOutput.Replace("{{api_management_service_name}}", serviceName);
-            outputVariablesApplied = generatedOutput.Replace("{{api_management_resource_group_name}}", resourceGroupName);
+            var outputVariablesApplied = generatedOutput.Replace("{api_management_service_name}", serviceName);
+            outputVariablesApplied = outputVariablesApplied.Replace("{api_management_resource_group_name}", resourceGroupName);
             return outputVariablesApplied;
         }
     }

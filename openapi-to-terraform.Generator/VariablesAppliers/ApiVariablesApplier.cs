@@ -19,11 +19,11 @@ namespace openapi_to_terraform.Generator.VariablesAppliers
             var apiBackendUrl = terraformVariables.SelectToken("api_backend_url").Value<string>();
             var apiManagementProductId = terraformVariables.SelectToken("api_management_product_id").Value<string>();
             
-            var outputVariablesApplied = generatedOutput.Replace("{{api_management_service_name}}", serviceName);
-            outputVariablesApplied = generatedOutput.Replace("{{api_management_resource_group_name}}", resourceGroupName);
-            outputVariablesApplied = generatedOutput.Replace("{{api_path}}", apiPath);
-            outputVariablesApplied = generatedOutput.Replace("{{api_backend_url}}", apiBackendUrl);
-            outputVariablesApplied = generatedOutput.Replace("{{api_management_product_id}}", apiManagementProductId);
+            var outputVariablesApplied = generatedOutput.Replace("{api_management_service_name}", serviceName);
+            outputVariablesApplied = outputVariablesApplied.Replace("{api_management_resource_group_name}", resourceGroupName);
+            outputVariablesApplied = outputVariablesApplied.Replace("{api_path}", apiPath);
+            outputVariablesApplied = outputVariablesApplied.Replace("{api_backend_url}", apiBackendUrl);
+            outputVariablesApplied = outputVariablesApplied.Replace("{api_management_product_id}", apiManagementProductId);
             return outputVariablesApplied;
         }
     }
