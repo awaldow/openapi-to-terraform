@@ -19,12 +19,12 @@ namespace openapi_to_terraform
                        if (o.TerraformVariablesFile != null)
                        {
                            var generator = new TerraformGenerator(o.OutputDirectory, o.TerraformVariablesFile, o.RevisionFile);
-                           await generator.GenerateWithTerraformVars(p.Document);
+                           generator.GenerateWithTerraformVars(p.Document);
                        }
                        else if (o.ApiTemplateFile != null && o.OperationTemplateFile != null)
                        {
                            var generator = new TerraformGenerator(o.OutputDirectory, o.ApiTemplateFile, o.OperationTemplateFile, o.RevisionFile);
-                           await generator.GenerateWithTemplateFiles(p.Document);
+                           generator.GenerateWithTemplateFiles(p.Document);
                        }
                    });
         }

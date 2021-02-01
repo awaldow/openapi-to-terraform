@@ -32,14 +32,15 @@ namespace openapi_to_terraform.Generator
             RevisionMappingFile = revisionMap;
         }
 
-        public async Task GenerateWithTerraformVars(OpenApiDocument document)
+        public void GenerateWithTerraformVars(OpenApiDocument document)
         {
             var version = document.Info.Version;
             var revisions = new List<string>();
 
             if (RevisionMappingFile != null)
             {
-                revisions.AddRange(GetRevisions(JObject.Parse(RevisionMappingFile)));
+                var revisionsMappingParsed = GetRevisions(JObject.Parse(File.ReadAllText(RevisionMappingFile)));
+                revisions.AddRange(revisionsMappingParsed);
             }
             else
             {
@@ -47,13 +48,17 @@ namespace openapi_to_terraform.Generator
             }
 
             var apiFilePath = Path.Combine(OutputDir, version, $"api.{version}.tf");
+            if (!Directory.Exists(Path.Combine(OutputDir, version)))
+            {
+                Directory.CreateDirectory(Path.Combine(OutputDir, version));
+            }
             var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document, revisions);
-            await System.IO.File.WriteAllTextAsync(apiFilePath, ApiVariablesApplier.ApplyVariables(generatedApiOutput, TerraformVarSubFile));
+            System.IO.File.WriteAllText(apiFilePath, ApiVariablesApplier.ApplyVariables(generatedApiOutput, TerraformVarSubFile));
 
             var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
             var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document);
 
-            await System.IO.File.WriteAllTextAsync(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+            System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
         }
 
         private List<string> GetRevisions(JObject revisionMapping)
@@ -61,7 +66,7 @@ namespace openapi_to_terraform.Generator
             return revisionMapping.ToObject<Dictionary<string, string[]>>().Values.SelectMany(i => i).Distinct().ToList();
         }
 
-        public async Task GenerateWithTemplateFiles(OpenApiDocument document)
+        public void GenerateWithTemplateFiles(OpenApiDocument document)
         {
             throw new NotImplementedException();
         }
