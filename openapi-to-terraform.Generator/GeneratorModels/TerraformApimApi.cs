@@ -3,9 +3,14 @@ using Microsoft.OpenApi.Models;
 
 namespace openapi_to_terraform.Generator.GeneratorModels
 {
-    public class TerraformApimApi : ITerraformBlockGenerator
+    public class TerraformApimApi
     {
         public static string GenerateBlock(OpenApiDocument document)
+        {
+            return GenerateBlock(document, "1");
+        }
+
+        public static string GenerateBlock(OpenApiDocument document, string revision)
         {
             StringBuilder sb = new StringBuilder();
             string resourceName = document.Info.Title.ToLower().Replace(" ", "");
@@ -14,7 +19,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
             sb.AppendLine($"\tapi_management_name\t=\t{{api_management_service_name}}");
             sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
             sb.AppendLine($"\tdisplay_name\t=\t{document.Info.Title}");
-            sb.AppendLine($"\trevision\t=\t1");
+            sb.AppendLine($"\trevision\t=\t{revision}");
             sb.AppendLine($"\version\t=\t{document.Info.Version}");
             sb.AppendLine($"\version_set_id\t=\t");
             sb.AppendLine($"\tpath\t=\t{{api_path}}");

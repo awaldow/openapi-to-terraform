@@ -4,7 +4,7 @@ using openapi_to_terraform.Generator.GeneratorModels;
 
 namespace openapi_to_terraform.Generator.Generators
 {
-    public class OperationGenerator : ITerraformApimGenerator
+    public class OperationGenerator
     {
         public static string GenerateTerraformOutput(OpenApiDocument document)
         {

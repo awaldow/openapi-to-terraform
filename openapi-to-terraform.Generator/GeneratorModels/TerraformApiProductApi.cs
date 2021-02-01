@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 
 namespace openapi_to_terraform.Generator.GeneratorModels
 {
-    public class TerraformApimProductApi : ITerraformBlockGenerator
+    public class TerraformApimProductApi
     {
         public static string GenerateBlock(OpenApiDocument document)
         {

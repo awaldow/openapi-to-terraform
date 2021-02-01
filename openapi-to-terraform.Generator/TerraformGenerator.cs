@@ -1,7 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Linq;
 using openapi_to_terraform.Generator.Generators;
 using openapi_to_terraform.Generator.VariablesAppliers;
 
@@ -32,15 +35,30 @@ namespace openapi_to_terraform.Generator
         public async Task GenerateWithTerraformVars(OpenApiDocument document)
         {
             var version = document.Info.Version;
-            var apiFilePath = Path.Combine(OutputDir, version, $"api.{version}.tf");
-            var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document);
+            var revisions = new List<string>();
 
+            if (RevisionMappingFile != null)
+            {
+                revisions.AddRange(GetRevisions(JObject.Parse(RevisionMappingFile)));
+            }
+            else
+            {
+                revisions.Add("1");
+            }
+
+            var apiFilePath = Path.Combine(OutputDir, version, $"api.{version}.tf");
+            var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document, revisions);
             await System.IO.File.WriteAllTextAsync(apiFilePath, ApiVariablesApplier.ApplyVariables(generatedApiOutput, TerraformVarSubFile));
 
             var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
             var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document);
 
             await System.IO.File.WriteAllTextAsync(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+        }
+
+        private List<string> GetRevisions(JObject revisionMapping)
+        {
+            return revisionMapping.ToObject<Dictionary<string, string[]>>().Values.SelectMany(i => i).Distinct().ToList();
         }
 
         public async Task GenerateWithTemplateFiles(OpenApiDocument document)
