@@ -1,6 +1,5 @@
-using System.Text;
-using Microsoft.OpenApi.Models;
-using openapi_to_terraform.Generator.GeneratorModels;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace openapi_to_terraform.Generator.VariablesAppliers
 {
@@ -8,6 +7,10 @@ namespace openapi_to_terraform.Generator.VariablesAppliers
     {
         public static string ApplyVariables(string generatedOutput, string variablesPath)
         {
+            //  "api_management_service_name": "azurerm_api_management.roombyapim.name",
+            //  "api_management_resource_group_name": "azurerm_api_management.roombyapim.resource_group_name"
+            //  "api_name": "users"
+            JObject terraformVariables = JObject.Parse(File.ReadAllText(variablesPath));
             throw new System.NotImplementedException();
         }
     }
