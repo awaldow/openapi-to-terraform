@@ -26,6 +26,8 @@ namespace openapi_to_terraform.Tests
             int apiBlockCount = Regex.Matches(apiText, "resource \"azurerm_api_management_api\"").Count;
             apiBlockCount.Should().Be(1);
 
+            // TODO: Keep this commented until we have a way to inject a basic APIM instance and run 
+            //  terraform validate and use its output to determine whether we're breaking any terraform rules
             // if (Directory.Exists(outputDir))
             // {
             //     Directory.Delete(outputDir, true);
@@ -51,6 +53,8 @@ namespace openapi_to_terraform.Tests
             int apiBlockCount = Regex.Matches(apiText, "resource \"azurerm_api_management_api\"").Count;
             apiBlockCount.Should().Be(2);
 
+            // TODO: Keep this commented until we have a way to inject a basic APIM instance and run 
+            //  terraform validate and use its output to determine whether we're breaking any terraform rules
             // if (Directory.Exists(outputDir))
             // {
             //     Directory.Delete(outputDir, true);
