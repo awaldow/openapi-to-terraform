@@ -6,9 +6,9 @@ using openapi_to_terraform.Generator;
 
 namespace openapi_to_terraform
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
                    .WithParsed<Options>(async o =>
