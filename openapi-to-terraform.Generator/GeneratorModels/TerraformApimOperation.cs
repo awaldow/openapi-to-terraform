@@ -22,9 +22,10 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                     foreach (var operation in path.Value.Operations.Where(o => o.Key.ToString().ToLower() == revisionMethod)) // Iterate through the operations matching the provided method
                     {
                         sb.AppendLine($"resource \"azurerm_api_management_api_operation\" \"{operation.Value.OperationId}\" {{");
+                        sb.AppendLine($"\toperation_id\t=\t\"{operation.Value.OperationId}\"");
                         sb.AppendLine($"\tapi_name\t=\t\"azurerm_api_management_api.{apiResourceName}\"");
-                        sb.AppendLine($"\tapi_management_name\t=\t\"{{api_management_service_name}}\"");
-                        sb.AppendLine($"\tresource_group_name\t=\t\"{{api_management_resource_group_name}}\"");
+                        sb.AppendLine($"\tapi_management_name\t=\t{{api_management_service_name}}");
+                        sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
                         sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
                         sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString()}\"");
                         sb.AppendLine($"\turl_template\t=\t\"{path.Key.ToString()}\"");
@@ -36,7 +37,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                                 case (ParameterLocation.Path):
                                     sb.AppendLine("\ttemplate_parameter {");
                                     sb.AppendLine($"\t\tname\t=\t\"{parameter.Name}\"");
-                                    sb.AppendLine($"\t\trequired\t=\t\"{parameter.Required}\"");
+                                    sb.AppendLine($"\t\trequired\t=\t{parameter.Required.ToString().ToLower()}");
                                     sb.AppendLine($"\t\ttype\t=\t\"{parameter.Schema.Format}\"");
                                     sb.AppendLine($"\t\tdescription\t=\t\"{parameter.Description}\"");
                                     sb.AppendLine("\t}");
@@ -72,9 +73,10 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                 foreach (var operation in path.Value.Operations)
                 {
                     sb.AppendLine($"resource \"azurerm_api_management_api_operation\" \"{operation.Value.OperationId}\" {{");
+                    sb.AppendLine($"\toperation_id\t=\t\"{operation.Value.OperationId}\"");
                     sb.AppendLine($"\tapi_name\t=\t\"azurerm_api_management_api.{apiResourceName}\"");
-                    sb.AppendLine($"\tapi_management_name\t=\t\"{{api_management_service_name}}\"");
-                    sb.AppendLine($"\tresource_group_name\t=\t\"{{api_management_resource_group_name}}\"");
+                    sb.AppendLine($"\tapi_management_name\t=\t{{api_management_service_name}}");
+                    sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
                     sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
                     sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString()}\"");
                     sb.AppendLine($"\turl_template\t=\t\"{path.Key.ToString()}\"");
@@ -86,7 +88,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                             case (ParameterLocation.Path):
                                 sb.AppendLine("\ttemplate_parameter {");
                                 sb.AppendLine($"\t\tname\t=\t\"{parameter.Name}\"");
-                                sb.AppendLine($"\t\trequired\t=\t\"{parameter.Required}\"");
+                                sb.AppendLine($"\t\trequired\t=\t{parameter.Required.ToString().ToLower()}");
                                 sb.AppendLine($"\t\ttype\t=\t\"{parameter.Schema.Format}\"");
                                 sb.AppendLine($"\t\tdescription\t=\t\"{parameter.Description}\"");
                                 sb.AppendLine("\t}");
