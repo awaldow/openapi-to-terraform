@@ -51,10 +51,10 @@ namespace openapi_to_terraform.Tests
             int apiBlockCount = Regex.Matches(apiText, "resource \"azurerm_api_management_api\"").Count;
             apiBlockCount.Should().Be(2);
 
-            if (Directory.Exists(outputDir))
-            {
-                Directory.Delete(outputDir, true);
-            }
+            // if (Directory.Exists(outputDir))
+            // {
+            //     Directory.Delete(outputDir, true);
+            // }
         }
     }
 }
