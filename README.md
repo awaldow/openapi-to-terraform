@@ -16,9 +16,9 @@ OpenAPI to Terraform
     openapi-to-terraform -i [openApiPath] -o [outputDir] -t [terraformVarsJson]
     ```
     Where 
-    1. openApiPath = path to OpenAPI file
-    2. outputDir = output directory for API and Operation terraform files
-    3. terraformVarsJson = path to terraform variables mapping file
+    [openApiPath] = path to OpenAPI file
+    [outputDir] = output directory for API and Operation terraform files
+    [terraformVarsJson] = path to terraform variables mapping file
 
 There are some additional considerations when generating a file:
 Terraform Variables File:
