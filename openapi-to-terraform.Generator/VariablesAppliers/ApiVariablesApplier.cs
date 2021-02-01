@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 
 namespace openapi_to_terraform.Generator.VariablesAppliers
 {
-    public class ApiVariablesApplier : IVariablesApplier
+    public class ApiVariablesApplier
     {
         public static string ApplyVariables(string generatedOutput, string variablesPath)
         {
