@@ -5,10 +5,10 @@ namespace openapi_to_terraform.Generator.GeneratorModels
 {
     public class TerraformApimProductApi
     {
-        public static string GenerateBlock(OpenApiDocument document)
+        public static string GenerateBlock(OpenApiDocument document, string revision)
         {
             StringBuilder sb = new StringBuilder();
-            string resourceName = document.Info.Title.ToLower().Replace(" ", "");
+            string resourceName = document.Info.Title.ToLower().Replace(" ", "") + $"_rev{revision}";
             sb.AppendLine($"resource \"azurerm_api_management_product_api\" \"{resourceName}productapi\" {{");
             sb.AppendLine($"\tapi_name\t=\tazurerm_api_management_api.{resourceName}.name");
             sb.AppendLine($"\tproduct_id\t=\t{{api_management_product_id}}");

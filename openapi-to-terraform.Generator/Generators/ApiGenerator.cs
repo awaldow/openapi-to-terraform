@@ -14,9 +14,9 @@ namespace openapi_to_terraform.Generator.Generators
             {
                 string api = TerraformApimApi.GenerateBlock(document, revision);
                 sb.AppendLine(api);
+                string productApi = TerraformApimProductApi.GenerateBlock(document, revision);
+                sb.AppendLine(productApi);
             }
-            string productApi = TerraformApimProductApi.GenerateBlock(document);
-            sb.AppendLine(productApi);
             return sb.ToString();
         }
     }

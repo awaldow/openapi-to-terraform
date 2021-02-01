@@ -17,6 +17,10 @@ namespace openapi_to_terraform.Tests
 
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile });
 
+            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "1", "sampleMainModule.tf"));
+            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "1", "sampleMainApim.tf"));
+            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir, "1", "sampleApimVariables.tf"));
+
             Directory.Exists(outputDir).Should().BeTrue();
             Directory.Exists(Path.Combine(outputDir, "1")).Should().BeTrue();
             File.Exists(Path.Combine(outputDir, "1", "api.1.tf")).Should().BeTrue();
@@ -43,6 +47,10 @@ namespace openapi_to_terraform.Tests
             var revisionsMappingFile = "samples/sampleRevisionMap.json";
 
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-r", revisionsMappingFile });
+
+            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "1"));
+            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "1"));
+            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir, "1", "sampleApimVariables.tf"));
 
             Directory.Exists(outputDir).Should().BeTrue();
             Directory.Exists(Path.Combine(outputDir, "1")).Should().BeTrue();

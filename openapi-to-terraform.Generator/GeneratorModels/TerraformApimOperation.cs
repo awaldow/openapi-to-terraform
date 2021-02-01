@@ -23,7 +23,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                     {
                         sb.AppendLine($"resource \"azurerm_api_management_api_operation\" \"{operation.Value.OperationId}\" {{");
                         sb.AppendLine($"\toperation_id\t=\t\"{operation.Value.OperationId}\"");
-                        sb.AppendLine($"\tapi_name\t=\t\"azurerm_api_management_api.{apiResourceName}\"");
+                        sb.AppendLine($"\tapi_name\t=\tazurerm_api_management_api.{apiResourceName}.name");
                         sb.AppendLine($"\tapi_management_name\t=\t{{api_management_service_name}}");
                         sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
                         sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
@@ -74,7 +74,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                 {
                     sb.AppendLine($"resource \"azurerm_api_management_api_operation\" \"{operation.Value.OperationId}\" {{");
                     sb.AppendLine($"\toperation_id\t=\t\"{operation.Value.OperationId}\"");
-                    sb.AppendLine($"\tapi_name\t=\t\"azurerm_api_management_api.{apiResourceName}\"");
+                    sb.AppendLine($"\tapi_name\t=\tazurerm_api_management_api.{apiResourceName}.name");
                     sb.AppendLine($"\tapi_management_name\t=\t{{api_management_service_name}}");
                     sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
                     sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
