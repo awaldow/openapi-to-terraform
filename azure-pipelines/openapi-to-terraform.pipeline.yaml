@@ -1,4 +1,5 @@
 name: Roomby.API.Shared-$(Date:yyyyMMdd)$(Rev:.r)
+
 trigger:
   branches:
     include:
@@ -27,6 +28,10 @@ stages:
       inputs:
         versionSpec: 5.7
     
+    - task: TerraformInstaller@0
+      inputs:
+        terraformVersion: '0.13.0'
+        
     - task: UseDotNet@2
       displayName: 'Use .NET Core sdk 5.x'
       inputs:
