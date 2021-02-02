@@ -1,7 +1,7 @@
 <policies>
     <inbound>
         <base/>
-        <cors allow-credentials="false|true">
+        <cors allow-credentials="false">
             <allowed-origins>
                 <origin>https://localhost:8080</origin>
             </allowed-origins>
