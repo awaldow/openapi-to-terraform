@@ -46,7 +46,7 @@ Revision Mapping File:
 
 APIM Policies:
 * By default, no policies will be added to Operations/APIs
-* If you wish to have policies added to the generated definitions, provide a directory structure containing the policies to -p:
+* If you wish to have policies added to the generated definitions, provide a directory structure containing the policies for a specific version to -p:
     ```
     {policiesRootFolder}
     |
@@ -64,3 +64,4 @@ APIM Policies:
 * Policies are expected to contain the inbound, backend, outbound and onerror policies in one file.
 * If you are using revisions, then you are expected to provide a subfolder structure with the policies for each revision in a folder named that rev number
 * Otherwise, just put the policy file under the operation ID folder
+* Each {policiesRootFolder} should correspond to one version
