@@ -55,6 +55,7 @@ stages:
         command: test
         projects: '$(testProjectPath)'
         arguments: '--configuration $(buildConfiguration)'
+        publishTestResults: true
     
     # - task: DotNetCoreCLI@2
     #   displayName: 'dotnet publish'
@@ -72,4 +73,4 @@ stages:
       inputs:
         command: 'push'
         searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;'
-        feedPublish: 'openapi-to-terraform'
+        feedPublish: 'openapi-to-terraform/openapi-to-terraform'
