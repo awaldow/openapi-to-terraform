@@ -1,0 +1,28 @@
+<policies>
+    <inbound>
+        <base/>
+        <cors allow-credentials="false|true">
+            <allowed-origins>
+                <origin>https://localhost:8080</origin>
+            </allowed-origins>
+            <allowed-methods preflight-result-max-age="number of seconds">
+                <method>POST</method>
+            </allowed-methods>
+            <allowed-headers>
+                <header>X-Sample-Header</header>
+            </allowed-headers>
+            <expose-headers>
+                <header>X-Sample-Response-Header</header>
+            </expose-headers>
+        </cors>
+    </inbound>
+    <backend>
+        <base/>
+    </backend>
+    <outbound>
+        <base/>
+    </outbound>
+    <on-error>
+        <base/>
+    </on-error>
+</policies>

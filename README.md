@@ -51,21 +51,35 @@ APIM Policies:
     ```
     {policiesRootFolder}
     |
-    |___{operationId}
-    |   |
-    |   |___{revision1}
-    |   |   |   rev1PolicyFile
-    |   |
-    |   |___{revision2}
-    |       |   rev2PolicyFile
+    |   apiPolicyFile
     |
-    |___{otherOperationId}
+    |___{operationId}
         |   otherPolicyFile
     ```
+    
+    or
+
+    ```
+    {policiesRootFolder}
+    |
+    |___{revision1}
+    |   |   rev1ApiPolicyFile
+    |   |
+    |   |___{operationId}
+    |       |   rev1PolicyFile
+    |
+    |___{revision2}
+        |   rev2ApiPolicyFile
+        |
+        |___{otherOperationId}
+            |   rev2PolicyFile
+    ```
 * Policies are expected to contain the inbound, backend, outbound and onerror policies in one file.
-* If you are using revisions, then you are expected to provide a subfolder structure with the policies for each revision in a folder named that rev number
-* Otherwise, just put the policy file under the operation ID folder
+* If you are using revisions, then you are expected to provide a subfolder structure with the policies for each revision in a folder named that rev number, as seen in the second example
+* Otherwise, just put the policy file for the API under the root folder, and the operation policies under folders named the operationId in the OpenAPI file
 * Each {policiesRootFolder} should correspond to one version
+* To make policy editing easier (and until we have a real language server for APIM policy files), you should consider installing the snippts at [Azure/api-management-policy-snippets](https://github.com/Azure/api-management-policy-snippets)
+* The above link also has a [set of common policy expressions](https://github.com/Azure/api-management-policy-snippets/tree/master/policy-expressions) that may help
 
 Tool Versions:
 * Currently, the tool will only generate terraform files conformant to hashicorp/azurerm version "~> 2.45.1"
