@@ -23,9 +23,9 @@ stages:
 
     steps:
     - task: NuGetToolInstaller@0
-      displayName: 'Use NuGet 4.4.1'
+      displayName: 'Use NuGet 5.7'
       inputs:
-        versionSpec: 4.4.1
+        versionSpec: 5.7
     
     - task: UseDotNet@2
       displayName: 'Use .NET Core sdk 5.x'
