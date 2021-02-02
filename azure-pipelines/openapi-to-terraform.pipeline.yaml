@@ -54,7 +54,7 @@ stages:
       inputs:
         command: test
         projects: '$(testProjectPath)'
-        arguments: '--configuration $(buildConfiguration)'
+        arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
         publishTestResults: true
     
     # - task: DotNetCoreCLI@2
