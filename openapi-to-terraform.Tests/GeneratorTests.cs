@@ -13,7 +13,7 @@ namespace openapi_to_terraform.Tests
         [Fact]
         public void tool_should_generate_one_api_block_without_revisions_mapping()
         {
-            var outputDir = $"output_without_api_revisions_{DateTime.Now.ToString()}".Replace("/", "_");
+            var outputDir = Regex.Replace($"output_without_api_revisions_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
             var sampleOpenApi = "samples/sampleOpenApi.json";
             var terraformSubVarsFile = "samples/sampleTerraformVars.json";
 
@@ -56,7 +56,7 @@ namespace openapi_to_terraform.Tests
         [Fact]
         public void tool_should_generate_two_api_blocks_with_sample_revisions_mapping()
         {
-            var outputDir = $"output_with_api_revisions_{DateTime.Now.ToString()}".Replace("/", "_");
+            var outputDir = Regex.Replace($"output_with_api_revisions_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
             var sampleOpenApi = "samples/sampleOpenApi.json";
             var terraformSubVarsFile = "samples/sampleTerraformVars.json";
             var revisionsMappingFile = "samples/sampleRevisionMap.json";
