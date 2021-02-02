@@ -20,4 +20,18 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="5.10.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\openapi-to-terraform.Main\openapi-to-terraform.Main.csproj" />
+  </ItemGroup>
+
+<ItemGroup>
+    <Content Include="samples\*.*">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>  
+  </ItemGroup>
+
 </Project>

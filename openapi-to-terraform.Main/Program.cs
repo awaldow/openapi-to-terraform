@@ -6,12 +6,12 @@ using openapi_to_terraform.Generator;
 
 namespace openapi_to_terraform
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Parser.Default.ParseArguments<Options>(args)
-                   .WithParsed<Options>(async o =>
+                   .WithParsed<Options>(o =>
                    {
                        Console.WriteLine($"Parsing {o.InputFile}, outputting to {o.OutputDirectory}");
                        OpenApiParser p = new OpenApiParser(o.InputFile);
@@ -19,12 +19,12 @@ namespace openapi_to_terraform
                        if (o.TerraformVariablesFile != null)
                        {
                            var generator = new TerraformGenerator(o.OutputDirectory, o.TerraformVariablesFile, o.RevisionFile);
-                           await generator.GenerateWithTerraformVars(p.Document);
+                           generator.GenerateWithTerraformVars(p.Document);
                        }
                        else if (o.ApiTemplateFile != null && o.OperationTemplateFile != null)
                        {
                            var generator = new TerraformGenerator(o.OutputDirectory, o.ApiTemplateFile, o.OperationTemplateFile, o.RevisionFile);
-                           await generator.GenerateWithTemplateFiles(p.Document);
+                           generator.GenerateWithTemplateFiles(p.Document);
                        }
                    });
         }

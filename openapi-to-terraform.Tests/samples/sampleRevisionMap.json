@@ -1,0 +1,4 @@
+{
+    "/api/v1/Users/{userId}^get": ["1"],
+    "/api/v1/Households/{householdId}^get": ["1", "2"]
+}

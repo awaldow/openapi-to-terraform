@@ -8,21 +8,13 @@ variables:
 - name: buildConfiguration
   value: 'Release'
 - name: projectPath
-  value: '**/Roomby.API.Rooms.csproj'
+  value: '**/openapi-to-terraform.Main.csproj'
 - name: testProjectPath
-  value: '**/Roomby.API.Rooms.[Tt]ests/*.csproj'
-- name: terraformTestPath
-  value: 'terraform/test/shared/'
-- name: terraformProdPath
-  value: 'terraform/prod/shared/'
-- name: testSubscription
-  value: 'Visual Studio Enterprise'
-- name: prodSubscription
-  value: 'Visual Studio Enterprise'
+  value: '**/openapi-to-terraform.[Tt]ests/*.csproj'
 
 stages:
 - stage: 'Build'
-  displayName: 'Build the API'
+  displayName: 'Build the tool'
   jobs: 
   - job: 'Build'
     displayName: 'Build job'
@@ -69,7 +61,7 @@ stages:
     - task: DotNetCoreCLI@2
       inputs: 
         command: 'pack'
-        outputDir: '$(build.artifactstagingdirectory)'
+        outputDir: '$(Build.ArtifactStagingDirectory)'
 
     - task: DotNetCoreCLI@2
       inputs:

@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.OpenApi.Models;
+using Newtonsoft.Json.Linq;
 using openapi_to_terraform.Generator.Generators;
 using openapi_to_terraform.Generator.VariablesAppliers;
 
@@ -29,21 +31,51 @@ namespace openapi_to_terraform.Generator
             RevisionMappingFile = revisionMap;
         }
 
-        public async Task GenerateWithTerraformVars(OpenApiDocument document)
+        public void GenerateWithTerraformVars(OpenApiDocument document)
         {
             var version = document.Info.Version;
+            var revisions = new List<string>();
+
+            if (RevisionMappingFile != null)
+            {
+                var revisionsMappingParsed = GetRevisions(JObject.Parse(File.ReadAllText(RevisionMappingFile)));
+                revisions.AddRange(revisionsMappingParsed);
+            }
+            else
+            {
+                revisions.Add("1");
+            }
+
             var apiFilePath = Path.Combine(OutputDir, version, $"api.{version}.tf");
-            var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document);
+            if (!Directory.Exists(Path.Combine(OutputDir, version)))
+            {
+                Directory.CreateDirectory(Path.Combine(OutputDir, version));
+            }
+            var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document, revisions);
+            System.IO.File.WriteAllText(apiFilePath, ApiVariablesApplier.ApplyVariables(generatedApiOutput, TerraformVarSubFile));
 
-            await System.IO.File.WriteAllTextAsync(apiFilePath, ApiVariablesApplier.ApplyVariables(generatedApiOutput, TerraformVarSubFile));
+            if (RevisionMappingFile != null)
+            {
+                var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
+                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, RevisionMappingFile);
 
-            var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
-            var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document);
+                System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+            }
+            else
+            {
+                var operationFilePath = Path.Combine(OutputDir, version, $"operations.{version}.tf");
+                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document);
 
-            await System.IO.File.WriteAllTextAsync(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+                System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+            }
         }
 
-        public async Task GenerateWithTemplateFiles(OpenApiDocument document)
+        private List<string> GetRevisions(JObject revisionMapping)
+        {
+            return revisionMapping.ToObject<Dictionary<string, string[]>>().Values.SelectMany(i => i).Distinct().ToList();
+        }
+
+        public void GenerateWithTemplateFiles(OpenApiDocument document)
         {
             throw new NotImplementedException();
         }
