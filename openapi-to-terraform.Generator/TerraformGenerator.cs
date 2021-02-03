@@ -49,6 +49,7 @@ namespace openapi_to_terraform.Generator
             var apiFilePath = Path.Combine(OutputDir, version, $"api.{version}.tf");
             if (!Directory.Exists(Path.Combine(OutputDir, version)))
             {
+                Console.WriteLine($"Creating directory {Path.Combine(OutputDir, version)}");
                 Directory.CreateDirectory(Path.Combine(OutputDir, version));
             }
             var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document, revisions);
