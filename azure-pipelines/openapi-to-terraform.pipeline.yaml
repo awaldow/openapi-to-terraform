@@ -64,14 +64,18 @@ stages:
     #     publishWebProjects: false
     #     projects: '$(projectPath)'
     #     arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
+    
     - task: DotNetCoreCLI@2
       inputs: 
         command: 'pack'
         outputDir: '$(Build.ArtifactStagingDirectory)'
 
-    - task: DotNetCoreCLI@2
-      inputs:
-        command: 'push'
-        arguments: '--skip-duplicate'
-        searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;'
-        feedPublish: 'openapi-to-terraform/openapi-to-terraform'
+    - task: NuGetAuthenticate@0
+    - script: dotnet nuget push --api-key az --skip-duplicate --source https://pkgs.dev.azure.com/tesselatedsky/openapi-to-terraform/_packaging/openapi-to-terraform/nuget/v3/index.json *.nupkg
+      workingDirectory: $(Build.ArtifactStagingDirectory)
+    # - task: DotNetCoreCLI@2
+    #   inputs:
+    #     command: 'push'
+    #     arguments: '--skip-duplicate'
+    #     searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;'
+    #     feedPublish: 'openapi-to-terraform/openapi-to-terraform'
