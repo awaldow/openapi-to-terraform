@@ -13,7 +13,7 @@ OpenAPI to Terraform
     ```
 3. Generate a set of terraform files from your application's OpenAPI file
     ```
-    openapi-to-terraform -i [openApiPath] -o [outputDir] -t [terraformVarsJson]
+    openapi-to-terraform -f [openApiPath] -o [outputDir] -t [terraformVarsJson]
     ```
     Where 
     1. [openApiPath] = path to OpenAPI file
