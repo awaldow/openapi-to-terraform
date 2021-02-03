@@ -29,6 +29,7 @@ stages:
         versionSpec: 5.7
     
     - task: TerraformInstaller@0
+      displayName: 'Install Terraform 0.13.0'
       inputs:
         terraformVersion: '0.13.0'
         
@@ -65,7 +66,7 @@ stages:
       displayName: 'Create reports'  
     
     - task: PublishCodeCoverageResults@1  
-      displayName: 'Publish code coverage'  
+      displayName: 'Publish code coverage'
       inputs:  
         codeCoverageTool: Cobertura  
         summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml'  
@@ -78,14 +79,18 @@ stages:
     #     arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
     
     - task: DotNetCoreCLI@2
+      displayName: 'dotnet paack'
       inputs: 
         command: 'pack'
         arguments: '$(projectPath)'
         outputDir: '$(Build.ArtifactStagingDirectory)'
 
     - task: NuGetAuthenticate@0
+      displayName: 'Nuget Authenticate'
+
     - script: dotnet nuget push --api-key az --skip-duplicate --source https://pkgs.dev.azure.com/tesselatedsky/openapi-to-terraform/_packaging/openapi-to-terraform/nuget/v3/index.json *.nupkg
       workingDirectory: $(Build.ArtifactStagingDirectory)
+      displayName: 'Push package to artifacts feed'
     # - task: DotNetCoreCLI@2
     #   inputs:
     #     command: 'push'
