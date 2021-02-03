@@ -54,9 +54,21 @@ stages:
       inputs:
         command: test
         projects: '$(testProjectPath)'
-        arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+        arguments: '--configuration $(buildConfiguration) --collect "XPlat Code coverage"'
         publishTestResults: true
+        testRunTitle: openapi-to-terraform.UnitTests  
+
+    - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool --version 4.5.8'  
+      displayName: 'Install ReportGenerator tool'  
+
+    - script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'  
+      displayName: 'Create reports'  
     
+    - task: PublishCodeCoverageResults@1  
+      displayName: 'Publish code coverage'  
+      inputs:  
+        codeCoverageTool: Cobertura  
+        summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml'  
     # - task: DotNetCoreCLI@2
     #   displayName: 'dotnet publish'
     #   inputs:
