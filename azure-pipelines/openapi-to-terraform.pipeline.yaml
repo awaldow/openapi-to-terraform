@@ -72,5 +72,6 @@ stages:
     - task: DotNetCoreCLI@2
       inputs:
         command: 'push'
+        arguments: '--skip-duplicate'
         searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;'
         feedPublish: 'openapi-to-terraform/openapi-to-terraform'
