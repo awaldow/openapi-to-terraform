@@ -13,7 +13,7 @@ OpenAPI to Terraform
     ```
 3. Generate a set of terraform files from your application's OpenAPI file
     ```
-    openapi-to-terraform -i [openApiPath] -o [outputDir] -t [terraformVarsJson]
+    openapi-to-terraform -f [openApiPath] -o [outputDir] -t [terraformVarsJson]
     ```
     Where 
     1. [openApiPath] = path to OpenAPI file
@@ -30,7 +30,7 @@ Terraform Variables File:
     3. "api_path" - the string or terraform variable reference to use to populate the azurerm_api_management_api.api_path field
     4. "api_backend_url" - the string or terraform variable reference to use to populate the azurerm_api_management_api.service_url
     5. "api_management_product_id" - the string or terraform variable reference to use to populate the azurerm_api_management_product_api.product_id
-    6. "api_name" - the string or terraform variable reference to use to populate the azurerm_api_management_operation.api_name field
+    6. "api_management_version_set_id" - the string or terraform variable reference to use to populate the azurerm_api_management_api.version_set_id field
 * NOTE: Because these are meant to represent fields in terraform, changing them will change the plan, which may have unintended consequences in your environment
 
 Revision Mapping File:

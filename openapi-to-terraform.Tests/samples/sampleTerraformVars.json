@@ -3,5 +3,6 @@
     "api_management_resource_group_name": "azurerm_api_management.roombyapim.resource_group_name",
     "api_path": "users",
     "api_backend_url": "${azurerm_app_service.roombyuserstest.default_site_hostname}/api/",
-    "api_management_product_id": "azurerm_api_management_product.roombyproduct.product_id"
+    "api_management_product_id": "azurerm_api_management_product.roombyproduct.product_id",
+    "api_managment_version_set_id": ""
 }
