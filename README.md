@@ -35,7 +35,6 @@ Terraform Variables File:
 
 Revision Mapping File:
 * By default, APIs will be generated with revision 1 by default
-* TODO: How do I know which revision should be current?
 * If you wish to generate multiple revisions and bind specific controller actions to different revisions, provide a revision mapping file to -r:
     ```
     {
