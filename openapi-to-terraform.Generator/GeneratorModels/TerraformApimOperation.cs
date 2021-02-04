@@ -7,12 +7,13 @@ namespace openapi_to_terraform.Generator.GeneratorModels
 {
     public class TerraformApimOperation
     {
-        public static string GenerateBlock(OpenApiDocument document, KeyValuePair<string, string[]> revisionMap)
+        public static string GenerateBlock(OpenApiDocument document, KeyValuePair<string, string[]> revisionMap, string backendUrl)
         {
             StringBuilder sb = new StringBuilder();
             var split = revisionMap.Key.Split("^");
             var revisionPath = split[0];
             var revisionMethod = split[1];
+
             // There are some foreaches here but generally one would expect these to only have one item 
             foreach (var path in document.Paths.Where(p => p.Key.Equals(revisionPath))) // Find all the paths that match the revision provided
             {
@@ -28,7 +29,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                         sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
                         sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
                         sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString()}\"");
-                        sb.AppendLine($"\turl_template\t=\t\"{path.Key.ToString()}\"");
+                        sb.AppendLine($"\turl_template\t=\t\"{removeBackendServiceSegments(backendUrl, path.Key)}\"");
                         sb.AppendLine($"\tdescription\t=\t\"{operation.Value.Description}\"");
                         foreach (var parameter in operation.Value.Parameters)
                         {
@@ -65,7 +66,14 @@ namespace openapi_to_terraform.Generator.GeneratorModels
             return sb.ToString();
         }
 
-        public static string GenerateBlock(OpenApiDocument document, string apiResourceName)
+        private static string removeBackendServiceSegments(string backendUrl, string path)
+        {
+            var backendUrlSplit = backendUrl.Split('/').ToList(); // reverse this, so when we iterate we're comparing where the likely collisions will be
+            var pathSplit = path.Split('/').ToList();
+            return string.Join('/', pathSplit.Except(backendUrlSplit).ToList());
+        }
+
+        public static string GenerateBlock(OpenApiDocument document, string apiResourceName, string backendUrl)
         {
             StringBuilder sb = new StringBuilder();
             foreach (var path in document.Paths)
@@ -79,7 +87,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                     sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
                     sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
                     sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString()}\"");
-                    sb.AppendLine($"\turl_template\t=\t\"{path.Key.ToString()}\"");
+                    sb.AppendLine($"\turl_template\t=\t\"{removeBackendServiceSegments(backendUrl, path.Key)}\"");
                     sb.AppendLine($"\tdescription\t=\t\"{operation.Value.Description}\"");
                     foreach (var parameter in operation.Value.Parameters)
                     {
