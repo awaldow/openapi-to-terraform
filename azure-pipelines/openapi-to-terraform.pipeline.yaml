@@ -119,6 +119,6 @@ stages:
         publishVstsFeed: '8c518764-12c4-49f9-be20-50b7f4793712'
 
 
-    - script: dotnet nuget push --skip-duplicate --source "tesselatedsky" --api-key az *.nupkg
-      workingDirectory: $(System.ArtifactsDirectory)
-      displayName: 'Push package to artifacts feed'
+    # - script: dotnet nuget push --skip-duplicate --source "tesselatedsky" --api-key az *.nupkg
+    #   workingDirectory: $(System.ArtifactsDirectory)
+    #   displayName: 'Push package to artifacts feed'
