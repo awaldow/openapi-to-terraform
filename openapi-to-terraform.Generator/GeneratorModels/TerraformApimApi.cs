@@ -20,7 +20,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
             sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
             sb.AppendLine($"\tdisplay_name\t=\t\"{document.Info.Title}\"");
             sb.AppendLine($"\trevision\t=\t\"{revision}\"");
-            sb.AppendLine($"\tversion\t=\t\"{document.Info.Version}\"");
+            sb.AppendLine($"\tversion\t=\t\"v{document.Info.Version}\"");
             sb.AppendLine($"\tversion_set_id\t=\t{{api_management_version_set_id}}");
             sb.AppendLine($"\tpath\t=\t\"{{api_path}}\"");
             sb.AppendLine($"\tprotocols\t=\t[\"https\"]");
