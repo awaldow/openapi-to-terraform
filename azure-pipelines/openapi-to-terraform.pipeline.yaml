@@ -88,7 +88,7 @@ stages:
     - task: NuGetAuthenticate@0
       displayName: 'Nuget Authenticate'
 
-    - script: dotnet nuget push --skip-duplicate --source "tesselatedsky" --api-key az <package-path> *.nupkg
+    - script: dotnet nuget push --skip-duplicate --source "tesselatedsky" --api-key az *.nupkg
       workingDirectory: $(Build.ArtifactStagingDirectory)
       displayName: 'Push package to artifacts feed'
     # - task: DotNetCoreCLI@2
