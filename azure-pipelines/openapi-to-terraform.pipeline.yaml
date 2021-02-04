@@ -1,4 +1,4 @@
-name: Roomby.API.Shared-$(Date:yyyyMMdd)$(Rev:.r)
+name: openapi-to-terraform-$(Date:yyyyMMdd)$(Rev:.r)
 
 trigger:
   branches:
