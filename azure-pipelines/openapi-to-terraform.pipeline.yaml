@@ -88,7 +88,7 @@ stages:
     - task: NuGetAuthenticate@0
       displayName: 'Nuget Authenticate'
 
-    - script: dotnet nuget push --api-key az --skip-duplicate --source https://pkgs.dev.azure.com/tesselatedsky/openapi-to-terraform/_packaging/openapi-to-terraform/nuget/v3/index.json *.nupkg
+    - script: dotnet nuget push --skip-duplicate --source "tesselatedsky" --api-key az <package-path> *.nupkg
       workingDirectory: $(Build.ArtifactStagingDirectory)
       displayName: 'Push package to artifacts feed'
     # - task: DotNetCoreCLI@2
