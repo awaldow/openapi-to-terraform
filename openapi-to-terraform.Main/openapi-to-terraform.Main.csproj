@@ -9,7 +9,6 @@
     <PackageId>openapi-to-terraform</PackageId>
     <ToolCommandName>openapi-to-terraform</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageVersion>0.0.3</PackageVersion>
   </PropertyGroup>
 
