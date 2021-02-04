@@ -4,6 +4,9 @@ trigger:
   branches:
     include:
     - main
+  paths:
+    exclude:
+    - README.md
 
 variables:
 - name: buildConfiguration
