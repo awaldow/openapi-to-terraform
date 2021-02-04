@@ -28,7 +28,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                         sb.AppendLine($"\tapi_management_name\t=\t{{api_management_service_name}}");
                         sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
                         sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
-                        sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString()}\"");
+                        sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString().ToUpper()}\"");
                         sb.AppendLine($"\turl_template\t=\t\"{removeBackendServiceSegments(backendUrl, path.Key)}\"");
                         sb.AppendLine($"\tdescription\t=\t\"{operation.Value.Description}\"");
                         foreach (var parameter in operation.Value.Parameters)
@@ -86,7 +86,7 @@ namespace openapi_to_terraform.Generator.GeneratorModels
                     sb.AppendLine($"\tapi_management_name\t=\t{{api_management_service_name}}");
                     sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
                     sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
-                    sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString()}\"");
+                    sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString().ToUpper()}\"");
                     sb.AppendLine($"\turl_template\t=\t\"{removeBackendServiceSegments(backendUrl, path.Key)}\"");
                     sb.AppendLine($"\tdescription\t=\t\"{operation.Value.Description}\"");
                     foreach (var parameter in operation.Value.Parameters)
