@@ -1,4 +1,4 @@
-name: Roomby.API.Shared-$(Date:yyyyMMdd)$(Rev:.r)
+name: openapi-to-terraform-$(Date:yyyyMMdd)$(Rev:.r)
 
 trigger:
   branches:
@@ -79,21 +79,46 @@ stages:
     #     arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
     
     - task: DotNetCoreCLI@2
-      displayName: 'dotnet paack'
+      displayName: 'dotnet pack'
       inputs: 
         command: 'pack'
         arguments: '$(projectPath)'
         outputDir: '$(Build.ArtifactStagingDirectory)'
 
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'drop'
+        publishLocation: 'Container'
+
+- stage: 'Push'
+  displayName: 'Push to artifacts feed'
+  jobs: 
+  - job: 'Push'
+    displayName: 'Push job'
+    pool:
+      vmImage: 'windows-2019'
+
+    steps:
+    - task: DownloadBuildArtifacts@0
+      inputs:
+        buildType: 'current'
+        downloadType: 'single'
+        artifactName: 'drop'
+        downloadPath: '$(System.ArtifactsDirectory)'
+
     - task: NuGetAuthenticate@0
       displayName: 'Nuget Authenticate'
 
-    - script: dotnet nuget push --api-key az --skip-duplicate --source https://pkgs.dev.azure.com/tesselatedsky/openapi-to-terraform/_packaging/openapi-to-terraform/nuget/v3/index.json *.nupkg
-      workingDirectory: $(Build.ArtifactStagingDirectory)
+    - task: DotNetCoreCLI@2
+      displayName: "dotnet push"
+      inputs:
+        command: 'push'
+        packagesToPush: '$(System.ArtifactsDirectory)/*.nupkg'
+        nuGetFeedType: 'internal'
+        publishVstsFeed: '8c518764-12c4-49f9-be20-50b7f4793712'
+
+
+    - script: dotnet nuget push --skip-duplicate --source "tesselatedsky" --api-key az *.nupkg
+      workingDirectory: $(System.ArtifactsDirectory)
       displayName: 'Push package to artifacts feed'
-    # - task: DotNetCoreCLI@2
-    #   inputs:
-    #     command: 'push'
-    #     arguments: '--skip-duplicate'
-    #     searchPatternPush: '$(Build.ArtifactStagingDirectory)/*.nupkg;'
-    #     feedPublish: 'openapi-to-terraform/openapi-to-terraform'
