@@ -19,16 +19,15 @@ namespace openapi_to_terraform.Tests
 
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile });
 
-            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "1", "sampleMainModule.tf"));
-            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "1", "sampleMainApim.tf"));
-            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir, "1", "sampleApimVariables.tf"));
+            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "sampleMainModule.tf"));
+            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "sampleMainApim.tf"));
+            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir, "sampleApimVariables.tf"));
 
             Directory.Exists(outputDir).Should().BeTrue();
-            Directory.Exists(Path.Combine(outputDir, "1")).Should().BeTrue();
-            File.Exists(Path.Combine(outputDir, "1", "api.1.tf")).Should().BeTrue();
-            File.Exists(Path.Combine(outputDir, "1", "operations.1.tf")).Should().BeTrue();
+            File.Exists(Path.Combine(outputDir, "api.1.tf")).Should().BeTrue();
+            File.Exists(Path.Combine(outputDir, "operations.1.tf")).Should().BeTrue();
 
-            var apiText = File.ReadAllText(Path.Combine(outputDir, "1", "api.1.tf"));
+            var apiText = File.ReadAllText(Path.Combine(outputDir, "api.1.tf"));
             int apiBlockCount = Regex.Matches(apiText, "resource \"azurerm_api_management_api\"").Count;
             apiBlockCount.Should().Be(1);
 
@@ -63,16 +62,15 @@ namespace openapi_to_terraform.Tests
 
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-r", revisionsMappingFile });
 
-            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "1", "sampleMainModule.tf"));
-            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "1", "sampleMainApim.tf"));
-            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir, "1", "sampleApimVariables.tf"));
+            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "sampleMainModule.tf"));
+            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "sampleMainApim.tf"));
+            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir,"sampleApimVariables.tf"));
 
             Directory.Exists(outputDir).Should().BeTrue();
-            Directory.Exists(Path.Combine(outputDir, "1")).Should().BeTrue();
-            File.Exists(Path.Combine(outputDir, "1", "api.1.tf")).Should().BeTrue();
-            File.Exists(Path.Combine(outputDir, "1", "operations.1.tf")).Should().BeTrue();
+            File.Exists(Path.Combine(outputDir, "api.1.tf")).Should().BeTrue();
+            File.Exists(Path.Combine(outputDir, "operations.1.tf")).Should().BeTrue();
 
-            var apiText = File.ReadAllText(Path.Combine(outputDir, "1", "api.1.tf"));
+            var apiText = File.ReadAllText(Path.Combine(outputDir, "api.1.tf"));
             int apiBlockCount = Regex.Matches(apiText, "resource \"azurerm_api_management_api\"").Count;
             apiBlockCount.Should().Be(2);
 
