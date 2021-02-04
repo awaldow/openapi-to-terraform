@@ -65,7 +65,8 @@ namespace openapi_to_terraform.Generator
             else
             {
                 var operationFilePath = Path.Combine(OutputDir, $"operations.{version}.tf");
-                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document);
+                var backendServiceUrl = JObject.Parse(File.ReadAllText(TerraformVarSubFile)).SelectToken("api_backend_url").Value<string>();
+                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, backendServiceUrl);
 
                 System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
             }
