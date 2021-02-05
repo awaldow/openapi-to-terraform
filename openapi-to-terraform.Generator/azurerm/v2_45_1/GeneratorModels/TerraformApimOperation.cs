@@ -7,7 +7,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
 {
     public class TerraformApimOperation
     {
-        public static string GenerateBlock(OpenApiDocument document, KeyValuePair<string, string[]> revisionMap, string backendUrl)
+        public static string GenerateBlock(OpenApiDocument document, KeyValuePair<string, string[]> revisionMap, string backendUrl, string policyRootDirectory)
         {
             StringBuilder sb = new StringBuilder();
             var split = revisionMap.Key.Split("^");
@@ -59,6 +59,8 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
                             sb.AppendLine("\t}");
                         }
                         sb.AppendLine("}");
+                        sb.AppendLine();
+                        sb.AppendLine(TerraformApimPolicy.GenerateBlock(document, policyRootDirectory, operation.Value.OperationId));
                     }
                 }
             }
@@ -73,7 +75,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
             return string.Join('/', pathSplit.Except(backendUrlSplit).ToList());
         }
 
-        public static string GenerateBlock(OpenApiDocument document, string apiResourceName, string backendUrl)
+        public static string GenerateBlock(OpenApiDocument document, string apiResourceName, string backendUrl, string policyRootDirectory)
         {
             StringBuilder sb = new StringBuilder();
             foreach (var path in document.Paths)
@@ -117,6 +119,8 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
                         sb.AppendLine("\t}");
                     }
                     sb.AppendLine("}");
+                    sb.AppendLine();
+                    sb.AppendLine(TerraformApimPolicy.GenerateBlock(document, policyRootDirectory, operation.Value.OperationId));
                 }
             }
 

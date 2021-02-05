@@ -60,13 +60,13 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1
                 Console.WriteLine($"Creating directory {Path.Combine(OutputDir)}");
                 Directory.CreateDirectory(Path.Combine(OutputDir));
             }
-            var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document, revisions);
+            var generatedApiOutput = ApiGenerator.GenerateTerraformOutput(document, revisions, PoliciesPath);
             System.IO.File.WriteAllText(apiFilePath, ApiVariablesApplier.ApplyVariables(generatedApiOutput, TerraformVarSubFile));
 
             if (RevisionMappingFile != null)
             {
                 var operationFilePath = Path.Combine(OutputDir, $"operations.{version}.tf");
-                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, RevisionMappingFile);
+                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, RevisionMappingFile, PoliciesPath);
 
                 System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
             }
@@ -74,7 +74,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1
             {
                 var operationFilePath = Path.Combine(OutputDir, $"operations.{version}.tf");
                 var backendServiceUrl = JObject.Parse(File.ReadAllText(TerraformVarSubFile)).SelectToken("api_backend_url").Value<string>();
-                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, backendServiceUrl);
+                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, backendServiceUrl, PoliciesPath);
 
                 System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
             }
