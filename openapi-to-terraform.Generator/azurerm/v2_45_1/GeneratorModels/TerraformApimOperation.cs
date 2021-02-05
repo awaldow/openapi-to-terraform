@@ -30,7 +30,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
                         sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
                         sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString().ToUpper()}\"");
                         sb.AppendLine($"\turl_template\t=\t\"{removeBackendServiceSegments(backendUrl, path.Key)}\"");
-                        sb.AppendLine($"\tdescription\t=\t\"{operation.Value.Description.Replace("\r\n", " ")}\"");
+                        sb.AppendLine($"\tdescription\t=\t\"{operation.Value.Description?.Replace("\r\n", " ")}\"");
                         foreach (var parameter in operation.Value.Parameters)
                         {
                             switch (parameter.In)
@@ -88,7 +88,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
                     sb.AppendLine($"\tdisplay_name\t=\t\"{operation.Value.Summary}\"");
                     sb.AppendLine($"\tmethod\t=\t\"{operation.Key.ToString().ToUpper()}\"");
                     sb.AppendLine($"\turl_template\t=\t\"{removeBackendServiceSegments(backendUrl, path.Key)}\"");
-                    sb.AppendLine($"\tdescription\t=\t\"{operation.Value.Description.Replace("\r\n", " ")}\"");
+                    sb.AppendLine($"\tdescription\t=\t\"{operation.Value.Description?.Replace("\r\n", " ")}\"");
                     foreach (var parameter in operation.Value.Parameters)
                     {
                         switch (parameter.In)

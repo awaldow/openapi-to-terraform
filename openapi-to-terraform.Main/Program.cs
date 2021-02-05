@@ -37,10 +37,8 @@ namespace openapi_to_terraform
                            parameters.Add(new NamedParameter("outputDir", o.OutputDirectory));
                            parameters.Add(new NamedParameter("terraformVariablesFile", o.TerraformVariablesFile));
                            parameters.Add(new NamedParameter("revisionMap", o.RevisionFile));
-                           if (o.PoliciesDirectoryPath != null)
-                           {
-                               parameters.Add(new NamedParameter("policiesPath", o.PoliciesDirectoryPath));
-                           }
+                           parameters.Add(new NamedParameter("policiesPath", o.PoliciesDirectoryPath));
+
                            try
                            {
                                var generator = _serviceProvider.GetAutofacRoot().ResolveNamed<ITerraformGenerator>(serviceName, parameters);
@@ -59,10 +57,8 @@ namespace openapi_to_terraform
                            parameters.Add(new NamedParameter("apiTemplatePath", o.ApiTemplateFile));
                            parameters.Add(new NamedParameter("operationTemplatePath", o.OperationTemplateFile));
                            parameters.Add(new NamedParameter("revisionMap", o.RevisionFile));
-                           if (o.PoliciesDirectoryPath != null)
-                           {
-                               parameters.Add(new NamedParameter("policiesPath", o.PoliciesDirectoryPath));
-                           }
+                           parameters.Add(new NamedParameter("policiesPath", o.PoliciesDirectoryPath));
+
                            try
                            {
                                var generator = _serviceProvider.GetAutofacRoot().ResolveNamed<ITerraformGenerator>(serviceName, parameters);
