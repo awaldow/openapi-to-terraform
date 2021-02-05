@@ -1,5 +1,5 @@
 name: openapi-to-terraform-$(Date:yyyyMMdd)$(Rev:.r)
-
+trigger: none
 pr:
   branches:
     include:
