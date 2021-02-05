@@ -29,9 +29,9 @@
   </ItemGroup>
 
 <ItemGroup>
-    <Content Include="samples\*.*">
+    <Content Include="samples\**\*.*">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>  
+    </Content>   
   </ItemGroup>
 
 </Project>

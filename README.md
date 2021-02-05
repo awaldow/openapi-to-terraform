@@ -47,18 +47,7 @@ Revision Mapping File:
 
 APIM Policies (Not Implemented):
 * By default, no policies will be added to Operations/APIs
-* If you wish to have policies added to the generated definitions, provide a directory structure containing the policies for a specific version to -p:
-    ```
-    {policiesRootFolder}
-    |
-    |   apiPolicyFile
-    |
-    |___{operationId}
-        |   otherPolicyFile
-    ```
-    
-    or
-
+* If you wish to have policies added to the generated definitions, provide a directory structure containing the policies for a specific version to --policies:
     ```
     {policiesRootFolder}
     |
@@ -74,9 +63,9 @@ APIM Policies (Not Implemented):
         |___{otherOperationId}
             |   rev2PolicyFile
     ```
-* Policies are expected to contain the inbound, backend, outbound and onerror policies in one file.
-* If you are using revisions, then you are expected to provide a subfolder structure with the policies for each revision in a folder named that rev number, as seen in the second example
-* Otherwise, just put the policy file for the API under the root folder, and the operation policies under folders named the operationId in the OpenAPI file
+* Policies are expected to contain the inbound, backend, outbound and onerror policies in exactly one file. The first file found by Directory.GetFiles(policyPath, "*.policy") is the one that will be used, so add multiple files at your peril.
+* If you are using revisions, then you are expected to provide a subfolder structure with the policies for each revision in a folder named that rev number, as seen in the example
+* If you only have one revision, just use one revision folder
 * Each {policiesRootFolder} should correspond to one version
 * To make policy editing easier (and until we have a real language server for APIM policy files), you should consider installing the snippets at [Azure/api-management-policy-snippets](https://github.com/Azure/api-management-policy-snippets)
 * The above link also has a [set of common policy expressions](https://github.com/Azure/api-management-policy-snippets/tree/master/policy-expressions) that may help

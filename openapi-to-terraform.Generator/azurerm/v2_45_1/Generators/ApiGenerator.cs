@@ -7,7 +7,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.Generators
 {
     public class ApiGenerator
     {
-        public static string GenerateTerraformOutput(OpenApiDocument document, List<string> revisions)
+        public static string GenerateTerraformOutput(OpenApiDocument document, List<string> revisions, string policyRootDirectory)
         {
             var sb = new StringBuilder();
             foreach (var revision in revisions)
@@ -16,6 +16,14 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.Generators
                 sb.AppendLine(api);
                 string productApi = TerraformApimProductApi.GenerateBlock(document, revision);
                 sb.AppendLine(productApi);
+                if (!string.IsNullOrEmpty(policyRootDirectory))
+                {
+                    string apiPolicy = TerraformApimPolicy.GenerateBlock(document, revision, policyRootDirectory, null);
+                    if (!string.IsNullOrEmpty(apiPolicy))
+                    {
+                        sb.AppendLine(apiPolicy);
+                    }
+                }
             }
             return sb.ToString();
         }
