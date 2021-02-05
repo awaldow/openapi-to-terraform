@@ -1,11 +1,5 @@
 name: openapi-to-terraform-$(Date:yyyyMMdd)$(Rev:.r)
-trigger: 
-  branches:
-    include:
-    - main
-  paths:
-    exclude:
-    - README.md
+trigger: none
 
 variables:
 - name: buildConfiguration
@@ -26,11 +20,13 @@ stages:
 
     steps:
     - checkout: none
-    - task: DownloadBuildArtifacts@0
+    - task: DownloadPipelineArtifact@2
       inputs:
-        buildType: 'current'
-        downloadType: 'single'
-        artifactName: 'drop'
+        source: 'specific'
+        project: 'openapi-to-terraform'
+        pipeline: 6
+        runVersion: 'latest'
+        artifact: 'drop'
         downloadPath: '$(System.ArtifactsDirectory)'
 
     - task: NuGetAuthenticate@0
