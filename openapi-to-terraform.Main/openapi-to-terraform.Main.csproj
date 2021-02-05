@@ -10,6 +10,13 @@
     <ToolCommandName>openapi-to-terraform</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
     <PackageVersion>0.0.11</PackageVersion>
+    <Authors>Addison Waldow</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/awaldow/openapi-to-terraform</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Copyright (c) Addison Waldow 2021</Copyright>
+    <PackageTags>openapi;apim;azure;api;management;terraform</PackageTags>
+    <Description>A command line utility to consume an OpenAPI file and generate API and Operation terraform definitions.</Description>
   </PropertyGroup>
 
   <ItemGroup>
