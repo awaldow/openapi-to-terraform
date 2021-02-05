@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.OpenApi.Models;
 
-namespace openapi_to_terraform.Generator.GeneratorModels
+namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
 {
     public class TerraformApimProductApi
     {

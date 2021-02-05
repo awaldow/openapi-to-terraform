@@ -1,8 +1,8 @@
 using System.Text;
 using Microsoft.OpenApi.Models;
-using openapi_to_terraform.Generator.GeneratorModels;
+using openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels;
 
-namespace openapi_to_terraform.Generator.TemplateAppliers
+namespace openapi_to_terraform.Generator.azurerm.v2_45_1.TemplateAppliers
 {
     public class OperationTemplateApplier
     {
