@@ -16,21 +16,21 @@ OpenAPI to Terraform
     openapi-to-terraform -f [openApiPath] -o [outputDir] -t [terraformVarsJson]
     ```
     Where 
-    1. [openApiPath] = path to OpenAPI file
-    2. [outputDir] = output directory for API and Operation terraform files
-    3. [terraformVarsJson] = path to terraform variables mapping file
+    * [openApiPath] = path to OpenAPI file
+    * [outputDir] = output directory for API and Operation terraform files
+    * [terraformVarsJson] = path to terraform variables mapping file
 
 There are some additional considerations when generating a file:
 
 Terraform Variables File:
 * You are required to provide either a terraform variables mapping file (to the -t option) *or* an API template/Operation template file
 * The terraform variables mapping file must contain the following keys:
-    1. "api_management_service_name" - the string or terraform variable reference to use to populate the api_management_name part of the blocks
-    2. "api_management_resource_group_name" - the string or terraform variable reference to use to populate the tresource_group_name part of the blocks
-    3. "api_path" - the string or terraform variable reference to use to populate the azurerm_api_management_api.api_path field
-    4. "api_backend_url" - the string or terraform variable reference to use to populate the azurerm_api_management_api.service_url
-    5. "api_management_product_id" - the string or terraform variable reference to use to populate the azurerm_api_management_product_api.product_id
-    6. "api_management_version_set_id" - the string or terraform variable reference to use to populate the azurerm_api_management_api.version_set_id field
+    * "api_management_service_name" - the string or terraform variable reference to use to populate the api_management_name part of the blocks
+    * "api_management_resource_group_name" - the string or terraform variable reference to use to populate the tresource_group_name part of the blocks
+    * "api_path" - the string or terraform variable reference to use to populate the azurerm_api_management_api.api_path field
+    * "api_backend_url" - the string or terraform variable reference to use to populate the azurerm_api_management_api.service_url
+    * "api_management_product_id" - the string or terraform variable reference to use to populate the azurerm_api_management_product_api.product_id
+    * "api_management_version_set_id" - the string or terraform variable reference to use to populate the azurerm_api_management_api.version_set_id field
 * NOTE: Because these are meant to represent fields in terraform, changing them will change the plan, which may have unintended consequences in your environment
 
 Revision Mapping File:
