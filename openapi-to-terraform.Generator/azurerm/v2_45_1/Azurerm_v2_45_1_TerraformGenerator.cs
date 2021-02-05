@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
 using openapi_to_terraform.Generator.Attributes;
@@ -13,14 +14,22 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1
     [ProviderVersion("azurerm_v2.45.1")]
     public class Azurerm_v2_45_1_TerraformGenerator : TerraformGenerator, ITerraformGenerator
     {
-        public Azurerm_v2_45_1_TerraformGenerator(string outputDir, string terraformVariablesFile, string revisionMap)
-            : base(outputDir, terraformVariablesFile, revisionMap) { }
+        private readonly ILogger<Azurerm_v2_45_1_TerraformGenerator> logger;
+        public Azurerm_v2_45_1_TerraformGenerator(ILogger<Azurerm_v2_45_1_TerraformGenerator> logger, string outputDir, string terraformVariablesFile, string revisionMap)
+            : base(outputDir, terraformVariablesFile, revisionMap)
+        {
+            this.logger = logger;
+        }
 
-        public Azurerm_v2_45_1_TerraformGenerator(string outputDir, string apiTemplatePath, string operationTemplatePath, string revisionMap)
-            : base(outputDir, apiTemplatePath, operationTemplatePath, revisionMap) { }
+        public Azurerm_v2_45_1_TerraformGenerator(ILogger<Azurerm_v2_45_1_TerraformGenerator> logger, string outputDir, string apiTemplatePath, string operationTemplatePath, string revisionMap)
+            : base(outputDir, apiTemplatePath, operationTemplatePath, revisionMap)
+        {
+            this.logger = logger;
+        }
 
         public void GenerateWithTerraformVars(OpenApiDocument document)
         {
+            logger.LogDebug("In GenerateWithTerraformVars");
             var version = document.Info.Version;
             var revisions = new List<string>();
 

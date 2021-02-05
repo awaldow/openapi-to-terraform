@@ -9,6 +9,7 @@ using Autofac.Extensions.DependencyInjection;
 using System.Collections.Generic;
 using Autofac.Core;
 using Autofac.Core.Registration;
+using Microsoft.Extensions.Logging;
 
 namespace openapi_to_terraform
 {
@@ -22,7 +23,7 @@ namespace openapi_to_terraform
                    .WithParsed<Options>(o =>
                    {
                        RegisterServices();
-
+                       var logger = _serviceProvider.GetAutofacRoot().Resolve<ILogger<Program>>();
                        Console.WriteLine($"Parsing {o.InputFile}, outputting to {o.OutputDirectory}");
 
                        var serviceName = o.Provider + "_" + o.ProviderVersion;
@@ -43,6 +44,7 @@ namespace openapi_to_terraform
                            }
                            catch (ComponentNotRegisteredException e)
                            {
+                               logger.LogError(e.Message, e);
                                Console.WriteLine($"Service with provider version {serviceName} not found");
                            }
                        }
@@ -60,6 +62,7 @@ namespace openapi_to_terraform
                            }
                            catch (ComponentNotRegisteredException e)
                            {
+                               logger.LogError(e.Message, e);
                                Console.WriteLine($"Service with provider version {serviceName} not found");
                            }
                        }

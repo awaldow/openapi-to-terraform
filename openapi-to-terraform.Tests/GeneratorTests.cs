@@ -11,6 +11,24 @@ namespace openapi_to_terraform.Tests
     public class GeneratorTests
     {
         [Fact]
+        public void tool_should_fail_with_bad_provider_settings()
+        {
+            var outputDir = Regex.Replace($"output_without_api_revisions_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
+            var sampleOpenApi = "samples/sampleOpenApi.json";
+            var terraformSubVarsFile = "samples/sampleTerraformVars.json";
+
+            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-p", "aws" });
+
+            Directory.Exists(outputDir).Should().BeFalse();
+            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "--provider-version", "v0.1" });
+
+            Directory.Exists(outputDir).Should().BeFalse();
+            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-p", "aws", "--provider-version", "v0.1" });
+
+            Directory.Exists(outputDir).Should().BeFalse();
+        }
+
+        [Fact]
         public void tool_should_generate_one_api_block_without_revisions_mapping()
         {
             var outputDir = Regex.Replace($"output_without_api_revisions_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
@@ -19,13 +37,13 @@ namespace openapi_to_terraform.Tests
 
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile });
 
-            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "sampleMainModule.tf"));
-            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "sampleMainApim.tf"));
-            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir, "sampleApimVariables.tf"));
-
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(Path.Combine(outputDir, "api.1.tf")).Should().BeTrue();
             File.Exists(Path.Combine(outputDir, "operations.1.tf")).Should().BeTrue();
+
+            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "sampleMainModule.tf"));
+            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "sampleMainApim.tf"));
+            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir, "sampleApimVariables.tf"));
 
             var apiText = File.ReadAllText(Path.Combine(outputDir, "api.1.tf"));
             int apiBlockCount = Regex.Matches(apiText, "resource \"azurerm_api_management_api\"").Count;
@@ -62,13 +80,13 @@ namespace openapi_to_terraform.Tests
 
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-r", revisionsMappingFile });
 
-            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "sampleMainModule.tf"));
-            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "sampleMainApim.tf"));
-            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir,"sampleApimVariables.tf"));
-
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(Path.Combine(outputDir, "api.1.tf")).Should().BeTrue();
             File.Exists(Path.Combine(outputDir, "operations.1.tf")).Should().BeTrue();
+
+            File.Copy("samples/sampleMainModule.tf", Path.Combine(outputDir, "sampleMainModule.tf"));
+            File.Copy("samples/sampleMainApim.tf", Path.Combine(outputDir, "sampleMainApim.tf"));
+            File.Copy("samples/sampleApimVariables.tf", Path.Combine(outputDir, "sampleApimVariables.tf"));
 
             var apiText = File.ReadAllText(Path.Combine(outputDir, "api.1.tf"));
             int apiBlockCount = Regex.Matches(apiText, "resource \"azurerm_api_management_api\"").Count;
