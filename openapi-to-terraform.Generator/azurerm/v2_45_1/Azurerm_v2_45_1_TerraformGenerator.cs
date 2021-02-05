@@ -15,14 +15,25 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1
     public class Azurerm_v2_45_1_TerraformGenerator : TerraformGenerator, ITerraformGenerator
     {
         private readonly ILogger<Azurerm_v2_45_1_TerraformGenerator> logger;
-        public Azurerm_v2_45_1_TerraformGenerator(ILogger<Azurerm_v2_45_1_TerraformGenerator> logger, string outputDir, string terraformVariablesFile, string revisionMap)
-            : base(outputDir, terraformVariablesFile, revisionMap)
+        public Azurerm_v2_45_1_TerraformGenerator(
+                ILogger<Azurerm_v2_45_1_TerraformGenerator> logger,
+                string outputDir,
+                string terraformVariablesFile,
+                string revisionMap,
+                string policiesPath
+            ) : base(outputDir, terraformVariablesFile, revisionMap, policiesPath)
         {
             this.logger = logger;
         }
 
-        public Azurerm_v2_45_1_TerraformGenerator(ILogger<Azurerm_v2_45_1_TerraformGenerator> logger, string outputDir, string apiTemplatePath, string operationTemplatePath, string revisionMap)
-            : base(outputDir, apiTemplatePath, operationTemplatePath, revisionMap)
+        public Azurerm_v2_45_1_TerraformGenerator(
+                ILogger<Azurerm_v2_45_1_TerraformGenerator> logger,
+                string outputDir,
+                string apiTemplatePath,
+                string operationTemplatePath,
+                string revisionMap,
+                string policiesPath
+            ) : base(outputDir, apiTemplatePath, operationTemplatePath, revisionMap, policiesPath)
         {
             this.logger = logger;
         }
