@@ -359,7 +359,7 @@
             "nullable": true
           }
         },
-        "additionalProperties": { }
+        "additionalProperties": {}
       },
       "User": {
         "type": "object",
