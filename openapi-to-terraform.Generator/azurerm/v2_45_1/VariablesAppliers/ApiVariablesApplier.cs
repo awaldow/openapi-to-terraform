@@ -1,7 +1,7 @@
 using System.IO;
 using Newtonsoft.Json.Linq;
 
-namespace openapi_to_terraform.Generator.VariablesAppliers
+namespace openapi_to_terraform.Generator.azurerm.v2_45_1.VariablesAppliers
 {
     public class ApiVariablesApplier
     {

@@ -3,9 +3,9 @@ using System.IO;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
-using openapi_to_terraform.Generator.GeneratorModels;
+using openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels;
 
-namespace openapi_to_terraform.Generator.Generators
+namespace openapi_to_terraform.Generator.azurerm.v2_45_1.Generators
 {
     public class OperationGenerator
     {

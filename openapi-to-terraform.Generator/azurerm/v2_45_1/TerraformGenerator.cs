@@ -4,12 +4,12 @@ using System.IO;
 using System.Linq;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
-using openapi_to_terraform.Generator.Generators;
-using openapi_to_terraform.Generator.VariablesAppliers;
+using openapi_to_terraform.Generator.azurerm.v2_45_1.Generators;
+using openapi_to_terraform.Generator.azurerm.v2_45_1.VariablesAppliers;
 
-namespace openapi_to_terraform.Generator
+namespace openapi_to_terraform.Generator.azurerm.v2_45_1
 {
-    public class TerraformGenerator
+    public class TerraformGenerator : ITerraformGenerator
     {
         private string OutputDir { get; set; }
         private string TerraformVarSubFile { get; set; }
