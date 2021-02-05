@@ -1,6 +1,6 @@
 name: openapi-to-terraform-$(Date:yyyyMMdd)$(Rev:.r)
 
-trigger:
+pr:
   branches:
     include:
     - main
@@ -103,6 +103,7 @@ stages:
       vmImage: 'windows-2019'
 
     steps:
+    - checkout: none
     - task: DownloadBuildArtifacts@0
       inputs:
         buildType: 'current'
