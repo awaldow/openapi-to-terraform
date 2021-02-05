@@ -8,7 +8,7 @@ pr:
     exclude:
     - README.md
     - LICENSE.md
-    
+
 variables:
 - name: buildConfiguration
   value: 'Release'
@@ -19,10 +19,9 @@ variables:
 
 stages:
 - stage: 'Build'
-  displayName: 'Build the tool'
+  displayName: 'Build and Test openapi-to-terraform'
   jobs: 
-  - job: 'Build'
-    displayName: 'Build job'
+  - job: 'BuildAndTest'
     pool:
       vmImage: 'windows-2019'
 
