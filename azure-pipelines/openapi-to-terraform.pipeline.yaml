@@ -87,6 +87,7 @@ stages:
         command: 'pack'
         arguments: '$(projectPath)'
         outputDir: '$(Build.ArtifactStagingDirectory)'
+        configuration: '$(buildConfiguration)'
 
     - task: PublishBuildArtifacts@1
       inputs:
