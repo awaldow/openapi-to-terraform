@@ -4,32 +4,20 @@ using System.IO;
 using System.Linq;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
+using openapi_to_terraform.Generator.Attributes;
 using openapi_to_terraform.Generator.azurerm.v2_45_1.Generators;
 using openapi_to_terraform.Generator.azurerm.v2_45_1.VariablesAppliers;
 
 namespace openapi_to_terraform.Generator.azurerm.v2_45_1
 {
-    public class TerraformGenerator : ITerraformGenerator
+    [ProviderVersion("azurerm_v2.45.1")]
+    public class Azurerm_v2_45_1_TerraformGenerator : TerraformGenerator, ITerraformGenerator
     {
-        private string OutputDir { get; set; }
-        private string TerraformVarSubFile { get; set; }
-        private string ApiTemplateFile { get; set; }
-        private string OperationTemplateFile { get; set; }
-        private string RevisionMappingFile { get; set; }
+        public Azurerm_v2_45_1_TerraformGenerator(string outputDir, string terraformVariablesFile, string revisionMap)
+            : base(outputDir, terraformVariablesFile, revisionMap) { }
 
-        public TerraformGenerator(string outputDir, string terraformVariablesFile, string revisionMap)
-        {
-            OutputDir = outputDir.EndsWith('/') ? outputDir : outputDir + '/';
-            TerraformVarSubFile = terraformVariablesFile;
-            RevisionMappingFile = revisionMap;
-        }
-        public TerraformGenerator(string outputDir, string apiTemplatePath, string operationTemplatePath, string revisionMap)
-        {
-            OutputDir = outputDir.EndsWith('/') ? outputDir : outputDir + '/';
-            ApiTemplateFile = apiTemplatePath;
-            OperationTemplateFile = operationTemplatePath;
-            RevisionMappingFile = revisionMap;
-        }
+        public Azurerm_v2_45_1_TerraformGenerator(string outputDir, string apiTemplatePath, string operationTemplatePath, string revisionMap)
+            : base(outputDir, apiTemplatePath, operationTemplatePath, revisionMap) { }
 
         public void GenerateWithTerraformVars(OpenApiDocument document)
         {
