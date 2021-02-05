@@ -8,7 +8,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
     {
         public static string GenerateBlock(OpenApiDocument document, string policyRootDirectory, string operationId = null)
         {
-            return GenerateBlock(document, "1", policyRootDirectory);
+            return GenerateBlock(document, "1", policyRootDirectory, operationId);
         }
 
         public static string GenerateBlock(OpenApiDocument document, string revision, string policyRootDirectory, string operationId = null)
@@ -32,7 +32,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
                 string resourceName = $"{apiName}_policy";
                 sb.AppendLine($"resource \"azurerm_api_management_api_policy\" \"{resourceName}\" {{");
             }
-            sb.AppendLine($"\tapi_tname\t=\t\"{apiName}\"");
+            sb.AppendLine($"\tapi_name\t=\t\"{apiName}\"");
             sb.AppendLine($"\tapi_management_name\t=\t{{api_management_service_name}}");
             sb.AppendLine($"\tresource_group_name\t=\t{{api_management_resource_group_name}}");
             sb.AppendLine($"\txml_content\t=\t<<XML");
@@ -46,14 +46,22 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
         private static string getPolicyXml(string rootDir, string revision, string operationId)
         {
             var policyPath = string.IsNullOrEmpty(operationId) ? Path.Combine(rootDir, revision) : Path.Combine(rootDir, revision, operationId);
-            var file = Directory.GetFiles(policyPath, "*.policy");
-            if (file.Length == 0) // No policy file found
+            var pathExists = Directory.Exists(policyPath);
+            if (pathExists)
+            {
+                var file = Directory.GetFiles(policyPath, "*.policy");
+                if (file.Length == 0) // No policy file found
+                {
+                    return "";
+                }
+                else // One or more policy files found, returning first found
+                {
+                    return File.ReadAllText(file[0]);
+                }
+            }
+            else
             {
                 return "";
-            }
-            else // One or more policy files found, returning first found
-            {
-                return File.ReadAllText(file[0]);
             }
         }
     }

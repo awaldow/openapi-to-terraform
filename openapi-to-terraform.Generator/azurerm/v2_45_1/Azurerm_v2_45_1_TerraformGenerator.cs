@@ -66,7 +66,8 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1
             if (RevisionMappingFile != null)
             {
                 var operationFilePath = Path.Combine(OutputDir, $"operations.{version}.tf");
-                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, RevisionMappingFile, PoliciesPath);
+                var backendServiceUrl = JObject.Parse(File.ReadAllText(TerraformVarSubFile)).SelectToken("api_backend_url").Value<string>();
+                var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, RevisionMappingFile, backendServiceUrl, PoliciesPath);
 
                 System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
             }

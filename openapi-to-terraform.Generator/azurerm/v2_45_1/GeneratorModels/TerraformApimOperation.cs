@@ -60,7 +60,10 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
                         }
                         sb.AppendLine("}");
                         sb.AppendLine();
-                        sb.AppendLine(TerraformApimPolicy.GenerateBlock(document, policyRootDirectory, operation.Value.OperationId));
+                        if (!string.IsNullOrEmpty(policyRootDirectory))
+                        {
+                            sb.AppendLine(TerraformApimPolicy.GenerateBlock(document, policyRootDirectory, operation.Value.OperationId));
+                        }
                     }
                 }
             }
@@ -120,7 +123,10 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.GeneratorModels
                     }
                     sb.AppendLine("}");
                     sb.AppendLine();
-                    sb.AppendLine(TerraformApimPolicy.GenerateBlock(document, policyRootDirectory, operation.Value.OperationId));
+                    if (!string.IsNullOrEmpty(policyRootDirectory))
+                    {
+                        sb.AppendLine(TerraformApimPolicy.GenerateBlock(document, policyRootDirectory, operation.Value.OperationId));
+                    }
                 }
             }
 

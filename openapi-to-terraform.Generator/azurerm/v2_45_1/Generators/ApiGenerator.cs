@@ -16,10 +16,13 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1.Generators
                 sb.AppendLine(api);
                 string productApi = TerraformApimProductApi.GenerateBlock(document, revision);
                 sb.AppendLine(productApi);
-                string apiPolicy = TerraformApimPolicy.GenerateBlock(document, revision, policyRootDirectory);
-                if (!string.IsNullOrEmpty(apiPolicy))
+                if (!string.IsNullOrEmpty(policyRootDirectory))
                 {
-                    sb.AppendLine(apiPolicy);
+                    string apiPolicy = TerraformApimPolicy.GenerateBlock(document, revision, policyRootDirectory, null);
+                    if (!string.IsNullOrEmpty(apiPolicy))
+                    {
+                        sb.AppendLine(apiPolicy);
+                    }
                 }
             }
             return sb.ToString();
