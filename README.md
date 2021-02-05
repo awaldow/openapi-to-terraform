@@ -45,7 +45,7 @@ Revision Mapping File:
 * NOTE: For now, all path^method pairs must be mapped; for example, if there was a PUT for /api/v1/Users/{userId} but /api/v1/Users/{userId}^put is not present in the 
   revision mapping, it will not be present in the output
 
-APIM Policies:
+APIM Policies (Not Implemented):
 * By default, no policies will be added to Operations/APIs
 * If you wish to have policies added to the generated definitions, provide a directory structure containing the policies for a specific version to -p:
     ```
@@ -78,7 +78,7 @@ APIM Policies:
 * If you are using revisions, then you are expected to provide a subfolder structure with the policies for each revision in a folder named that rev number, as seen in the second example
 * Otherwise, just put the policy file for the API under the root folder, and the operation policies under folders named the operationId in the OpenAPI file
 * Each {policiesRootFolder} should correspond to one version
-* To make policy editing easier (and until we have a real language server for APIM policy files), you should consider installing the snippts at [Azure/api-management-policy-snippets](https://github.com/Azure/api-management-policy-snippets)
+* To make policy editing easier (and until we have a real language server for APIM policy files), you should consider installing the snippets at [Azure/api-management-policy-snippets](https://github.com/Azure/api-management-policy-snippets)
 * The above link also has a [set of common policy expressions](https://github.com/Azure/api-management-policy-snippets/tree/master/policy-expressions) that may help
 
 Tool Versions:
