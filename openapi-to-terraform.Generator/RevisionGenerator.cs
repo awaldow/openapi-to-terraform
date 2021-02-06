@@ -4,6 +4,7 @@ using System.Dynamic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using openapi_to_terraform.Core;
@@ -13,17 +14,19 @@ namespace openapi_to_terraform.Generator
 {
     public static class RevisionGenerator
     {
-        public static string GenerateRevisionsFile(string assemblyPath, string openApiPath, string routePrefix)
+        public static string GenerateRevisionsFile(string inputAssemblyPath, string openApiPath, string routePrefix)
         {
             dynamic ret = new ExpandoObject();
-            string[] assemblies = Directory.GetFiles(assemblyPath, "*.dll");
+            //string[] assemblies = Directory.GetFiles(inputAssemblyPath, "*.dll");
+            string[] assemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
             var paths = new List<string>(assemblies);
+            paths.Add(inputAssemblyPath);
             var resolver = new PathAssemblyResolver(paths);
             var mlc = new MetadataLoadContext(resolver);
 
             using (mlc)
             {
-                Assembly assembly = mlc.LoadFromAssemblyPath(assemblyPath);
+                Assembly assembly = mlc.LoadFromAssemblyPath(inputAssemblyPath);
                 var parser = new OpenApiParser(openApiPath);
                 parser.Parse();
 

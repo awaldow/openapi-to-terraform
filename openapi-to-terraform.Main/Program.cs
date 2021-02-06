@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using Autofac.Core;
 using Autofac.Core.Registration;
 using Microsoft.Extensions.Logging;
+using System.IO;
 
 namespace openapi_to_terraform
 {
@@ -76,9 +77,9 @@ namespace openapi_to_terraform
                    {
                        RegisterServices();
                        var logger = _serviceProvider.GetAutofacRoot().Resolve<ILogger<Program>>();
-                       Console.WriteLine($"Parsing {o.InputFile} and {o.InputAssembly}, outputting to {o.OutputDirectory}");
+                       Console.WriteLine($"Parsing {o.InputFile} and {o.InputAssemblyPath}, outputting to {o.OutputDirectory}");
 
-                       var revisions = RevisionGenerator.GenerateRevisionsFile(o.InputAssembly, o.InputFile, o.RoutePrefix);
+                       var revisions = RevisionGenerator.GenerateRevisionsFile(o.InputAssemblyPath, o.InputFile, o.RoutePrefix);
 
                        DisposeServices();
                    });
