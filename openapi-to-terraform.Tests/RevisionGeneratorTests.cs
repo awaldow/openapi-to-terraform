@@ -26,6 +26,9 @@ namespace openapi_to_terraform.Tests
 
             Program.Main(new[] { "revisions", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
 
+            Directory.Exists(outputDir).Should().BeTrue();
+            File.Exists(outputPath).Should().BeTrue();
+
             JObject revisions = JObject.Parse(File.ReadAllText(outputPath));
             revisions.Descendants().Count().Should().Be(1); // Only 1 controller action has the Revision attributes on it, so only expect one output
         }
@@ -40,6 +43,9 @@ namespace openapi_to_terraform.Tests
             var openApiPath = "samples/testApi.v1.revs.json";
 
             Program.Main(new[] { "revisions", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
+
+            Directory.Exists(outputDir).Should().BeTrue();
+            File.Exists(outputPath).Should().BeTrue();
 
             JObject revisions = JObject.Parse(File.ReadAllText(outputPath));
             revisions.Descendants().Count().Should().Be(1); // Only 1 controller action has the Revision attributes on it, so only expect one output

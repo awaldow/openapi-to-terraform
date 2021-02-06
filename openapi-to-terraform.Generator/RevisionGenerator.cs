@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Text;
 using Newtonsoft.Json;
 using openapi_to_terraform.Core;
 
@@ -39,7 +40,7 @@ namespace openapi_to_terraform.Generator
                         .Where(type => type.BaseType.FullName == "Microsoft.AspNetCore.Mvc.ControllerBase")
                         .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
                         .Where(x => x.GetCustomAttributesData().Any(a => a.AttributeType.FullName == "openapi_to_terraform.Extensions.Attributes.RevisionAttribute"))
-                        .Select(x => new { Action = x.Name, Revisions = ((ReadOnlyCollection<CustomAttributeTypedArgument>)(x.GetCustomAttributesData().SingleOrDefault(a => a.AttributeType.FullName == "openapi_to_terraform.Extensions.Attributes.RevisionAttribute").ConstructorArguments[0].Value)).Select(o => o.Value) })
+                        .Select(x => new { Action = x.Name, Revisions = ((ReadOnlyCollection<CustomAttributeTypedArgument>)(x.GetCustomAttributesData().SingleOrDefault(a => a.AttributeType.FullName == "openapi_to_terraform.Extensions.Attributes.RevisionAttribute").ConstructorArguments[0].Value)).Select(o => o.Value.ToString()) })
                         .OrderBy(x => x.Action).ToList();
 
                     if (controllerActionList.Count() == 0) // No RevisionAttributes found, so just do all operations mapped to ["1"]
