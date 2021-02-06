@@ -19,8 +19,8 @@ namespace openapi_to_terraform
 
         public static void Main(string[] args)
         {
-            Parser.Default.ParseArguments<Options>(args)
-                   .WithParsed<Options>(o =>
+            Parser.Default.ParseArguments<GenerateTerraformOptions, GenerateRevisionsOptions>(args)
+                   .WithParsed<GenerateTerraformOptions>(o =>
                    {
                        RegisterServices();
                        var logger = _serviceProvider.GetAutofacRoot().Resolve<ILogger<Program>>();
@@ -70,6 +70,15 @@ namespace openapi_to_terraform
                                Console.WriteLine($"Service with provider version {serviceName} not found");
                            }
                        }
+                       DisposeServices();
+                   })
+                   .WithParsed<GenerateRevisionsOptions>(o => {
+                       RegisterServices();
+                       var logger = _serviceProvider.GetAutofacRoot().Resolve<ILogger<Program>>();
+                       Console.WriteLine($"Parsing {o.InputFile} and {o.InputAssembly}, outputting to {o.OutputDirectory}");
+
+                        
+
                        DisposeServices();
                    });
         }

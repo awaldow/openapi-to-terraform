@@ -2,12 +2,13 @@ using CommandLine;
 
 namespace openapi_to_terraform.Main
 {
-    public class Options
+    [Verb("gen-tf", HelpText = "Generates terraform files")]
+    public class GenerateTerraformOptions
     {
-        [Option('f', "input-file", Required = true, HelpText = "Absolute or relative path to swagger json input file")]
+        [Option('f', "input-file", Required = true, HelpText = "Absolute or relative path to OpenAPI input file")]
         public string InputFile { get; set; }
 
-        [Option('o', "output-dir", Required = true,  HelpText = "Absolute or relative path of output directory for terraform files")]
+        [Option('o', "output-dir", Required = true, HelpText = "Absolute or relative path of output directory for terraform files")]
         public string OutputDirectory { get; set; }
 
         [Option('r', "revision-map-file", Required = false, HelpText = "(Not Implemented) Absolute or relative path to revision mapping json file")]
@@ -30,5 +31,16 @@ namespace openapi_to_terraform.Main
 
         [Option("policies", Required = false, HelpText = "(Not Implemented) Absolute or relative path to directory containing APIM policies. Requires -r/--revision-map-file to be provided if revision dependent policies are desired")]
         public string PoliciesDirectoryPath { get; set; }
+    }
+
+    [Verb("revisions", HelpText = "Generates revisions mapping file from OpenAPI file and API dll")]
+    public class GenerateRevisionsOptions
+    {
+        [Option('f', "input-file", Required = true, HelpText = "Absolute or relative path to OpenAPI input file")]
+        public string InputFile { get; set; }
+        [Option('a', "input-assembly", Required = true, HelpText = "Absolute or relative path to Assembly")]
+        public string InputAssembly { get; set; }
+        [Option('o', "output-dir", Required = true, HelpText = "Absolute or relative path of output directory for Revision Mapping file")]
+        public string OutputDirectory { get; set; }
     }
 }
