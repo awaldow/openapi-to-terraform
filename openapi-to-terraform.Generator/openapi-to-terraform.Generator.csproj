@@ -9,13 +9,16 @@
   <ItemGroup>
     <PackageReference Include="Autofac" Version="6.1.0" />
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Microsoft.OpenApi" Version="1.2.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="System.Reflection.MetadataLoadContext" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\openapi-to-terraform.Extensions\openapi-to-terraform.Extensions.csproj" />
+    <ProjectReference Include="..\openapi-to-terraform.Core\openapi-to-terraform.Core.csproj" />
   </ItemGroup>
 
 </Project>

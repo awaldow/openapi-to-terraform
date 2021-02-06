@@ -14,11 +14,11 @@ namespace openapi_to_terraform.Tests
         [Fact]
         public void tool_should_fail_with_bad_provider_settings()
         {
-            var outputDir = Regex.Replace($"output_without_api_revisions_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
+            var outputDir = Regex.Replace($"output_bad_provider_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
             var sampleOpenApi = "samples/sampleOpenApi.json";
             var terraformSubVarsFile = "samples/sampleTerraformVars.json";
 
-            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-p", "aws" });
+            Program.Main(new[] { "gen-tf", "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-p", "aws" });
 
             Directory.Exists(outputDir).Should().BeFalse();
             Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "--provider-version", "v0.1" });
@@ -36,7 +36,7 @@ namespace openapi_to_terraform.Tests
             var sampleOpenApi = "samples/sampleOpenApi.json";
             var terraformSubVarsFile = "samples/sampleTerraformVars.json";
 
-            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile });
+            Program.Main(new[] { "gen-tf", "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile });
 
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(Path.Combine(outputDir, "api.1.tf")).Should().BeTrue();
@@ -83,7 +83,7 @@ namespace openapi_to_terraform.Tests
             var terraformSubVarsFile = "samples/sampleTerraformVars.json";
             var revisionsMappingFile = "samples/sampleRevisionMap.json";
 
-            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-r", revisionsMappingFile });
+            Program.Main(new[] { "gen-tf", "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-r", revisionsMappingFile });
 
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(Path.Combine(outputDir, "api.1.tf")).Should().BeTrue();
@@ -125,13 +125,13 @@ namespace openapi_to_terraform.Tests
         [Fact]
         public void tool_should_generate_revision_restricted_policies_if_given_policy_root_dir_and_revision_map()
         {
-            var outputDir = Regex.Replace($"output_with_api_revisions_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
+            var outputDir = Regex.Replace($"output_with_api_revisions_and_policies_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
             var sampleOpenApi = "samples/sampleOpenApi.json";
             var terraformSubVarsFile = "samples/sampleTerraformVars.json";
             var revisionsMappingFile = "samples/sampleRevisionMap.json";
             var policyRootDir = "samples/samplePoliciesRev";
 
-            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-r", revisionsMappingFile, "--policies", policyRootDir });
+            Program.Main(new[] { "gen-tf", "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-r", revisionsMappingFile, "--policies", policyRootDir });
 
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(Path.Combine(outputDir, "api.1.tf")).Should().BeTrue();
@@ -175,12 +175,12 @@ namespace openapi_to_terraform.Tests
         [Fact]
         public void tool_should_generate_all_available_policies_if_given_policy_root_dir_and_no_revision_map()
         {
-            var outputDir = Regex.Replace($"output_with_api_revisions_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
+            var outputDir = Regex.Replace($"output_without_api_revisions_with_policies_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
             var sampleOpenApi = "samples/sampleOpenApi.json";
             var terraformSubVarsFile = "samples/sampleTerraformVars.json";
             var policyRootDir = "samples/samplePoliciesRev";
 
-            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "--policies", policyRootDir });
+            Program.Main(new[] { "gen-tf", "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "--policies", policyRootDir });
 
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(Path.Combine(outputDir, "api.1.tf")).Should().BeTrue();
