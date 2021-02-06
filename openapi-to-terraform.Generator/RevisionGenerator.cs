@@ -16,11 +16,15 @@ namespace openapi_to_terraform.Generator
     {
         public static string GenerateRevisionsFile(string inputAssemblyPath, string openApiPath, string routePrefix)
         {
-            dynamic ret = new ExpandoObject();
+            var ret = new ExpandoObject() as IDictionary<string, object>;
             //string[] assemblies = Directory.GetFiles(inputAssemblyPath, "*.dll");
-            string[] assemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
-            var paths = new List<string>(assemblies);
-            paths.Add(inputAssemblyPath);
+            var mvcRuntimeDir = "/usr/share/dotnet/shared/Microsoft.AspNetCore.App/5.0.2"; // TODO: Find a way to determine this at runtime, runtimeenvironment points to the console app libs which don't have aspnetcore mvc stuff
+            string[] mvcAssemblies = Directory.GetFiles(mvcRuntimeDir, "*.dll");
+            string[] runtimeAssemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
+            string[] dllAssemblies = Directory.GetFiles(Path.GetDirectoryName(inputAssemblyPath), "*.dll");
+            var paths = new List<string>(mvcAssemblies);
+            paths.AddRange(runtimeAssemblies);
+            paths.AddRange(dllAssemblies);
             var resolver = new PathAssemblyResolver(paths);
             var mlc = new MetadataLoadContext(resolver);
 
@@ -34,34 +38,38 @@ namespace openapi_to_terraform.Generator
                 {
                     var types = assembly.GetTypes();
 
-                    var typesWithMyAttribute =
-                        from t in assembly.GetTypes().AsParallel()
-                        let attributes = t.GetCustomAttributesData().Where(c => c.AttributeType == typeof(RevisionAttribute)).ToList()
-                        where attributes != null && attributes.Count() > 0
-                        select new { Type = t, Attributes = attributes.Cast<RevisionAttribute>() };
-
                     var controllerActionList = assembly.GetTypes()
-                        .Where(type => typeof(Controller).IsAssignableFrom(type))
+                        .Where(type => type.BaseType.FullName == "Microsoft.AspNetCore.Mvc.ControllerBase")
                         .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
-                        .Where(m => !m.GetCustomAttributes(typeof(System.Runtime.CompilerServices.CompilerGeneratedAttribute), true).Any())
-                        .Select(x => new { Controller = x.DeclaringType.Name, Action = x.Name, ReturnType = x.ReturnType.Name, Attributes = String.Join(",", x.GetCustomAttributes().Select(a => a.GetType().Name.Replace("Attribute", ""))) })
-                        .OrderBy(x => x.Controller).ThenBy(x => x.Action).ToList();
+                        .Where(x => x.GetCustomAttributesData().Any(a => a.AttributeType == typeof(RevisionAttribute)))
+                        .Select(x => new { Action = x.Name, Revisions = (x.GetCustomAttributesData().SingleOrDefault(a => a.AttributeType == typeof(RevisionAttribute))) })
+                        .OrderBy(x => x.Action).ToList();
 
-                    // if (typesWithRevisionAttribute.Count() == 0) // No RevisionAttributes found, so just do all operations mapped to ["1"]
-                    // {
-                    //     foreach (var path in parser.Document.Paths)
-                    //     {
-                    //         foreach (var operation in path.Value.Operations)
-                    //         {
-                    //             var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
-                    //             ret[keyString] = "[\"1\"]";
-                    //         }
-                    //     }
-                    // }
-                    // else // Obey the found revision attributes
-                    // {
-
-                    // }
+                    if (controllerActionList.Count() == 0) // No RevisionAttributes found, so just do all operations mapped to ["1"]
+                    {
+                        foreach (var path in parser.Document.Paths)
+                        {
+                            foreach (var operation in path.Value.Operations)
+                            {
+                                var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
+                                ret.Add(keyString, "[\"1\"]");
+                            }
+                        }
+                    }
+                    else // Obey the found revision attributes
+                    {
+                        foreach (var path in parser.Document.Paths)
+                        {
+                            foreach (var operation in path.Value.Operations)
+                            {
+                                if (controllerActionList.Any(ca => ca.Action == operation.Value.OperationId))
+                                {
+                                    var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
+                                    ret.Add(keyString, controllerActionList.SingleOrDefault(ca => ca.Action == operation.Value.OperationId).Revisions);
+                                }
+                            }
+                        }
+                    }
 
                     return JsonConvert.SerializeObject(ret);
                 }

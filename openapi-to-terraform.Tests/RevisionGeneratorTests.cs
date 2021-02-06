@@ -15,12 +15,12 @@ namespace openapi_to_terraform.Tests
         public void tool_should_generate_broad_revisions_without_attributes()
         {
             var outputDir = Regex.Replace($"output_without_revision_attributes_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
-            var noRevPath = "/home/awaldow/source/repos/roomby/roomby.api/Roomby.API.Users/bin/Debug/net5.0/";
-            var noRevName = "Roomby.API.Users.dll";
+            //var noRevPath = "samples/sampleApi/sample.API.noRev.dll";
+            var noRevPath = "/home/awaldow/source/repos/roomby/roomby.api/Roomby.API.Users/bin/Debug/net5.0/Roomby.API.Users.dll";
             var openApiPath = "samples/sampleOpenApi.json";
             var routePrefix = "/api/v1";
 
-            Program.Main(new[] { "revisions", "-f", openApiPath, "-a", noRevPath, "-n", noRevName, "-o", outputDir, "-p", routePrefix });
+            Program.Main(new[] { "revisions", "-f", openApiPath, "-a", noRevPath, "-o", outputDir, "-p", routePrefix });
         }
 
         [Fact]
