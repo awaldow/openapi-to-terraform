@@ -77,9 +77,10 @@ namespace openapi_to_terraform
                    {
                        RegisterServices();
                        var logger = _serviceProvider.GetAutofacRoot().Resolve<ILogger<Program>>();
-                       Console.WriteLine($"Parsing {o.InputFile} and {o.InputAssemblyPath}, outputting to {o.OutputDirectory}");
+                       Console.WriteLine($"Parsing {o.InputFile} and {o.InputAssemblyPath}, outputting to {o.OutputPath}");
 
                        var revisions = RevisionGenerator.GenerateRevisionsBlock(o.InputAssemblyPath, o.InputFile, o.RoutePrefix);
+                       File.WriteAllText(o.OutputPath, revisions);
 
                        DisposeServices();
                    });
