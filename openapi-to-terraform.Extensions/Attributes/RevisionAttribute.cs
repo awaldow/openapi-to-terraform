@@ -2,7 +2,7 @@ using System;
 
 namespace openapi_to_terraform.Extensions.Attributes
 {
-    [System.AttributeUsage(System.AttributeTargets.Class)]
+    [System.AttributeUsage(System.AttributeTargets.Method)]
     public class RevisionAttribute : Attribute
     {
         public int[] Revisions

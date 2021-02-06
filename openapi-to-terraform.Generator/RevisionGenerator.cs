@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -14,13 +15,13 @@ namespace openapi_to_terraform.Generator
 {
     public static class RevisionGenerator
     {
-        public static string GenerateRevisionsFile(string inputAssemblyPath, string openApiPath, string routePrefix)
+        public static string GenerateRevisionsBlock(string inputAssemblyPath, string openApiPath, string routePrefix)
         {
             var ret = new ExpandoObject() as IDictionary<string, object>;
-            //string[] assemblies = Directory.GetFiles(inputAssemblyPath, "*.dll");
-            var mvcRuntimeDir = "/usr/share/dotnet/shared/Microsoft.AspNetCore.App/5.0.2"; // TODO: Find a way to determine this at runtime, runtimeenvironment points to the console app libs which don't have aspnetcore mvc stuff
+            var runtimeDir = RuntimeEnvironment.GetRuntimeDirectory();
+            string[] runtimeAssemblies = Directory.GetFiles(runtimeDir, "*.dll");
+            var mvcRuntimeDir = Path.GetFullPath(Path.Combine(runtimeDir, "../../Microsoft.AspNetCore.App/5.0.2"));
             string[] mvcAssemblies = Directory.GetFiles(mvcRuntimeDir, "*.dll");
-            string[] runtimeAssemblies = Directory.GetFiles(RuntimeEnvironment.GetRuntimeDirectory(), "*.dll");
             string[] dllAssemblies = Directory.GetFiles(Path.GetDirectoryName(inputAssemblyPath), "*.dll");
             var paths = new List<string>(mvcAssemblies);
             paths.AddRange(runtimeAssemblies);
@@ -36,13 +37,11 @@ namespace openapi_to_terraform.Generator
 
                 try
                 {
-                    var types = assembly.GetTypes();
-
                     var controllerActionList = assembly.GetTypes()
                         .Where(type => type.BaseType.FullName == "Microsoft.AspNetCore.Mvc.ControllerBase")
                         .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
-                        .Where(x => x.GetCustomAttributesData().Any(a => a.AttributeType == typeof(RevisionAttribute)))
-                        .Select(x => new { Action = x.Name, Revisions = (x.GetCustomAttributesData().SingleOrDefault(a => a.AttributeType == typeof(RevisionAttribute))) })
+                        .Where(x => x.GetCustomAttributesData().Any(a => a.AttributeType.FullName == "openapi_to_terraform.Extensions.Attributes.RevisionAttribute"))
+                        .Select(x => new { Action = x.Name, Revisions = ((ReadOnlyCollection<CustomAttributeTypedArgument>)(x.GetCustomAttributesData().SingleOrDefault(a => a.AttributeType.FullName == "openapi_to_terraform.Extensions.Attributes.RevisionAttribute").ConstructorArguments[0].Value)).Select(o => o.Value) })
                         .OrderBy(x => x.Action).ToList();
 
                     if (controllerActionList.Count() == 0) // No RevisionAttributes found, so just do all operations mapped to ["1"]

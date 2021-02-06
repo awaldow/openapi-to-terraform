@@ -16,8 +16,8 @@ namespace openapi_to_terraform.Tests
         {
             var outputDir = Regex.Replace($"output_without_revision_attributes_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
             //var noRevPath = "samples/sampleApi/sample.API.noRev.dll";
-            var noRevPath = "/home/awaldow/source/repos/roomby/roomby.api/Roomby.API.Users/bin/Debug/net5.0/Roomby.API.Users.dll";
-            var openApiPath = "samples/sampleOpenApi.json";
+            var noRevPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
+            var openApiPath = "samples/testApi.json";
             var routePrefix = "/api/v1";
 
             Program.Main(new[] { "revisions", "-f", openApiPath, "-a", noRevPath, "-o", outputDir, "-p", routePrefix });
