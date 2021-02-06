@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Reflection;
 using Autofac;
-using openapi_to_terraform.Generator.Attributes;
+using openapi_to_terraform.Extensions.Attributes;
 
 namespace openapi_to_terraform.Generator
 {
