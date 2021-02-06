@@ -44,7 +44,5 @@ namespace openapi_to_terraform.Main
         // public string InputAssemblyName { get; set; }
         [Option('o', "output", Required = true, HelpText = "Absolute or relative path of output destination for Revision Mapping file, including file name")]
         public string OutputPath { get; set; }
-        [Option('p', "route-prefix", Required = true, HelpText = "Route prefix for controller actions (e.g. /api/v1/)")]
-        public string RoutePrefix { get; set; }
     }
 }

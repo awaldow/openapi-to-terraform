@@ -13,7 +13,7 @@ namespace openapi_to_terraform.Generator
 {
     public static class RevisionGenerator
     {
-        public static string GenerateRevisionsBlock(string inputAssemblyPath, string openApiPath, string routePrefix)
+        public static string GenerateRevisionsBlock(string inputAssemblyPath, string openApiPath)
         {
             var ret = new ExpandoObject() as IDictionary<string, object>;
             var runtimeDir = RuntimeEnvironment.GetRuntimeDirectory();

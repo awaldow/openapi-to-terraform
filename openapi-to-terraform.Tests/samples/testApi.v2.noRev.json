@@ -7,24 +7,26 @@
       "name": "Addison Waldow",
       "email": "a.wal.bear@gmail.com"
     },
-    "version": "1"
+    "version": "2"
   },
   "paths": {
-    "/api/v1/WeatherForecast/{forecastId}": {
+    "/api/v2/WeatherForecast/{forecastId}": {
       "get": {
         "tags": [
           "WeatherForecast"
         ],
-        "summary": "GetWeatherForecast(Guid forecastId)",
+        "summary": "GetWeatherForecastById(Guid forecastId)",
         "description": "Returns WeatherForecast object for forecastId",
-        "operationId": "GetWeatherForecast",
+        "operationId": "GetWeatherForecastById",
         "parameters": [
           {
             "name": "forecastId",
             "in": "path",
+            "description": "WeatherForecast ID for the WeatherForecast to get",
             "required": true,
             "schema": {
               "type": "string",
+              "description": "WeatherForecast ID for the WeatherForecast to get",
               "format": "uuid"
             }
           }

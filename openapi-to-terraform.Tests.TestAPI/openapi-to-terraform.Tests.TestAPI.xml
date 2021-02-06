@@ -14,7 +14,7 @@
             <param name="forecastId">WeatherForecast ID for the WeatherForecast to get</param>
             <returns>WeatherForecast object with id <paramref name="forecastId"/></returns>
         </member>
-        <member name="M:openapi_to_terraform.Tests.TestAPI.Controllers.WeatherForecastController.GetWeatherForecast(System.Guid)">
+        <member name="M:openapi_to_terraform.Tests.TestAPI.Controllers.WeatherForecastController.GetWeatherForecast">
             <summary>
             GetWeatherForecasts()
             </summary>

@@ -11,6 +11,7 @@ namespace openapi_to_terraform.Tests.TestAPI.Controllers
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1")]
+    [ApiVersion("2")]
     [ApiController]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -38,8 +39,8 @@ namespace openapi_to_terraform.Tests.TestAPI.Controllers
         /// </remarks>
         /// <param name="forecastId">WeatherForecast ID for the WeatherForecast to get</param>
         /// <returns>WeatherForecast object with id <paramref name="forecastId"/></returns>
-        [HttpGet("{forecastId}", Name = "GetWeatherForecast")]
-        [MapToApiVersion("1")]
+        [HttpGet("{forecastId}", Name = "GetWeatherForecastById")]
+        [MapToApiVersion("2")]
         [ProducesResponseType(typeof(WeatherForecast), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public WeatherForecast GetWeatherForecastById(Guid forecastId)
@@ -63,9 +64,9 @@ namespace openapi_to_terraform.Tests.TestAPI.Controllers
         [HttpGet(Name = "GetWeatherForecast")]
         [MapToApiVersion("1")]
         [Revision(new int[] { 1 })]
-        [ProducesResponseType(typeof(WeatherForecast), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<WeatherForecast>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public List<WeatherForecast> GetWeatherForecast(Guid forecastId)
+        public List<WeatherForecast> GetWeatherForecast()
         {
             Random rng = new Random();
             return new List<WeatherForecast>
