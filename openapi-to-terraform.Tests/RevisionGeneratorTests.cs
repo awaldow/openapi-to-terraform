@@ -30,7 +30,7 @@ namespace openapi_to_terraform.Tests
             File.Exists(outputPath).Should().BeTrue();
 
             JObject revisions = JObject.Parse(File.ReadAllText(outputPath));
-            revisions.Descendants().Count().Should().Be(1); // Only 1 controller action has the Revision attributes on it, so only expect one output
+            revisions.Count.Should().Be(0); // No controllers in file have revision attribute, so empty json output
         }
 
         [Fact]
@@ -48,7 +48,7 @@ namespace openapi_to_terraform.Tests
             File.Exists(outputPath).Should().BeTrue();
 
             JObject revisions = JObject.Parse(File.ReadAllText(outputPath));
-            revisions.Descendants().Count().Should().Be(1); // Only 1 controller action has the Revision attributes on it, so only expect one output
+            revisions.Count.Should().Be(1); // Only 1 controller action has the Revision attributes on it, so only expect one output
         }
     }
 }
