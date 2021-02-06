@@ -6,10 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using openapi_to_terraform.Core;
-using openapi_to_terraform.Extensions.Attributes;
 
 namespace openapi_to_terraform.Generator
 {
@@ -70,7 +68,7 @@ namespace openapi_to_terraform.Generator
                         }
                     }
 
-                    return JsonConvert.SerializeObject(ret);
+                    return JsonConvert.SerializeObject(ret, Formatting.Indented);
                 }
                 catch (Exception e)
                 {
