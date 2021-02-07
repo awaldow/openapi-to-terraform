@@ -10,57 +10,59 @@ namespace openapi_to_terraform.RevisionCli
         public string OpenApiPath { get; set; }
         public string OutputPath { get; set; }
 
-        public readonly string[] args;
-        public readonly string[] acceptedCommands = { "generate", "_generate", "--help" };
+        public static readonly string[] acceptedCommands = { "generate", "_generate", "--help" };
 
-        public ArgsParser(string[] args)
+        public static ExitCode TryParse(string[] args, out ArgsParser argsParser)
         {
-            this.args = args;
-        }
-    }
-
-    public static class ArgParserExtensions
-    {
-        public static ArgsParser Parse(this ArgsParser parser)
-        {
-            if (!parser.acceptedCommands.Any(a => a == parser.args[0]))
+            argsParser = new ArgsParser();
+            if (!ArgsParser.acceptedCommands.Any(a => a == args[0]))
             {
-                throw new UnknownCommandException($"Unknown command {parser.args[0]}");
+                return ExitCode.CommandUnknown;
             }
             else
             {
-                parser.Command = parser.args[0];
+                argsParser.Command = args[0];
             }
 
             try
             {
-                for (int i = 1; i < parser.args.Length; i += 2)
+                for (int i = 1; i < args.Length; i += 2)
                 {
-                    switch (parser.args[i])
+                    switch (args[i])
                     {
                         case "-a":
                         case "--input-assembly-path":
-                            parser.InputAssemblyPath = parser.args[i + 1];
+                            argsParser.InputAssemblyPath = args[i + 1];
                             break;
                         case "-o":
                         case "--output-path":
-                            parser.OutputPath = parser.args[i + 1];
+                            argsParser.OutputPath = args[i + 1];
                             break;
                         case "-f":
                         case "--open-api-file":
-                            parser.OpenApiPath = parser.args[i + 1];
+                            argsParser.OpenApiPath = args[i + 1];
                             break;
                     }
                 }
             }
-            catch(Exception e) {
+            catch (Exception e)
+            {
                 // TODO: Handle unbalanced args array here
                 Console.WriteLine(e.Message);
+                return ExitCode.Error;
             }
 
-            return parser;
+            return ExitCode.Success;
         }
     }
+
+    public enum ExitCode
+    {
+        Success = 0,
+        CommandUnknown = 1,
+        Error = 2
+    }
+
 
     public class UnknownCommandException : Exception
     {
