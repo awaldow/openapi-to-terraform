@@ -54,7 +54,8 @@ namespace openapi_to_terraform.RevisionCli
                 }
             }
             catch(Exception e) {
-
+                // TODO: Handle unbalanced args array here
+                Console.WriteLine(e.Message);
             }
 
             return parser;
