@@ -14,20 +14,17 @@ using openapi_to_terraform.Extensions.Attributes;
 
 namespace openapi_to_terraform.RevisionCli
 {
-    class Program
+    public class Program
     {
-        static int Main(string[] args)
+        public static int Main(string[] args)
         {
-            var command = args[0];
-            var inputAssemblyPath = args[1];
-            var openApiPath = args[2];
-            var outputPath = args[3];
-            switch (command)
+            var argsParsed = new ArgsParser(args).Parse();
+            switch (argsParsed.Command)
             {
                 case "generate":
                     {
-                        var depsFile = inputAssemblyPath.Replace(".dll", ".deps.json");
-                        var runtimeConfig = inputAssemblyPath.Replace(".dll", ".runtimeconfig.json");
+                        var depsFile = argsParsed.InputAssemblyPath.Replace(".dll", ".deps.json");
+                        var runtimeConfig = argsParsed.InputAssemblyPath.Replace(".dll", ".runtimeconfig.json");
                         var subProcess = Process.Start("dotnet", string.Format(
                             "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
                             EscapePath(depsFile),
@@ -41,10 +38,10 @@ namespace openapi_to_terraform.RevisionCli
                     }
                 case "_generate":
                     {
-                        var startupAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(Directory.GetCurrentDirectory(), inputAssemblyPath));
+                        var startupAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(Directory.GetCurrentDirectory(), argsParsed.InputAssemblyPath));
                         var ret = new ExpandoObject() as IDictionary<string, object>;
 
-                        using FileStream fs = File.OpenRead(openApiPath);
+                        using FileStream fs = File.OpenRead(argsParsed.OpenApiPath);
                         var document = new OpenApiStreamReader().Read(fs, out var diagnostic);
 
                         try
@@ -83,10 +80,10 @@ namespace openapi_to_terraform.RevisionCli
                             }
 
                             var revisionsJson = JsonConvert.SerializeObject(ret, Formatting.Indented);
-                            if(!Directory.Exists(Path.GetDirectoryName(outputPath))) {
-                                Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+                            if(!Directory.Exists(Path.GetDirectoryName(argsParsed.OutputPath))) {
+                                Directory.CreateDirectory(Path.GetDirectoryName(argsParsed.OutputPath));
                             }
-                            File.WriteAllText(outputPath, revisionsJson);
+                            File.WriteAllText(argsParsed.OutputPath, revisionsJson);
                         }
                         catch (Exception e)
                         {
@@ -97,7 +94,7 @@ namespace openapi_to_terraform.RevisionCli
                         return (int)ExitCode.Success;
                     }
                 default:
-                    Console.WriteLine($"Command {command} unknown");
+                    Console.WriteLine($"Command {argsParsed.Command} unknown");
                     return (int)ExitCode.CommandUnknown;
             }
 

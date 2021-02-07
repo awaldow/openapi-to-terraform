@@ -24,7 +24,7 @@ namespace openapi_to_terraform.Tests
             var noRevPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
             var openApiPath = "samples/testApi.v2.noRev.json";
 
-            Program.Main(new[] { "revisions", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
+            openapi_to_terraform.RevisionCli.Program.Main(new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
 
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(outputPath).Should().BeTrue();
@@ -42,7 +42,7 @@ namespace openapi_to_terraform.Tests
             var noRevPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
             var openApiPath = "samples/testApi.v1.revs.json";
 
-            Program.Main(new[] { "revisions", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
+            openapi_to_terraform.RevisionCli.Program.Main(new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
 
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(outputPath).Should().BeTrue();

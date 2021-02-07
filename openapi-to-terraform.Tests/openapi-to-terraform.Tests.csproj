@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\openapi-to-terraform.Main\openapi-to-terraform.Main.csproj" />
+    <ProjectReference Include="..\openapi-to-terraform.RevisionCli\openapi-to-terraform.RevisionCli.csproj" />
   </ItemGroup>
 
 <ItemGroup>
