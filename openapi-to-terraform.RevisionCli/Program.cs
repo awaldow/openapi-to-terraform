@@ -21,6 +21,15 @@ namespace openapi_to_terraform.RevisionCli
             var argsParsed = new ArgsParser(args).Parse();
             switch (argsParsed.Command)
             {
+                case "--help":
+                    {
+                        Console.WriteLine("Usage -- openapi-to-terraform-rev-cli {--help|generate {args}}");
+                        Console.WriteLine("\t{args}:");
+                        Console.WriteLine("\t\t-a,--input-assembly-file\tpath to dll");
+                        Console.WriteLine("\t\t-o,--output-path\t\toutput path for revisions.json, including file name");
+                        Console.WriteLine("\t\t-f,--open-api-file\t\tpath to OpenAPI spec");
+                        return (int)ExitCode.Success;
+                    }
                 case "generate":
                     {
                         var depsFile = argsParsed.InputAssemblyPath.Replace(".dll", ".deps.json");
@@ -80,7 +89,8 @@ namespace openapi_to_terraform.RevisionCli
                             }
 
                             var revisionsJson = JsonConvert.SerializeObject(ret, Formatting.Indented);
-                            if(!Directory.Exists(Path.GetDirectoryName(argsParsed.OutputPath))) {
+                            if (!Directory.Exists(Path.GetDirectoryName(argsParsed.OutputPath)))
+                            {
                                 Directory.CreateDirectory(Path.GetDirectoryName(argsParsed.OutputPath));
                             }
                             File.WriteAllText(argsParsed.OutputPath, revisionsJson);

@@ -11,7 +11,7 @@ namespace openapi_to_terraform.RevisionCli
         public string OutputPath { get; set; }
 
         public readonly string[] args;
-        public readonly string[] acceptedCommands = { "generate", "_generate" };
+        public readonly string[] acceptedCommands = { "generate", "_generate", "--help" };
 
         public ArgsParser(string[] args)
         {
