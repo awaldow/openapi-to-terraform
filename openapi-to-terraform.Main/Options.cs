@@ -32,17 +32,4 @@ namespace openapi_to_terraform.Main
         [Option("policies", Required = false, HelpText = "(Not Implemented) Absolute or relative path to directory containing APIM policies. Requires -r/--revision-map-file to be provided if revision dependent policies are desired")]
         public string PoliciesDirectoryPath { get; set; }
     }
-
-    [Verb("revisions", HelpText = "Generates revisions mapping file from OpenAPI file and API dll")]
-    public class GenerateRevisionsOptions
-    {
-        [Option('f', "input-file", Required = true, HelpText = "Absolute or relative path to OpenAPI input file")]
-        public string InputFile { get; set; }
-        [Option('a', "input-assembly-path", Required = true, HelpText = "Absolute or relative path to Assembly")]
-        public string InputAssemblyPath { get; set; }
-        // [Option('n', "input-assembly-name", Required = true, HelpText = "Assembly name")]
-        // public string InputAssemblyName { get; set; }
-        [Option('o', "output", Required = true, HelpText = "Absolute or relative path of output destination for Revision Mapping file, including file name")]
-        public string OutputPath { get; set; }
-    }
 }

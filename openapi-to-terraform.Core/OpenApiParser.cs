@@ -16,7 +16,6 @@ namespace openapi_to_terraform.Core
 
         public void Parse()
         {
-            string extension = Path.GetExtension(OpenApiFilePath);
             using FileStream fs = File.OpenRead(OpenApiFilePath);
             Document = new OpenApiStreamReader().Read(fs, out var diagnostic);
         }
