@@ -12,8 +12,10 @@ pr:
 variables:
 - name: buildConfiguration
   value: 'Release'
-- name: projectPath
+- name: mainProjectPath
   value: '**/openapi-to-terraform.Main.csproj'
+- name: revisionsProjectPath
+  value: '**/openapi-to-terraform.RevisionCli.csproj'
 - name: testProjectPath
   value: '**/openapi-to-terraform.[Tt]ests/*.csproj'
 
@@ -45,12 +47,10 @@ stages:
       displayName: 'dotnet restore'
       inputs:
         command: restore
-        projects: '$(projectPath)'
     
     - task: DotNetCoreCLI@2
       displayName: 'dotnet build'
       inputs:
-        projects: '$(projectPath)'
         arguments: '--configuration $(buildConfiguration)'
     
     - task: DotNetCoreCLI@2
@@ -82,11 +82,19 @@ stages:
     #     arguments: '--configuration $(buildConfiguration) --output $(build.artifactstagingdirectory)'
     
     - task: DotNetCoreCLI@2
-      displayName: 'dotnet pack'
+      displayName: 'dotnet pack main project'
       inputs: 
         command: 'pack'
-        arguments: '$(projectPath)'
-        outputDir: '$(Build.ArtifactStagingDirectory)'
+        arguments: '$(mainProjectPath)'
+        outputDir: '$(Build.ArtifactStagingDirectory)/main'
+        configuration: '$(buildConfiguration)'
+
+    - task: DotNetCoreCLI@2
+      displayName: 'dotnet pack main revisions cli'
+      inputs: 
+        command: 'pack'
+        arguments: '$(revisionsProjectPath)'
+        outputDir: '$(Build.ArtifactStagingDirectory)/revisions'
         configuration: '$(buildConfiguration)'
 
     - task: PublishPipelineArtifact@1
