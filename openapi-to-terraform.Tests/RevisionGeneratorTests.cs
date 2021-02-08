@@ -28,15 +28,28 @@ namespace openapi_to_terraform.Tests
 
             var depsFile = noRevPath.Replace(".dll", ".deps.json");
             var runtimeConfig = noRevPath.Replace(".dll", ".runtimeconfig.json");
-            var subProcess = Process.Start("dotnet", string.Format(
-                "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
-                EscapePath(depsFile),
-                EscapePath(runtimeConfig),
-                EscapePath(typeof(openapi_to_terraform.RevisionCli.Program).GetTypeInfo().Assembly.Location),
-                string.Join(" ", new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath })
-            ));
-
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                RedirectStandardOutput = true,
+                Arguments = string.Format(
+                   "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
+                   EscapePath(depsFile),
+                   EscapePath(runtimeConfig),
+                   EscapePath(typeof(openapi_to_terraform.RevisionCli.Program).GetTypeInfo().Assembly.Location),
+                   string.Join(" ", new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath }))
+            };
+            // var subProcess = Process.Start("dotnet", string.Format(
+            //     "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
+            //     EscapePath(depsFile),
+            //     EscapePath(runtimeConfig),
+            //     EscapePath(typeof(openapi_to_terraform.RevisionCli.Program).GetTypeInfo().Assembly.Location),
+            //     string.Join(" ", new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath })
+            // ));
+            var subProcess = Process.Start(startInfo);
             subProcess.WaitForExit();
+            var output = subProcess.StandardOutput.ReadToEnd();
+            Console.WriteLine(output);
 
             subProcess.ExitCode.Should().NotBe(null);
             // subProcess.ExitCode.Should().Be(-2147450751);
@@ -69,15 +82,29 @@ namespace openapi_to_terraform.Tests
 
             var depsFile = noRevPath.Replace(".dll", ".deps.json");
             var runtimeConfig = noRevPath.Replace(".dll", ".runtimeconfig.json");
-            var subProcess = Process.Start("dotnet", string.Format(
-                "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
-                EscapePath(depsFile),
-                EscapePath(runtimeConfig),
-                EscapePath(typeof(openapi_to_terraform.RevisionCli.Program).GetTypeInfo().Assembly.Location),
-                string.Join(" ", new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath })
-            ));
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = "dotnet",
+                RedirectStandardOutput = true,
+                Arguments = string.Format(
+                    "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
+                    EscapePath(depsFile),
+                    EscapePath(runtimeConfig),
+                    EscapePath(typeof(openapi_to_terraform.RevisionCli.Program).GetTypeInfo().Assembly.Location),
+                    string.Join(" ", new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath }))
+            };
+            // var subProcess = Process.Start("dotnet", string.Format(
+            //     "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
+            //     EscapePath(depsFile),
+            //     EscapePath(runtimeConfig),
+            //     EscapePath(typeof(openapi_to_terraform.RevisionCli.Program).GetTypeInfo().Assembly.Location),
+            //     string.Join(" ", new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath })
+            // ));
+            var subProcess = Process.Start(startInfo);
 
             subProcess.WaitForExit();
+            var output = subProcess.StandardOutput.ReadToEnd();
+            Console.WriteLine(output);
 
             subProcess.ExitCode.Should().NotBe(null);
             // subProcess.ExitCode.Should().Be(-2147450751);
