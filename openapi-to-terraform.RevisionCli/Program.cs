@@ -50,7 +50,7 @@ namespace openapi_to_terraform.RevisionCli
                     case "_generate":
                         {
                             Console.WriteLine($"Loading assembly from {Path.Combine(Directory.GetCurrentDirectory(), argsParsed.InputAssemblyPath)}");
-                            if (!Directory.Exists(Path.GetDirectoryName(argsParsed.OutputPath)))
+                            if (!string.IsNullOrEmpty(Path.GetDirectoryName(argsParsed.OutputPath)) && !Directory.Exists(Path.GetDirectoryName(argsParsed.OutputPath)))
                             {
                                 Console.WriteLine($"Creating directory {Path.GetDirectoryName(argsParsed.OutputPath)}");
                                 Directory.CreateDirectory(Path.GetDirectoryName(argsParsed.OutputPath));
@@ -75,12 +75,13 @@ namespace openapi_to_terraform.RevisionCli
                                 if (controllerActionList.Count() == 0) // No RevisionAttributes found, so just do all operations mapped to ["1"]
                                 {
                                     Console.WriteLine($"No RevisionAttributes found, so generating revisions file with all actions having [\"1\"]");
+                                    var revision = new string[] { "1" };
                                     foreach (var path in document.Paths)
                                     {
                                         foreach (var operation in path.Value.Operations)
                                         {
                                             var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
-                                            ret.Add(keyString, "[\"1\"]");
+                                            ret.Add(keyString, revision);
                                         }
                                     }
                                 }
