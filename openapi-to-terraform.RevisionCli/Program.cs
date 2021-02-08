@@ -65,44 +65,69 @@ namespace openapi_to_terraform.RevisionCli
                             Console.WriteLine($"OpenAPI document parsed from {argsParsed.OpenApiPath}");
                             try
                             {
-                                var controllerActionList = startupAssembly.GetTypes()
-                                    .Where(type => type.IsAssignableTo(typeof(ControllerBase)))
-                                    .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
-                                    .Where(x => x.GetCustomAttributes().Any(a => a.GetType() == typeof(RevisionAttribute)))
-                                    .Select(x => new { Action = x.Name, Revisions = ((RevisionAttribute)x.GetCustomAttributes().SingleOrDefault(a => a.GetType() == typeof(RevisionAttribute))).Revisions.Select(r => r.ToString()) })
-                                    .OrderBy(x => x.Action).ToList();
+                                var controllersQueryBase = startupAssembly.GetTypes()
+                                    .Where(type => type.IsAssignableTo(typeof(ControllerBase)) && type.GetCustomAttribute<RevisionAttribute>() != null);
 
-                                if (controllerActionList.Count() == 0) // No RevisionAttributes found, so just do all operations mapped to ["1"]
+                                var revisionsFromController = controllersQueryBase
+                                    .Select(x => new { Controller = x.Name.Substring(0, x.Name.IndexOf("Controller") > -1 ? x.Name.Length - "Controller".Length : x.Name.Length ), Revisions = x.GetCustomAttribute<RevisionAttribute>().Revisions.Select(x => x.ToString()) });
+
+                                if (revisionsFromController.Count() > 0) // RevisionsAttribute is on controllers, obey that
                                 {
-                                    Console.WriteLine($"No RevisionAttributes found, so generating revisions file with all actions having [\"1\"]");
-                                    var revision = new string[] { "1" };
+                                    Console.WriteLine($"RevisionAttributes found on controllers, so generating revisions file obeying attribute values");
                                     foreach (var path in document.Paths)
                                     {
                                         foreach (var operation in path.Value.Operations)
                                         {
+                                            var revisions = revisionsFromController.SingleOrDefault(r => path.Key.Contains(r.Controller)).Revisions;
                                             var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
-                                            ret.Add(keyString, revision);
+                                            ret.Add(keyString, revisions);
                                         }
                                     }
+
+                                    var revisionsJson = JsonConvert.SerializeObject(ret, Formatting.Indented);
+                                    File.WriteAllText(argsParsed.OutputPath, revisionsJson);
                                 }
-                                else // Obey the found revision attributes
+                                else // Otherwise, check for revisions attributes on controller actions
                                 {
-                                    Console.WriteLine($"RevisionAttributes found, so generating revisions file obeying attribute values");
-                                    foreach (var path in document.Paths)
+                                    var controllerActionList = startupAssembly.GetTypes()
+                                                                        .Where(type => type.IsAssignableTo(typeof(ControllerBase)))
+                                                                        .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
+                                                                        .Where(x => x.GetCustomAttributes().Any(a => a.GetType() == typeof(RevisionAttribute)))
+                                                                        .Select(x => new { Action = x.Name, Revisions = ((RevisionAttribute)x.GetCustomAttributes().SingleOrDefault(a => a.GetType() == typeof(RevisionAttribute))).Revisions.Select(r => r.ToString()) })
+                                                                        .OrderBy(x => x.Action).ToList();
+
+                                    if (controllerActionList.Count() == 0) // No RevisionAttributes found, so just do all operations mapped to ["1"]
                                     {
-                                        foreach (var operation in path.Value.Operations)
+                                        Console.WriteLine($"No RevisionAttributes found, so generating revisions file with all actions having [\"1\"]");
+                                        var revision = new string[] { "1" };
+                                        foreach (var path in document.Paths)
                                         {
-                                            if (controllerActionList.Any(ca => ca.Action == operation.Value.OperationId))
+                                            foreach (var operation in path.Value.Operations)
                                             {
                                                 var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
-                                                ret.Add(keyString, controllerActionList.SingleOrDefault(ca => ca.Action == operation.Value.OperationId).Revisions);
+                                                ret.Add(keyString, revision);
                                             }
                                         }
                                     }
-                                }
+                                    else // Obey the found revision attributes
+                                    {
+                                        Console.WriteLine($"RevisionAttributes found, so generating revisions file obeying attribute values");
+                                        foreach (var path in document.Paths)
+                                        {
+                                            foreach (var operation in path.Value.Operations)
+                                            {
+                                                if (controllerActionList.Any(ca => ca.Action == operation.Value.OperationId))
+                                                {
+                                                    var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
+                                                    ret.Add(keyString, controllerActionList.SingleOrDefault(ca => ca.Action == operation.Value.OperationId).Revisions);
+                                                }
+                                            }
+                                        }
+                                    }
 
-                                var revisionsJson = JsonConvert.SerializeObject(ret, Formatting.Indented);
-                                File.WriteAllText(argsParsed.OutputPath, revisionsJson);
+                                    var revisionsJson = JsonConvert.SerializeObject(ret, Formatting.Indented);
+                                    File.WriteAllText(argsParsed.OutputPath, revisionsJson);
+                                }
                             }
                             catch (Exception e)
                             {

@@ -19,7 +19,7 @@
         "name": ".NET Core Launch RevCLI exec",
         "type": "coreclr",
         "request": "launch",
-        "preLaunchTask": "buildRevCli",
+        "preLaunchTask": "buildForRevCli",
         "program": "dotnet",
         "args": ["exec", "--depsfile", "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.deps.json", "--runtimeconfig", "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.runtimeconfig.json", "${workspaceFolder}/openapi-to-terraform.RevisionCli/bin/Debug/net5.0/openapi-to-terraform.RevisionCli.dll", "_generate", "-a", "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll", "-f", "${workspaceFolder}/openapi-to-terraform.Tests/samples/testApi.v1.revs.json", "-o", "revisions.json"],
         "cwd": "${workspaceFolder}/openapi-to-terraform.RevisionCli",

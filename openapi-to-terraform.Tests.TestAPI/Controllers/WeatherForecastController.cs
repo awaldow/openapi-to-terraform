@@ -12,6 +12,7 @@ namespace openapi_to_terraform.Tests.TestAPI.Controllers
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1")]
     [ApiVersion("2")]
+    [Revision(new int[] { 1, 2 })]
     [ApiController]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
