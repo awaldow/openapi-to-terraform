@@ -50,6 +50,11 @@ namespace openapi_to_terraform.RevisionCli
                     case "_generate":
                         {
                             Console.WriteLine($"Loading assembly from {Path.Combine(Directory.GetCurrentDirectory(), argsParsed.InputAssemblyPath)}");
+                            if (!Directory.Exists(Path.GetDirectoryName(argsParsed.OutputPath)))
+                            {
+                                Console.WriteLine($"Creating directory {Path.GetDirectoryName(argsParsed.OutputPath)}");
+                                Directory.CreateDirectory(Path.GetDirectoryName(argsParsed.OutputPath));
+                            }
                             var startupAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(Directory.GetCurrentDirectory(), argsParsed.InputAssemblyPath));
                             var ret = new ExpandoObject() as IDictionary<string, object>;
 
@@ -96,10 +101,6 @@ namespace openapi_to_terraform.RevisionCli
                                 }
 
                                 var revisionsJson = JsonConvert.SerializeObject(ret, Formatting.Indented);
-                                if (!Directory.Exists(Path.GetDirectoryName(argsParsed.OutputPath)))
-                                {
-                                    Directory.CreateDirectory(Path.GetDirectoryName(argsParsed.OutputPath));
-                                }
                                 File.WriteAllText(argsParsed.OutputPath, revisionsJson);
                             }
                             catch (Exception e)
@@ -115,17 +116,19 @@ namespace openapi_to_terraform.RevisionCli
                         return (int)ExitCode.CommandUnknown;
                 }
             }
-            else if(parseSuccessful == ExitCode.CommandUnknown) {
+            else if (parseSuccessful == ExitCode.CommandUnknown)
+            {
                 Console.WriteLine($"Command \"{args[0]}\" unknown, see --help for commands and arguments");
                 return (int)parseSuccessful;
             }
-            else {
+            else
+            {
                 Console.WriteLine($"Returning {parseSuccessful}");
                 return (int)parseSuccessful;
             }
         }
 
-        
+
         private static string EscapePath(string path)
         {
             return path.Contains(" ")

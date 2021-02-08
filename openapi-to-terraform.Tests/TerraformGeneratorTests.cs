@@ -21,10 +21,10 @@ namespace openapi_to_terraform.Tests
             Program.Main(new[] { "gen-tf", "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-p", "aws" });
 
             Directory.Exists(outputDir).Should().BeFalse();
-            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "--provider-version", "v0.1" });
+            Program.Main(new[] { "gen-tf", "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "--provider-version", "v0.1" });
 
             Directory.Exists(outputDir).Should().BeFalse();
-            Program.Main(new[] { "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-p", "aws", "--provider-version", "v0.1" });
+            Program.Main(new[] { "gen-tf", "-f", sampleOpenApi, "-o", outputDir, "-t", terraformSubVarsFile, "-p", "aws", "--provider-version", "v0.1" });
 
             Directory.Exists(outputDir).Should().BeFalse();
         }
