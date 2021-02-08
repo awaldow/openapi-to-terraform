@@ -7,11 +7,18 @@ using System.Text.RegularExpressions;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace openapi_to_terraform.Tests
 {
     public class RevisionGeneratorTests
     {
+        private readonly ITestOutputHelper outputHelper;
+
+        public RevisionGeneratorTests(ITestOutputHelper outputHelper) {
+            this.outputHelper = outputHelper;
+        }
+
         [Fact]
         public void tool_should_fail_with_bad_assembly()
         {
@@ -32,6 +39,7 @@ namespace openapi_to_terraform.Tests
             {
                 FileName = "dotnet",
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 Arguments = string.Format(
                    "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
                    EscapePath(depsFile),
@@ -49,7 +57,7 @@ namespace openapi_to_terraform.Tests
             var subProcess = Process.Start(startInfo);
             subProcess.WaitForExit();
             var output = subProcess.StandardOutput.ReadToEnd();
-            Console.WriteLine(output);
+            outputHelper.WriteLine(output);
 
             subProcess.ExitCode.Should().NotBe(null);
             // subProcess.ExitCode.Should().Be(-2147450751);
@@ -86,6 +94,7 @@ namespace openapi_to_terraform.Tests
             {
                 FileName = "dotnet",
                 RedirectStandardOutput = true,
+                RedirectStandardError = true,
                 Arguments = string.Format(
                     "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
                     EscapePath(depsFile),
@@ -104,7 +113,7 @@ namespace openapi_to_terraform.Tests
 
             subProcess.WaitForExit();
             var output = subProcess.StandardOutput.ReadToEnd();
-            Console.WriteLine(output);
+            outputHelper.WriteLine(output);
 
             subProcess.ExitCode.Should().NotBe(null);
             // subProcess.ExitCode.Should().Be(-2147450751);
