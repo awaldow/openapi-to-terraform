@@ -24,14 +24,21 @@ namespace openapi_to_terraform.Tests
             var noRevPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
             var openApiPath = "samples/testApi.v2.noRev.json";
 
-            openapi_to_terraform.RevisionCli.Program.Main(new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
+            if (!Directory.Exists(outputDir))
+            {
+                Directory.CreateDirectory(outputDir);
+            }
 
+            var exitCode = openapi_to_terraform.RevisionCli.Program.Main(new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
+
+            exitCode.Should().Be(0);
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(outputPath).Should().BeTrue();
 
             JObject revisions = JObject.Parse(File.ReadAllText(outputPath));
             revisions.Count.Should().Be(0); // No controllers in file have revision attribute, so empty json output
-            if(Directory.Exists(outputDir)) {
+            if (Directory.Exists(outputDir))
+            {
                 Directory.Delete(outputDir, true);
             }
         }
@@ -45,14 +52,21 @@ namespace openapi_to_terraform.Tests
             var noRevPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
             var openApiPath = "samples/testApi.v1.revs.json";
 
-            openapi_to_terraform.RevisionCli.Program.Main(new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
+            if (!Directory.Exists(outputDir))
+            {
+                Directory.CreateDirectory(outputDir);
+            }
 
+            var exitCode = openapi_to_terraform.RevisionCli.Program.Main(new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
+
+            exitCode.Should().Be(0);
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(outputPath).Should().BeTrue();
 
             JObject revisions = JObject.Parse(File.ReadAllText(outputPath));
             revisions.Count.Should().Be(1); // Only 1 controller action has the Revision attributes on it, so only expect one output
-            if(Directory.Exists(outputDir)) {
+            if (Directory.Exists(outputDir))
+            {
                 Directory.Delete(outputDir, true);
             }
         }
