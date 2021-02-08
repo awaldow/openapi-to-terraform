@@ -94,3 +94,5 @@ Revision CLI
     * [openApiPath] = path to OpenAPI file
     * [outputDir] = output directory for API and Operation terraform files
     * [inputAssemblyPath] = path to dll to search for RevisionAttribute-d actions and generate revisions json file
+
+If you want to generate a file with revisions, download [openapi-to-terraform.Extensions]() and use the RevisionAttribute on your controller actions to define the revisions to include the action in via an int[]. Eventually, you will be able to define the revisions array on the controller itself if you just want to control revisions for the whole controller.
