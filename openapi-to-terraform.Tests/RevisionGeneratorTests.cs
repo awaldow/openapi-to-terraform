@@ -55,7 +55,7 @@ namespace openapi_to_terraform.Tests
             //     string.Join(" ", new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath })
             // ));
             var subProcess = Process.Start(startInfo);
-            subProcess.WaitForExit();
+            subProcess.WaitForExit(5000);
             var output = subProcess.StandardOutput.ReadToEnd();
             outputHelper.WriteLine(output);
             outputHelper.WriteLine($"Exit code {subProcess.ExitCode}");
@@ -112,7 +112,7 @@ namespace openapi_to_terraform.Tests
             // ));
             var subProcess = Process.Start(startInfo);
 
-            subProcess.WaitForExit();
+            subProcess.WaitForExit(5000);
             var output = subProcess.StandardOutput.ReadToEnd();
             outputHelper.WriteLine(output);
             outputHelper.WriteLine($"Exit code {subProcess.ExitCode}");
