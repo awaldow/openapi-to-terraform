@@ -38,6 +38,7 @@ namespace openapi_to_terraform.Tests
 
             subProcess.WaitForExit();
 
+            subProcess.ExitCode.Should().NotBe(null);
             subProcess.ExitCode.Should().Be(0);
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(outputPath).Should().BeTrue();
@@ -78,6 +79,7 @@ namespace openapi_to_terraform.Tests
 
             subProcess.WaitForExit();
 
+            subProcess.ExitCode.Should().NotBe(null);
             subProcess.ExitCode.Should().Be(0);
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(outputPath).Should().BeTrue();
