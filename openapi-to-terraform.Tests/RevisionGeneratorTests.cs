@@ -1,6 +1,8 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
@@ -24,14 +26,19 @@ namespace openapi_to_terraform.Tests
             var noRevPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
             var openApiPath = "samples/testApi.v2.noRev.json";
 
-            if (!Directory.Exists(outputDir))
-            {
-                Directory.CreateDirectory(outputDir);
-            }
+            var depsFile = noRevPath.Replace(".dll", ".deps.json");
+            var runtimeConfig = noRevPath.Replace(".dll", ".runtimeconfig.json");
+            var subProcess = Process.Start("dotnet", string.Format(
+                "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
+                EscapePath(depsFile),
+                EscapePath(runtimeConfig),
+                EscapePath(typeof(openapi_to_terraform.RevisionCli.Program).GetTypeInfo().Assembly.Location),
+                string.Join(" ", new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath })
+            ));
 
-            var exitCode = openapi_to_terraform.RevisionCli.Program.Main(new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
+            subProcess.WaitForExit();
 
-            Console.WriteLine(exitCode);
+            subProcess.ExitCode.Should().Be(0);
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(outputPath).Should().BeTrue();
 
@@ -43,6 +50,13 @@ namespace openapi_to_terraform.Tests
             }
         }
 
+        private static string EscapePath(string path)
+        {
+            return path.Contains(" ")
+                ? "\"" + path + "\""
+                : path;
+        }
+
         [Fact]
         public void tool_should_generate_specific_revisions_with_attributes()
         {
@@ -52,15 +66,19 @@ namespace openapi_to_terraform.Tests
             var noRevPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
             var openApiPath = "samples/testApi.v1.revs.json";
 
-            if (!Directory.Exists(outputDir))
-            {
-                Directory.CreateDirectory(outputDir);
-            }
+            var depsFile = noRevPath.Replace(".dll", ".deps.json");
+            var runtimeConfig = noRevPath.Replace(".dll", ".runtimeconfig.json");
+            var subProcess = Process.Start("dotnet", string.Format(
+                "exec --depsfile {0} --runtimeconfig {1} {2} _{3}", // note the underscore
+                EscapePath(depsFile),
+                EscapePath(runtimeConfig),
+                EscapePath(typeof(openapi_to_terraform.RevisionCli.Program).GetTypeInfo().Assembly.Location),
+                string.Join(" ", new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath })
+            ));
 
-            var exitCode = openapi_to_terraform.RevisionCli.Program.Main(new[] { "generate", "-f", openApiPath, "-a", noRevPath, "-o", outputPath });
+            subProcess.WaitForExit();
 
-            Console.WriteLine(exitCode);
-            //exitCode.Should().Be(0);
+            subProcess.ExitCode.Should().Be(0);
             Directory.Exists(outputDir).Should().BeTrue();
             File.Exists(outputPath).Should().BeTrue();
 
