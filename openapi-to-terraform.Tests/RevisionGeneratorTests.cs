@@ -58,6 +58,7 @@ namespace openapi_to_terraform.Tests
             subProcess.WaitForExit();
             var output = subProcess.StandardOutput.ReadToEnd();
             outputHelper.WriteLine(output);
+            outputHelper.WriteLine($"Exit code {subProcess.ExitCode}");
 
             subProcess.ExitCode.Should().NotBe(null);
             // subProcess.ExitCode.Should().Be(-2147450751);
@@ -114,6 +115,7 @@ namespace openapi_to_terraform.Tests
             subProcess.WaitForExit();
             var output = subProcess.StandardOutput.ReadToEnd();
             outputHelper.WriteLine(output);
+            outputHelper.WriteLine($"Exit code {subProcess.ExitCode}");
 
             subProcess.ExitCode.Should().NotBe(null);
             // subProcess.ExitCode.Should().Be(-2147450751);
