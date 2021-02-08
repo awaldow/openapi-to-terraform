@@ -46,7 +46,7 @@ namespace openapi_to_terraform.Tests
         [Fact]
         public void tool_should_generate_specific_revisions_with_attributes()
         {
-            var outputDir = Regex.Replace($"output_without_revision_attributes_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
+            var outputDir = Regex.Replace($"output_with_revision_attributes_{DateTime.Now.ToString()}", @"[\s:\/]", "_");
             var outputPath = Path.Combine(outputDir, "revisions.json");
             //var noRevPath = "samples/sampleApi/sample.API.noRev.dll";
             var noRevPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
