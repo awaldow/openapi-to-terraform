@@ -49,6 +49,7 @@ namespace openapi_to_terraform.RevisionCli
                         }
                     case "_generate":
                         {
+                            Console.WriteLine($"Loading assembly from {Path.Combine(Directory.GetCurrentDirectory(), argsParsed.InputAssemblyPath)}");
                             var startupAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(Directory.GetCurrentDirectory(), argsParsed.InputAssemblyPath));
                             var ret = new ExpandoObject() as IDictionary<string, object>;
 
@@ -56,7 +57,7 @@ namespace openapi_to_terraform.RevisionCli
                             // TODO: Might need to replace this with a bespoke JSON/YAML parser if we can't find a way to include this projects dependencies
                             // in startupAssembly's AssemblyLoadContext
                             var document = new OpenApiStreamReader().Read(fs, out var diagnostic);
-
+                            Console.WriteLine($"OpenAPI document parsed from {argsParsed.OpenApiPath}");
                             try
                             {
                                 var controllerActionList = startupAssembly.GetTypes()
@@ -68,6 +69,7 @@ namespace openapi_to_terraform.RevisionCli
 
                                 if (controllerActionList.Count() == 0) // No RevisionAttributes found, so just do all operations mapped to ["1"]
                                 {
+                                    Console.WriteLine($"No RevisionAttributes found, so generating revisions file with all actions having [\"1\"]");
                                     foreach (var path in document.Paths)
                                     {
                                         foreach (var operation in path.Value.Operations)
@@ -79,6 +81,7 @@ namespace openapi_to_terraform.RevisionCli
                                 }
                                 else // Obey the found revision attributes
                                 {
+                                    Console.WriteLine($"RevisionAttributes found, so generating revisions file obeying attribute values");
                                     foreach (var path in document.Paths)
                                     {
                                         foreach (var operation in path.Value.Operations)
