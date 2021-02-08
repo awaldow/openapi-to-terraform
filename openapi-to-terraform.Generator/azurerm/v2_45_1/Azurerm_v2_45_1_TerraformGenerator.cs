@@ -5,7 +5,7 @@ using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json.Linq;
-using openapi_to_terraform.Extensions.Attributes;
+using openapi_to_terraform.Core.Extensions.Attributes;
 using openapi_to_terraform.Generator.azurerm.v2_45_1.Generators;
 using openapi_to_terraform.Generator.azurerm.v2_45_1.VariablesAppliers;
 

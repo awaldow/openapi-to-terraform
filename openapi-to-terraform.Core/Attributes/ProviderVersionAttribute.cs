@@ -1,6 +1,6 @@
 using System;
 
-namespace openapi_to_terraform.Extensions.Attributes
+namespace openapi_to_terraform.Core.Extensions.Attributes
 {
     [System.AttributeUsage(System.AttributeTargets.Class)]
     public class ProviderVersionAttribute : Attribute
