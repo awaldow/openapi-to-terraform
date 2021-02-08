@@ -53,6 +53,8 @@ namespace openapi_to_terraform.RevisionCli
                             var ret = new ExpandoObject() as IDictionary<string, object>;
 
                             using FileStream fs = File.OpenRead(argsParsed.OpenApiPath);
+                            // TODO: Might need to replace this with a bespoke JSON/YAML parser if we can't find a way to include this projects dependencies
+                            // in startupAssembly's AssemblyLoadContext
                             var document = new OpenApiStreamReader().Read(fs, out var diagnostic);
 
                             try
