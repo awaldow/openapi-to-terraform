@@ -15,7 +15,7 @@
     openapi-to-terraform gen-tf -f [openApiPath] -o [outputDir] -t [terraformVarsJson]
     ```
     Where 
-    * [openApiPath] = path to OpenAPI file
+    * [openApiPath] = path to OpenAPI 3 file
     * [outputDir] = output directory for API and Operation terraform files
     * [terraformVarsJson] = path to terraform variables mapping file
 
@@ -88,11 +88,11 @@ There are some additional considerations when generating a file:
     openapi-to-terraform-rev-cli generate -f [openApiPath] -o [outputDir] -a [inputAssemblyPath]
     ```
     Where 
-    * [openApiPath] = path to OpenAPI file
+    * [openApiPath] = path to OpenAPI 3 file
     * [outputDir] = output directory for API and Operation terraform files
     * [inputAssemblyPath] = path to dll to search for RevisionAttribute-d actions and generate revisions json file
 
-    If you want to generate a file with revisions, download [openapi-to-terraform.Extensions]() and use the RevisionAttribute on your controller actions to define the revisions to include the action in via an int[]. You can also decorate the controller itself with a revisions list; the controller definition takes precedence and will create revisions mappings for all actions for all revisions, and the controller attributes will be ignored. This is an all or nothing choice, as one controller with the RevisionsAttribute will mean the cli will look for revisions only on the controllers across all controllers.
+    If you want to generate a file with revisions, download [openapi-to-terraform.Extensions](https://www.nuget.org/packages/openapi-to-terraform.Extensions/) and use the RevisionAttribute on your controller actions to define the revisions to include the action in via an int[]. You can also decorate the controller itself with a revisions list; the controller definition takes precedence and will create revisions mappings for all actions for all revisions, and the controller attributes will be ignored. This is an all or nothing choice, as one controller with the RevisionsAttribute will mean the cli will look for revisions only on the controllers across all controllers.
 
     Currently, due to implementation, the API dll must include a reference to Microsoft.OpenApi.Readers; once the AssemblyLoadContext is better understood we can remove this restriction but for now LoadFromAssemblyPath fails because it's looking for dependencies present in the CLI project in the DLL, and if they don't exist you'll get an error
 

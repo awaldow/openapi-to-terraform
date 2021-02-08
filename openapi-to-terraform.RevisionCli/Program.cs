@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Dynamic;
 using System.IO;
@@ -8,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Readers;
 using Newtonsoft.Json;
 using openapi_to_terraform.Extensions.Attributes;
 
@@ -58,10 +56,9 @@ namespace openapi_to_terraform.RevisionCli
                             var startupAssembly = AssemblyLoadContext.Default.LoadFromAssemblyPath(Path.Combine(Directory.GetCurrentDirectory(), argsParsed.InputAssemblyPath));
                             var ret = new ExpandoObject() as IDictionary<string, object>;
 
-                            using FileStream fs = File.OpenRead(argsParsed.OpenApiPath);
-                            // TODO: Might need to replace this with a bespoke JSON/YAML parser if we can't find a way to include this projects dependencies
-                            // in startupAssembly's AssemblyLoadContext
-                            var document = new OpenApiStreamReader().Read(fs, out var diagnostic);
+                            var openApiText = File.ReadAllText(argsParsed.OpenApiPath);
+                            var docTree = new OpenApiParser(openApiText).Read();
+
                             Console.WriteLine($"OpenAPI document parsed from {argsParsed.OpenApiPath}");
                             try
                             {
@@ -74,9 +71,9 @@ namespace openapi_to_terraform.RevisionCli
                                 if (revisionsFromController.Count() > 0) // RevisionsAttribute is on controllers, obey that
                                 {
                                     Console.WriteLine($"RevisionAttributes found on controllers, so generating revisions file obeying attribute values");
-                                    foreach (var path in document.Paths)
+                                    foreach (var path in docTree.Paths)
                                     {
-                                        foreach (var operation in path.Value.Operations)
+                                        foreach (var operation in path.Operations)
                                         {
                                             var revisions = revisionsFromController.SingleOrDefault(r => path.Key.Contains(r.Controller)).Revisions;
                                             var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
@@ -100,9 +97,9 @@ namespace openapi_to_terraform.RevisionCli
                                     {
                                         Console.WriteLine($"No RevisionAttributes found, so generating revisions file with all actions having [\"1\"]");
                                         var revision = new string[] { "1" };
-                                        foreach (var path in document.Paths)
+                                        foreach (var path in docTree.Paths)
                                         {
-                                            foreach (var operation in path.Value.Operations)
+                                            foreach (var operation in path.Operations)
                                             {
                                                 var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
                                                 ret.Add(keyString, revision);
@@ -112,14 +109,14 @@ namespace openapi_to_terraform.RevisionCli
                                     else // Obey the found revision attributes
                                     {
                                         Console.WriteLine($"RevisionAttributes found, so generating revisions file obeying attribute values");
-                                        foreach (var path in document.Paths)
+                                        foreach (var path in docTree.Paths)
                                         {
-                                            foreach (var operation in path.Value.Operations)
+                                            foreach (var operation in path.Operations)
                                             {
-                                                if (controllerActionList.Any(ca => ca.Action == operation.Value.OperationId))
+                                                if (controllerActionList.Any(ca => ca.Action == operation.OperationId))
                                                 {
                                                     var keyString = path.Key + "^" + operation.Key.ToString().ToLower();
-                                                    ret.Add(keyString, controllerActionList.SingleOrDefault(ca => ca.Action == operation.Value.OperationId).Revisions);
+                                                    ret.Add(keyString, controllerActionList.SingleOrDefault(ca => ca.Action == operation.OperationId).Revisions);
                                                 }
                                             }
                                         }
