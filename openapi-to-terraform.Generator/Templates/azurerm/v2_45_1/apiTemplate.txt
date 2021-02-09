@@ -1,0 +1,20 @@
+resource "azurerm_api_management_api" "{resourceName}" {
+	name	=	"{resourceName}"
+	api_management_name	=	{api_management_service_name}
+	resource_group_name	=	{api_management_resource_group_name}
+	display_name	=	"{document.Info.Title}"
+	revision	=	"{revision}"
+	version	=	"v{document.Info.Version}"
+	version_set_id	=	{api_management_version_set_id}
+	path	=	"{api_path}"
+	protocols	=	["https"]
+	service_url	=	"{api_backend_url}"
+}
+
+resource "azurerm_api_management_product_api" "{resourceName}productapi" {
+	api_name	=	azurerm_api_management_api.{resourceName}.name
+	product_id	=	{api_management_product_id}
+	api_management_name	=	{api_management_service_name}
+	resource_group_name	=	{api_management_resource_group_name}
+}
+
