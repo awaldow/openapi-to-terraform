@@ -63,10 +63,10 @@ namespace openapi_to_terraform.RevisionCli
                             try
                             {
                                 var controllersQueryBase = startupAssembly.GetTypes()
-                                    .Where(type => type.IsAssignableTo(typeof(ControllerBase)) && type.GetCustomAttribute<RevisionAttribute>() != null);
+                                    .Where(type => type.IsAssignableTo(typeof(ControllerBase)) && type.GetCustomAttribute<RevisionsAttribute>() != null);
 
                                 var revisionsFromController = controllersQueryBase
-                                    .Select(x => new { Controller = x.Name.Substring(0, x.Name.IndexOf("Controller") > -1 ? x.Name.Length - "Controller".Length : x.Name.Length ), Revisions = x.GetCustomAttribute<RevisionAttribute>().Revisions.Select(x => x.ToString()) });
+                                    .Select(x => new { Controller = x.Name.Substring(0, x.Name.IndexOf("Controller") > -1 ? x.Name.Length - "Controller".Length : x.Name.Length ), Revisions = x.GetCustomAttribute<RevisionsAttribute>().Revisions.Select(x => x.ToString()) });
 
                                 if (revisionsFromController.Count() > 0) // RevisionsAttribute is on controllers, obey that
                                 {
@@ -89,8 +89,8 @@ namespace openapi_to_terraform.RevisionCli
                                     var controllerActionList = startupAssembly.GetTypes()
                                                                         .Where(type => type.IsAssignableTo(typeof(ControllerBase)))
                                                                         .SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
-                                                                        .Where(x => x.GetCustomAttributes().Any(a => a.GetType() == typeof(RevisionAttribute)))
-                                                                        .Select(x => new { Action = x.Name, Revisions = ((RevisionAttribute)x.GetCustomAttributes().SingleOrDefault(a => a.GetType() == typeof(RevisionAttribute))).Revisions.Select(r => r.ToString()) })
+                                                                        .Where(x => x.GetCustomAttributes().Any(a => a.GetType() == typeof(RevisionsAttribute)))
+                                                                        .Select(x => new { Action = x.Name, Revisions = ((RevisionsAttribute)x.GetCustomAttributes().SingleOrDefault(a => a.GetType() == typeof(RevisionsAttribute))).Revisions.Select(r => r.ToString()) })
                                                                         .OrderBy(x => x.Action).ToList();
 
                                     if (controllerActionList.Count() == 0) // No RevisionAttributes found, so just do all operations mapped to ["1"]
