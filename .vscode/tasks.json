@@ -14,6 +14,37 @@
             "problemMatcher": "$msCompile"
         },
         {
+            "label": "buildForRevCli",
+            "dependsOn": [
+                "buildRevCli",
+                "buildTestApi"
+            ]
+        },
+        {
+            "label": "buildRevCli",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/openapi-to-terraform.RevisionCli/openapi-to-terraform.RevisionCli.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "buildTestApi",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/openapi-to-terraform.Tests.TestAPI.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
             "label": "publish",
             "command": "dotnet",
             "type": "process",

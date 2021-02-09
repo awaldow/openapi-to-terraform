@@ -1,5 +1,5 @@
 variable "resource_group_name" {
-  default = "rg-roomby-test"
+  default = "rg-api-test"
   description = "The name of the resource group"
 }
 
@@ -8,20 +8,20 @@ variable "resource_group_location" {
 }
 
 variable "storage_account_name" {
-  default = "stroombytest"
-  description = "The name of the storage account for Roomby"
+  default = "stapitest"
+  description = "The name of the storage account for api"
 }
 
 variable "tasks_table_name" {
-  default = "roombytasks"
+  default = "apitasks"
 }
 
 variable "purchases_table_name" {
-  default = "roombypurchases"
+  default = "apipurchases"
 }
 
 variable "apim_service_name" {
-  default = "roomby-api-test"
+  default = "api-api-test"
 }
 
 variable "users_api_name" {
@@ -32,38 +32,38 @@ variable "rooms_api_name" {
   default = "rooms"
 }
 
-variable "roomby_product_id" {
-    default = "roomby"
+variable "api_product_id" {
+    default = "api"
 }
 
 variable "app_service_plan_name" {
-  default = "asp-roomby-test"
+  default = "asp-api-test"
   description = "The name of the app service plan"
 }
 
 variable "rooms_app_service_name" {
-  default = "app-roomby-rooms-test"
+  default = "app-api-rooms-test"
   description = "The Room app service prefix"
 }
 
 variable "users_app_service_name" {
-  default = "app-roomby-users-test"
+  default = "app-api-users-test"
   description = "The Users app service prefix"
 }
 
 variable "users_app_service_resource_group" {
-  default = "rg-roomby-users-test"
+  default = "rg-api-users-test"
   description = "The name of the resource group"
 }
 
 variable "rooms_app_service_resource_group" {
-  default = "rg-roomby-rooms-test"
+  default = "rg-api-rooms-test"
   description = "The name of the resource group"
 }
 
 variable "application_insights_name" {
-  default = "appi-roomby-rooms-test"
-  description = "The name of the application insights service for Roomby"
+  default = "appi-api-rooms-test"
+  description = "The name of the application insights service for api"
 }
 
 variable "sql_server_admin" {
@@ -75,11 +75,11 @@ variable "sql_server_admin_pass" {
 }
 
 variable "sql_server_name" {
-  default = "sqlserver-roomby-test"
-  description = "The name of the Azure SQL Server instance for Roomby"
+  default = "sqlserver-api-test"
+  description = "The name of the Azure SQL Server instance for api"
 }
 
 variable "sqlstorage_account_name" {
-  default = "stroombysqltest"
+  default = "stapisqltest"
   description = "The name of the storage account for the Azure SQL Server"
 }

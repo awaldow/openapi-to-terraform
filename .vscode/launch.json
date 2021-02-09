@@ -4,6 +4,29 @@
    // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
    "version": "0.2.0",
    "configurations": [
+       {
+           "name": ".NET Core Launch RevCLI",
+           "type": "coreclr",
+           "request": "launch",
+           "preLaunchTask": "buildRevCli",
+           "program": "${workspaceFolder}/openapi-to-terraform.RevisionCli/bin/Debug/net5.0/openapi-to-terraform.RevisionCli.dll",
+           "args": ["generate", "-a", "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll", "-f", "${workspaceFolder}/openapi-to-terraform.Tests/samples/testApi.v1.revs.json", "-o", "revisions.json"],
+           "cwd": "${workspaceFolder}/openapi-to-terraform.RevisionCli",
+           "stopAtEntry": false,
+           "console": "internalConsole"
+       },
+       {
+        "name": ".NET Core Launch RevCLI exec",
+        "type": "coreclr",
+        "request": "launch",
+        "preLaunchTask": "buildForRevCli",
+        "requireExactSource": false,
+        "program": "dotnet",
+        "args": ["exec", "--depsfile", "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.deps.json", "--runtimeconfig", "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.runtimeconfig.json", "${workspaceFolder}/openapi-to-terraform.RevisionCli/bin/Debug/net5.0/openapi-to-terraform.RevisionCli.dll", "_generate", "-a", "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll", "-f", "${workspaceFolder}/openapi-to-terraform.Tests/samples/testApi.v1.revs.json", "-o", "revisions.json"],
+        "cwd": "${workspaceFolder}/openapi-to-terraform.RevisionCli",
+        "stopAtEntry": false,
+        "console": "internalConsole"
+    },
         {
             "name": ".NET Core Launch (console)",
             "type": "coreclr",
@@ -12,19 +35,6 @@
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/openapi-to-terraform.Main/bin/Debug/net5.0/openapi-to-terraform.Main.dll",
             "args": ["-f", "../openapi-to-terraform.Tests/samples/sampleOpenApi.json", "-o", ".", "-t", "../openapi-to-terraform.Tests/samples/sampleTerraformVars.json"],
-            "cwd": "${workspaceFolder}/openapi-to-terraform.Main",
-            // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
-            "console": "internalConsole",
-            "stopAtEntry": false
-        },
-        {
-            "name": "Roomby Test",
-            "type": "coreclr",
-            "request": "launch",
-            "preLaunchTask": "build",
-            // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/openapi-to-terraform.Main/bin/Debug/net5.0/openapi-to-terraform.Main.dll",
-            "args": ["-f", "/home/awaldow/source/repos/roomby/roomby.api/Roomby.API.Users/Roomby.API.Users.v1.json", "-o", "/home/awaldow/source/repos/roomby/roomby.api/terraform/test/users", "-t", "/home/awaldow/source/repos/roomby/roomby.api/Roomby.API.Users/terraformVarSub.json"],
             "cwd": "${workspaceFolder}/openapi-to-terraform.Main",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",

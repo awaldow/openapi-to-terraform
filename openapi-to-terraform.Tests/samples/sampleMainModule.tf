@@ -22,15 +22,15 @@ provider "azurerm" {
 
 data "azurerm_client_config" "current" {}
 
-resource "azurerm_resource_group" "roombytest" {
+resource "azurerm_resource_group" "apitest" {
   name     = var.resource_group_name
   location = var.resource_group_location
 }
 
-resource "azurerm_application_insights" "roombyappi" {
+resource "azurerm_application_insights" "apiappi" {
   name                = var.application_insights_name
-  location            = azurerm_resource_group.roombytest.location
-  resource_group_name = azurerm_resource_group.roombytest.name
+  location            = azurerm_resource_group.apitest.location
+  resource_group_name = azurerm_resource_group.apitest.name
   application_type    = "web"
 
   tags = {
@@ -38,10 +38,10 @@ resource "azurerm_application_insights" "roombyappi" {
   }
 }
 
-resource "azurerm_app_service_plan" "roombyplan" {
+resource "azurerm_app_service_plan" "apiplan" {
   name                = var.app_service_plan_name
-  location            = azurerm_resource_group.roombytest.location
-  resource_group_name = azurerm_resource_group.roombytest.name
+  location            = azurerm_resource_group.apitest.location
+  resource_group_name = azurerm_resource_group.apitest.name
 
   sku {
     tier = "Basic"
@@ -53,11 +53,11 @@ resource "azurerm_app_service_plan" "roombyplan" {
   }
 }
 
-resource "azurerm_app_service" "roombyuserstest" {
+resource "azurerm_app_service" "apiuserstest" {
   name                = var.users_app_service_name
-  location            = azurerm_resource_group.roombytest.location
-  resource_group_name = azurerm_resource_group.roombytest.name
-  app_service_plan_id = azurerm_app_service_plan.roombyplan.id
+  location            = azurerm_resource_group.apitest.location
+  resource_group_name = azurerm_resource_group.apitest.name
+  app_service_plan_id = azurerm_app_service_plan.apiplan.id
   https_only = true
 
   site_config {
@@ -81,10 +81,10 @@ resource "azurerm_app_service" "roombyuserstest" {
   }
 }
 
-resource "azurerm_storage_account" "roombysqlstorage" {
+resource "azurerm_storage_account" "apisqlstorage" {
   name = var.sqlstorage_account_name
-  resource_group_name      = azurerm_resource_group.roombytest.name
-  location                 = azurerm_resource_group.roombytest.location
+  resource_group_name      = azurerm_resource_group.apitest.name
+  location                 = azurerm_resource_group.apitest.location
   account_tier             = "Standard"
   account_replication_type = "RAGRS"
 
@@ -93,10 +93,10 @@ resource "azurerm_storage_account" "roombysqlstorage" {
   }
 }
 
-resource "azurerm_sql_server" "roombysqlserver" {
+resource "azurerm_sql_server" "apisqlserver" {
   name                         = var.sql_server_name
-  resource_group_name          = azurerm_resource_group.roombytest.name
-  location                     = azurerm_resource_group.roombytest.location
+  resource_group_name          = azurerm_resource_group.apitest.name
+  location                     = azurerm_resource_group.apitest.location
   version                      = "12.0"
   administrator_login          = var.sql_server_admin
   administrator_login_password = var.sql_server_admin_pass
@@ -106,10 +106,10 @@ resource "azurerm_sql_server" "roombysqlserver" {
   }
 }
 
-resource "azurerm_storage_account" "roombystorage" {
+resource "azurerm_storage_account" "apistorage" {
   name = var.storage_account_name
-  resource_group_name      = azurerm_resource_group.roombytest.name
-  location                 = azurerm_resource_group.roombytest.location
+  resource_group_name      = azurerm_resource_group.apitest.name
+  location                 = azurerm_resource_group.apitest.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 
@@ -118,19 +118,19 @@ resource "azurerm_storage_account" "roombystorage" {
   }
 }
 
-resource "azurerm_storage_table" "roombytaskstable" {
+resource "azurerm_storage_table" "apitaskstable" {
   name = var.tasks_table_name
-  storage_account_name = azurerm_storage_account.roombystorage.name
+  storage_account_name = azurerm_storage_account.apistorage.name
 }
 
-resource "azurerm_storage_table" "roombypurchasestable" {
+resource "azurerm_storage_table" "apipurchasestable" {
   name = var.purchases_table_name
-  storage_account_name = azurerm_storage_account.roombystorage.name
+  storage_account_name = azurerm_storage_account.apistorage.name
 }
 
-resource "azurerm_storage_container" "roombyicons" {
+resource "azurerm_storage_container" "apiicons" {
   name                  = "icons"
-  storage_account_name  = azurerm_storage_account.roombystorage.name
+  storage_account_name  = azurerm_storage_account.apistorage.name
   container_access_type = "private"
 }
 

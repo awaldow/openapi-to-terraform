@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>openapi_to_terraform.RevisionCli</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackAsTool>true</PackAsTool>
+    <PackageId>openapi-to-terraform.RevisionCli</PackageId>
+    <ToolCommandName>openapi-to-terraform-rev-cli</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <PackageVersion>0.0.1-beta5</PackageVersion>
+    <Authors>Addison Waldow</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/awaldow/openapi-to-terraform</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Copyright (c) Addison Waldow 2021</Copyright>
+    <PackageTags>openapi;apim;azure;api;management;terraform</PackageTags>
+    <Description>A command line utility to consume an OpenAPI file and API assembly with RevisionAttributes and output an openapi-to-terraform Revisions mapping file.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\openapi-to-terraform.Extensions\openapi-to-terraform.Extensions.csproj" />
+  </ItemGroup>
+
+</Project>

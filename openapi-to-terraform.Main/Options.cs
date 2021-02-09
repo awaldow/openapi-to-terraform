@@ -2,12 +2,13 @@ using CommandLine;
 
 namespace openapi_to_terraform.Main
 {
-    public class Options
+    [Verb("gen-tf", HelpText = "Generates terraform files")]
+    public class GenerateTerraformOptions
     {
-        [Option('f', "input-file", Required = true, HelpText = "Absolute or relative path to swagger json input file")]
+        [Option('f', "input-file", Required = true, HelpText = "Absolute or relative path to OpenAPI input file")]
         public string InputFile { get; set; }
 
-        [Option('o', "output-dir", Required = true,  HelpText = "Absolute or relative path of output directory for terraform files")]
+        [Option('o', "output-dir", Required = true, HelpText = "Absolute or relative path of output directory for terraform files")]
         public string OutputDirectory { get; set; }
 
         [Option('r', "revision-map-file", Required = false, HelpText = "(Not Implemented) Absolute or relative path to revision mapping json file")]

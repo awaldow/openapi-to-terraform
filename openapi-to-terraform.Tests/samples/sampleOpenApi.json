@@ -1,8 +1,8 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Roomby Users API",
-    "description": "API for Roomby Users - Test",
+    "title": "api Users API",
+    "description": "API for api Users - Test",
     "contact": {
       "name": "Addison Waldow",
       "email": "a.wal.bear@gmail.com"
@@ -142,7 +142,7 @@
         "description": "Creates the provided householdToCreate",
         "operationId": "CreateHouseholdAsync",
         "requestBody": {
-          "description": "A Household object. See !:Roomby.API.Users.Mediators.CreateHouseholdValidator for validation information",
+          "description": "A Household object. See !:api.API.Users.Mediators.CreateHouseholdValidator for validation information",
           "content": {
             "application/json": {
               "schema": {
@@ -275,7 +275,7 @@
         "description": "Creates the provided userToCreate",
         "operationId": "CreateUserAsync",
         "requestBody": {
-          "description": "A User object. See !:Roomby.API.Users.Mediators.CreateUserValidator for validation information",
+          "description": "A User object. See !:api.API.Users.Mediators.CreateUserValidator for validation information",
           "content": {
             "application/json": {
               "schema": {
