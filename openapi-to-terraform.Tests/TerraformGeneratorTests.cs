@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Text.RegularExpressions;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.TestHost;
 using Newtonsoft.Json;
 using Xunit;
 

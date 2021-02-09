@@ -1,14 +1,8 @@
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
-using System.Runtime.Loader;
-using System.Text.RegularExpressions;
 using FluentAssertions;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using openapi_to_terraform.RevisionCli;
 using Xunit;
@@ -28,7 +22,11 @@ namespace openapi_to_terraform.Tests
         [Fact]
         public void tool_should_generate_controller_revisions_if_attribute_on_controller()
         {
+            #if DEBUG
             var assemblyPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
+            #else
+            var assemblyPath = "../../../../openapi-to-terraform.Tests.TestAPI/bin/Release/net5.0/openapi-to-terraform.Tests.TestAPI.dll";
+            #endif
             var convertedAssemblyPath = Path.Combine(Directory.GetCurrentDirectory(), assemblyPath);
             var openApiPath = "samples/testApi.v1.revs.json";
             var openApiText = File.ReadAllText(openApiPath);
