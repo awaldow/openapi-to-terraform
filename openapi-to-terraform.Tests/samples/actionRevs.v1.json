@@ -7,10 +7,10 @@
       "name": "Addison Waldow",
       "email": "a.wal.bear@gmail.com"
     },
-    "version": "2"
+    "version": "1"
   },
   "paths": {
-    "/api/v2/WeatherForecast/{forecastId}": {
+    "/api/v1/WeatherForecast/{forecastId}": {
       "get": {
         "tags": [
           "WeatherForecast"
@@ -61,6 +61,64 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/WeatherForecast"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/WeatherForecast": {
+      "get": {
+        "tags": [
+          "WeatherForecast"
+        ],
+        "summary": "GetWeatherForecasts()",
+        "description": "Returns WeatherForecast list",
+        "operationId": "GetWeatherForecast",
+        "responses": {
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProblemDetails"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/WeatherForecast"
+                  }
                 }
               }
             }

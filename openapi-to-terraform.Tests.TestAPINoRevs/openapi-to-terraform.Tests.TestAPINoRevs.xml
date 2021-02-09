@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>openapi-to-terraform.Tests.TestAPINoRevs</name>
+    </assembly>
+    <members>
+        <member name="M:openapi_to_terraform.Tests.TestAPINoRevs.Controllers.WeatherForecastController.GetWeatherForecastById(System.Guid)">
+            <summary>
+            GetWeatherForecastById(Guid forecastId)
+            </summary>
+            <remarks>
+            Returns WeatherForecast object for <paramref name="forecastId"/>
+            </remarks>
+            <param name="forecastId">WeatherForecast ID for the WeatherForecast to get</param>
+            <returns>WeatherForecast object with id <paramref name="forecastId"/></returns>
+        </member>
+        <member name="M:openapi_to_terraform.Tests.TestAPINoRevs.Controllers.WeatherForecastController.GetWeatherForecast">
+            <summary>
+            GetWeatherForecasts()
+            </summary>
+            <remarks>
+            Returns WeatherForecast list
+            </remarks>
+            <returns>WeatherForecast object</returns>
+        </member>
+    </members>
+</doc>

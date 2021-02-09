@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using openapi_to_terraform.Extensions.Attributes;
 
-namespace openapi_to_terraform.Tests.TestAPI.Controllers
+namespace openapi_to_terraform.Tests.TestAPINoRevs.Controllers
 {
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiVersion("1")]
+    [ApiVersion("2")]
     [ApiController]
     [Produces("application/json")]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -37,8 +38,7 @@ namespace openapi_to_terraform.Tests.TestAPI.Controllers
         /// <param name="forecastId">WeatherForecast ID for the WeatherForecast to get</param>
         /// <returns>WeatherForecast object with id <paramref name="forecastId"/></returns>
         [HttpGet("{forecastId}", Name = "GetWeatherForecastById")]
-        [MapToApiVersion("1")]
-        [Revisions(1, 2)]
+        [MapToApiVersion("2")]
         [ProducesResponseType(typeof(WeatherForecast), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public WeatherForecast GetWeatherForecastById(Guid forecastId)
@@ -61,7 +61,6 @@ namespace openapi_to_terraform.Tests.TestAPI.Controllers
         /// <returns>WeatherForecast object</returns>
         [HttpGet(Name = "GetWeatherForecast")]
         [MapToApiVersion("1")]
-        [Revisions(1)]
         [ProducesResponseType(typeof(List<WeatherForecast>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public List<WeatherForecast> GetWeatherForecast()

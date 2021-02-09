@@ -71,10 +71,4 @@ namespace openapi_to_terraform.RevisionCli
         CommandUnknown = 1,
         Error = 2
     }
-
-
-    public class UnknownCommandException : Exception
-    {
-        public UnknownCommandException(string message) : base(message) { }
-    }
 }
