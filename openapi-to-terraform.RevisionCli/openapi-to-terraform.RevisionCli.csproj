@@ -11,7 +11,7 @@
     <PackageId>openapi-to-terraform.RevisionCli</PackageId>
     <ToolCommandName>openapi-to-terraform-rev-cli</ToolCommandName>
     <PackageOutputPath>./nupkg</PackageOutputPath>
-    <PackageVersion>0.0.1-beta2</PackageVersion>
+    <PackageVersion>0.0.1-beta3</PackageVersion>
     <Authors>Addison Waldow</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/awaldow/openapi-to-terraform</RepositoryUrl>

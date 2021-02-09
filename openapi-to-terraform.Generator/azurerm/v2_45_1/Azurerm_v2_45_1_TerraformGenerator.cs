@@ -69,7 +69,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1
                 var backendServiceUrl = JObject.Parse(File.ReadAllText(TerraformVarSubFile)).SelectToken("api_backend_url").Value<string>();
                 var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, RevisionMappingFile, backendServiceUrl, PoliciesPath);
 
-                System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+                System.IO.File.WriteAllText(operationFilePath, OperationVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
             }
             else
             {
@@ -77,7 +77,7 @@ namespace openapi_to_terraform.Generator.azurerm.v2_45_1
                 var backendServiceUrl = JObject.Parse(File.ReadAllText(TerraformVarSubFile)).SelectToken("api_backend_url").Value<string>();
                 var generatedOperationOutput = OperationGenerator.GenerateTerraformOutput(document, backendServiceUrl, PoliciesPath);
 
-                System.IO.File.WriteAllText(operationFilePath, ApiVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
+                System.IO.File.WriteAllText(operationFilePath, OperationVariablesApplier.ApplyVariables(generatedOperationOutput, TerraformVarSubFile));
             }
         }
 
