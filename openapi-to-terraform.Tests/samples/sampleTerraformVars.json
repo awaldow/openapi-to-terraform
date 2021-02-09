@@ -1,8 +1,8 @@
 {
-    "api_management_service_name": "azurerm_api_management.roombyapim.name",
-    "api_management_resource_group_name": "azurerm_api_management.roombyapim.resource_group_name",
+    "api_management_service_name": "azurerm_api_management.apiapim.name",
+    "api_management_resource_group_name": "azurerm_api_management.apiapim.resource_group_name",
     "api_path": "users",
-    "api_backend_url": "https://${azurerm_app_service.roombyuserstest.default_site_hostname}/api/v1/",
-    "api_management_product_id": "azurerm_api_management_product.roombyproduct.product_id",
+    "api_backend_url": "https://${azurerm_app_service.apiuserstest.default_site_hostname}/api/v1/",
+    "api_management_product_id": "azurerm_api_management_product.apiproduct.product_id",
     "api_management_version_set_id": "azurerm_api_management_version_set.usersversionset.id"
 }
