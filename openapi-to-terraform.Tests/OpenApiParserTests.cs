@@ -19,7 +19,7 @@ namespace openapi_to_terraform.Tests
         [Fact]
         public void json_parser_should_find_one_path_one_operation()
         {
-            var openApiJson = "samples/testApi.v1.revs.json";
+            var openApiJson = "samples/noRevs.v1.json";
             var openApiText = File.ReadAllText(openApiJson);
             var openApiRoot = new OpenApiParser(openApiText).Read();
 
