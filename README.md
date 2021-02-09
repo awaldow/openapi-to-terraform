@@ -104,7 +104,7 @@ dotnet tool run swagger tofile --output {api}.v1.json bin/$BUILD_CONFIGURATION/n
 
 dotnet tool run openapi-to-terraform-rev-cli generate -f {api}.v1.json -o revisions.json -a bin/$BUILD_CONFIGURATION/net5.0/{api}.dll
 
-dotnet tool run openapi-to-terraform gen-tf -f {api}.v1.json -o ../terraform/test/users -t terraformVarSub.json -r revisions.json
+dotnet tool run openapi-to-terraform gen-tf -f {api}.v1.json -o {yourDirectory} -t terraformVarSub.json -r revisions.json
 ```
 
 Called by a build target like this:
