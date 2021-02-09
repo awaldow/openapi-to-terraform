@@ -43,6 +43,7 @@ There are some additional considerations when generating a file:
     ```
 * NOTE: For now, all path^method pairs must be mapped; for example, if there was a PUT for /api/v1/Users/{userId} but /api/v1/Users/{userId}^put is not present in the 
   revision mapping, it will not be present in the output
+* Consider using [openapi-to-terraform-rev-cli]() to generate your revisions file
 
 ### APIM Policies (Not Implemented):
 * By default, no policies will be added to Operations/APIs
