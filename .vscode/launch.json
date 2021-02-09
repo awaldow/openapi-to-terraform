@@ -10,7 +10,7 @@
            "request": "launch",
            "preLaunchTask": "buildRevCli",
            "program": "${workspaceFolder}/openapi-to-terraform.RevisionCli/bin/Debug/net5.0/openapi-to-terraform.RevisionCli.dll",
-           "args": ["generate", "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll", "${workspaceFolder}/openapi-to-terraform.Tests/samples/testApi.v2.noRev.json", "${workspaceFolder}/revisions.json"],
+           "args": ["generate", "-a", "${workspaceFolder}/openapi-to-terraform.Tests.TestAPI/bin/Debug/net5.0/openapi-to-terraform.Tests.TestAPI.dll", "-f", "${workspaceFolder}/openapi-to-terraform.Tests/samples/testApi.v1.revs.json", "-o", "revisions.json"],
            "cwd": "${workspaceFolder}/openapi-to-terraform.RevisionCli",
            "stopAtEntry": false,
            "console": "internalConsole"

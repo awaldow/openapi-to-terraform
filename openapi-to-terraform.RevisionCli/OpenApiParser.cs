@@ -1,4 +1,3 @@
-using System.IO;
 using Newtonsoft.Json.Linq;
 
 namespace openapi_to_terraform.RevisionCli

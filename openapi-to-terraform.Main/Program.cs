@@ -1,6 +1,5 @@
 ﻿using System;
 using CommandLine;
-using openapi_to_terraform.Core;
 using openapi_to_terraform.Main;
 using openapi_to_terraform.Generator;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +10,7 @@ using Autofac.Core;
 using Autofac.Core.Registration;
 using Microsoft.Extensions.Logging;
 using System.IO;
+using Microsoft.OpenApi.Readers;
 
 namespace openapi_to_terraform
 {
@@ -29,8 +29,8 @@ namespace openapi_to_terraform
 
                        var serviceName = o.Provider + "_" + o.ProviderVersion;
 
-                       OpenApiParser p = new OpenApiParser(o.InputFile);
-                       p.Parse();
+                       using FileStream fs = new FileStream(o.InputFile, FileMode.Open);
+                       var document = new OpenApiStreamReader().Read(fs, out var diagnostic);
 
                        if (o.TerraformVariablesFile != null)
                        {
@@ -43,7 +43,7 @@ namespace openapi_to_terraform
                            try
                            {
                                var generator = _serviceProvider.GetAutofacRoot().ResolveNamed<ITerraformGenerator>(serviceName, parameters);
-                               generator.GenerateWithTerraformVars(p.Document);
+                               generator.GenerateWithTerraformVars(document);
                            }
                            catch (ComponentNotRegisteredException e)
                            {
@@ -63,7 +63,7 @@ namespace openapi_to_terraform
                            try
                            {
                                var generator = _serviceProvider.GetAutofacRoot().ResolveNamed<ITerraformGenerator>(serviceName, parameters);
-                               generator.GenerateWithTemplateFiles(p.Document);
+                               generator.GenerateWithTemplateFiles(document);
                            }
                            catch (ComponentNotRegisteredException e)
                            {
